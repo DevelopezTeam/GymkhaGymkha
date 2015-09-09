@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Gymkha Gymkha</string>
+
+    <string name="string_acercade">Acerca de...</string>
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="title_activity_eventos">Eventos</string>
+    <string name="title_acercade">Acerca de Gymkha Gymkha</string>
+    <string name="creditos">Proyecto Gymkha Gymkha \n
+          Versión 0.25 \n \n
+        - Equipo: \n
+          Victor López Medina \n
+          Hector Mediero de la Morena\n
+          Francisco López Pérez \n
+    </string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
