@@ -18,7 +18,6 @@ public class AdapterEvento extends BaseAdapter {
 
     protected Activity activity;
     protected ArrayList<Evento> items;
-    private int nada;
 
     public AdapterEvento(Activity activity, ArrayList<Evento> items) {
         this.activity = activity;
