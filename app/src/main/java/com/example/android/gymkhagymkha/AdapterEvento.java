@@ -61,10 +61,10 @@ public class AdapterEvento extends BaseAdapter {
         //Rellenamos el puntuación
         ImageView online = (ImageView) v.findViewById(R.id.ivOnline);
         if (event.isIsOnline()){
-            online.setImageDrawable(MainActivity.circle_green);
+            online.setImageDrawable(Main_Activity.circle_green);
         }
         else {
-            online.setImageDrawable(MainActivity.circle_red);
+            online.setImageDrawable(Main_Activity.circle_red);
         }
             // Retornamos la vista
             return v;

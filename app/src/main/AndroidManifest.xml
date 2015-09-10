@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity_Login"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,11 @@
         <activity
             android:name=".Ajustes_Activity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".Main_Activity" >
+        </activity>
+        <activity
+            android:name=".Main_Activity"
+            android:label="@string/app_name" >
         </activity>
     </application>
 
