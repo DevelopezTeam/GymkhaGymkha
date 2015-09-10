@@ -25,7 +25,8 @@ public class Fragment_Ranking_General extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        //RELLENAMOS LISTVIEW
+        /* Rellenamos el ListView manualmente, más adelante con un servicio lo rellenamos con
+        información del servidor */
         ListView listaRankingGeneral = (ListView) view.findViewById(R.id.lvRankingGeneral);
         ArrayList<Ranking> arrayRank = new ArrayList<Ranking>();
         Ranking rank;

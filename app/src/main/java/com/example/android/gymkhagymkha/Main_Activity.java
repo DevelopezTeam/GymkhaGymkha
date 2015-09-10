@@ -34,33 +34,37 @@ public class Main_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Inicializamos el Fragment_Manager, el Fragment_Transaction
         fManager = getFragmentManager();
         fTransaction = fManager.beginTransaction();
+        // Inicializamos los Fragments
         fEventos = (Fragment_Eventos) fManager.findFragmentById(R.id.fragment_eventos);
         fRankingGeneral = (Fragment_Ranking_General) fManager.findFragmentById(R.id.fragment_ranking_general);
         fCuenta = (Fragment_Cuenta) fManager.findFragmentById(R.id.fragment_cuenta);
         fAyudaContacto = (Fragment_AyudaContacto) fManager.findFragmentById(R.id.fragment_ayudaContacto);
 
+        // Inicializamos la base de datos
         manager = new BDManager(this);
 
+        // Inicializamos dos Drawables
         circle_green = getResources().getDrawable(R.drawable.circle_green);
         circle_red = getResources().getDrawable(R.drawable.circle_red);
 
+        // Inicializamos la toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        // Cambiamos titulo y añadimos icono de la hamburguesa
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Eventos");
 
+        // Inicializamos el Menu Lateral
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
         }
-
         setupNavigationDrawerContent(navigationView);
 
     }
@@ -134,6 +138,7 @@ public class Main_Activity extends AppCompatActivity {
                             case R.id.item_navigation_drawer_ajustes:
                                 menuItem.setChecked(true);
                                 drawerLayout.closeDrawer(GravityCompat.START);
+                                // Vamos al Activity_Ajustes
                                 Intent intent = new Intent(Main_Activity.this, Ajustes_Activity.class);
                                 startActivity(intent);
                                 return true;

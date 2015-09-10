@@ -8,15 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class BDManager {
 
-	public static final String TABLE_NAME = "login";
+	// Variables que contienen los campos de las bases de datos
+	public static final String TABLE_LOGIN = "login";
 
 	public static final String CN_ID = "_id";
 	public static final String CN_USER = "user";
 	public static final String CN_PASS = "password";
-
-	/* */
-
-	public static final String CREATE_TABLE = "create table " + TABLE_NAME
+	
+	// Variable para crear las tablas necesarias
+	public static final String CREATE_TABLE = "create table " + TABLE_LOGIN
 			+ " (" + CN_ID + " integer primary key autoincrement," + CN_USER
 			+ " text," + CN_PASS + " text);";
 
@@ -27,9 +27,9 @@ public class BDManager {
 
 		helper = new BDHelper(context);
 		bd = helper.getWritableDatabase();
-
 	}
 
+	// Método para insertar el login en la base de datos
 	public void login(String user, String pass) {
 
 		ContentValues valores = new ContentValues();
@@ -37,22 +37,20 @@ public class BDManager {
 		valores.put(CN_USER, user);
 		valores.put(CN_PASS, pass);
 
-		bd.insert(TABLE_NAME, null, valores);
-
+		bd.insert(TABLE_LOGIN, null, valores);
 	}
 
+	// Método que te devuelve el contenido de la tabla "login"
 	public Cursor cursorLogin() {
 
 		String[] columnas = new String[] { CN_ID, CN_USER, CN_PASS};
-
-		return bd.query(TABLE_NAME, columnas, null, null, null, null, null);
+		return bd.query(TABLE_LOGIN, columnas, null, null, null, null, null);
 	}
 
-
-	public void borrarContacto(int id) {
-
-		bd.delete(TABLE_NAME, CN_ID + "=" + id , null);
-
+	// Método para borrar el campo de la base de datos al cerrar sesión
+	// Para que la siguiente vez te pida de nuevo el login
+	public void borrarLogin(int id) {
+		bd.delete(TABLE_LOGIN, CN_ID + "=" + id , null);
 	}
 
 }

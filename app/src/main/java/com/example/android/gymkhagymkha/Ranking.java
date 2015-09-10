@@ -1,8 +1,6 @@
 package com.example.android.gymkhagymkha;
 
-/**
- * Created by Francisco on 26/08/2015.
- */
+// Clase para crear objetos Ranking tanto general como de evento
 public class Ranking {
 
     private int id;

@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Francisco on 26/08/2015.
- */
+// Clase para Adapter personalizado de eventos
 public class AdapterEvento extends BaseAdapter {
 
     protected Activity activity;

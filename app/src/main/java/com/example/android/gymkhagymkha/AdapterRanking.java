@@ -1,8 +1,5 @@
 package com.example.android.gymkhagymkha;
 
-/**
- * Created by Francisco on 26/08/2015.
- */
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+// Clase para Adapter personalizado de Ranking_General
 public class AdapterRanking extends BaseAdapter{
 
     protected Activity activity;

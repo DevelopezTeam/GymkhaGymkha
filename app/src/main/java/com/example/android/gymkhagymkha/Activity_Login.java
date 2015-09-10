@@ -29,16 +29,21 @@ public class Activity_Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Instanciamos la base de datos
         manager = new BDManager(this);
 
+        // Inicializamos las variables
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         etContrasena = (EditText) findViewById(R.id.etContrasena);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         toolbarLogin = (Toolbar) findViewById(R.id.toolbarLogin);
+
+        // Añadimos titulo y lo ponemos en blanco
         toolbarLogin.setTitle(R.string.app_name);
         toolbarLogin.setTitleTextColor(getResources().getColor(R.color.md_text_white));
         setSupportActionBar(toolbarLogin);
 
+        // Estilo de la barra de estado
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Login.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -46,12 +51,15 @@ public class Activity_Login extends AppCompatActivity {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
 
+        // Evento del botón "Acceder"
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 revisarLogin();
             }
         });
 
+        /* Comprobar si hay un usuario en la base de datos, en el caso de que si lo haya pasamos
+        directamente al MainActivity */
         if (manager.cursorLogin().getCount() != 0) {
             intentMainActivity();
         }
@@ -59,6 +67,7 @@ public class Activity_Login extends AppCompatActivity {
 
     private void intentMainActivity() {
 
+        // Ir al MainActivity
         Intent intent = new Intent(Activity_Login.this, Main_Activity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -68,14 +77,19 @@ public class Activity_Login extends AppCompatActivity {
 
     private void revisarLogin() {
 
+        // Recogemos los datos en variables string
         user = etUsuario.getText().toString();
         pass = etContrasena.getText().toString();
 
+        /* De momento si no son vacios vale, pero habría que comprobar en el servidor
+         si el usuario y contraseña existen. */
         if (user.compareTo("") != 0 && pass.compareTo("") != 0) {
 
             manager.login(user, pass);
             intentMainActivity();
 
+            /* En este caso si son vacios, pero más adelante si no coinciden usuario y contraseña
+            borrariamos la contraseña y mostrariamos un toast. */
         } else {
 
             etContrasena.setText("");

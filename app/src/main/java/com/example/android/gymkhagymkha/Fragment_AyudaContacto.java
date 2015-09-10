@@ -19,21 +19,22 @@ public class Fragment_AyudaContacto extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // do your variables initialisations here except Views!!!
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
+        // Inicializamos el botón "Contacto"
         btnContacto = (Button) view.findViewById(R.id.btnContacto);
         btnContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                // Hacemos un intent para enviar un correo electrónico
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{"gymkhagymkha@gmail.com"});
                 email.putExtra(Intent.EXTRA_SUBJECT, "");
                 email.putExtra(Intent.EXTRA_TEXT, "");
-                // need this to prompts email client only
+                //Con este .setType debería salir solos los clientes de e-Mail
                 email.setType("message/rfc822");
 
                 startActivity(Intent.createChooser(email, "Elije un cliente de correo electrónico"));

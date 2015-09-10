@@ -27,6 +27,8 @@ public class Fragment_Eventos extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
+        /* Rellenamos el ListView manualmente, más adelante con un servicio lo rellenamos con
+        información del servidor */
         ListView listaEventos = (ListView) view.findViewById(R.id.lvEventos);
         ArrayList<Evento> arrayEvent = new ArrayList<Evento>();
         Evento event;
@@ -72,9 +74,7 @@ public class Fragment_Eventos extends Fragment {
         event = new Evento(1,"Evento33","13:00", false);
         arrayEvent.add(event);
 
-        // Creo el adapter personalizado
         AdapterEvento adapter2 = new AdapterEvento(getActivity(), arrayEvent);
-
         listaEventos.setAdapter(adapter2);
     }
 }
