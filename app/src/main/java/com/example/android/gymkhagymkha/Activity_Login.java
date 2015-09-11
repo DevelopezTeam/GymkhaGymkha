@@ -1,7 +1,7 @@
 package com.example.android.gymkhagymkha;
 
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,11 +10,10 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import javax.security.auth.login.LoginException;
 
 public class Activity_Login extends AppCompatActivity {
 
@@ -68,7 +67,7 @@ public class Activity_Login extends AppCompatActivity {
     private void intentMainActivity() {
 
         // Ir al MainActivity
-        Intent intent = new Intent(Activity_Login.this, Main_Activity.class);
+        Intent intent = new Intent(Activity_Login.this, Activity_Main.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

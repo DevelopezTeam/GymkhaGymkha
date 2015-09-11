@@ -1,13 +1,13 @@
 package com.example.android.gymkhagymkha;
 
 // Clase para crear objetos Ranking tanto general como de evento
-public class Ranking {
+public class Clase_Ranking {
 
     private int id;
     private String nombre;
     private String puntuacion;
 
-    public Ranking(int id, String nombre, String puntuacion) {
+    public Clase_Ranking(int id, String nombre, String puntuacion) {
         this.id = id;
         this.nombre = nombre;
         this.puntuacion = puntuacion;

@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class AdapterRanking extends BaseAdapter{
 
     protected Activity activity;
-    protected ArrayList<Ranking> items;
+    protected ArrayList<Clase_Ranking> items;
 
-    public AdapterRanking(Activity activity, ArrayList<Ranking> items) {
+    public AdapterRanking(Activity activity, ArrayList<Clase_Ranking> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -50,7 +50,7 @@ public class AdapterRanking extends BaseAdapter{
         }
 
         // Creamos un objeto directivo
-        Ranking rank = items.get(position);
+        Clase_Ranking rank = items.get(position);
         TextView id = (TextView) v.findViewById(R.id.tvIdRanking);
         id.setText(rank.getIdRanking() + ".");
         //Rellenamos el nombre

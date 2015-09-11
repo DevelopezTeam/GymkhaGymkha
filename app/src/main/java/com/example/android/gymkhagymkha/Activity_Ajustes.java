@@ -2,7 +2,6 @@ package com.example.android.gymkhagymkha;
 
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Ajustes_Activity extends AppCompatActivity {
+public class Activity_Ajustes extends AppCompatActivity {
 
     Toolbar toolbar;
 
@@ -27,7 +26,7 @@ public class Ajustes_Activity extends AppCompatActivity {
 
         // Le damos el estilo a la barra de estado
         TypedValue typedValueColorPrimaryDark = new TypedValue();
-        Ajustes_Activity.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
+        Activity_Ajustes.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(colorPrimaryDark);

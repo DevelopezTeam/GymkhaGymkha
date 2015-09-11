@@ -4,7 +4,11 @@
     <string name="string_acercade">Acerca de...</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="title_activity_eventos">Eventos</string>
+    <string name="title_cerrarSesion">Cerrar Sesión</string>
+    <string name="message_cerrarSesion">¿Está seguro de que desea cerrar sesión?</string>
     <string name="title_acercade">Acerca de Gymkha Gymkha</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="creditos">Proyecto Gymkha Gymkha \n
           Versión 0.25 \n \n
         - Equipo: \n

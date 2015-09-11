@@ -1,13 +1,13 @@
 package com.example.android.gymkhagymkha;
 
 // Clase para crear objetos evento
-public class Evento {
+public class Clase_Evento {
     private int id;
     private String descripcion;
     private String hora;
     private boolean isOnline;
 
-    public Evento(int id,String descripcion, String hora, boolean isOnline) {
+    public Clase_Evento(int id, String descripcion, String hora, boolean isOnline) {
         this.id = id;
         this.descripcion = descripcion;
         this.hora = hora;

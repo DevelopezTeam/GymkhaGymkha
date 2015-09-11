@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class AdapterEvento extends BaseAdapter {
 
     protected Activity activity;
-    protected ArrayList<Evento> items;
+    protected ArrayList<Clase_Evento> items;
 
-    public AdapterEvento(Activity activity, ArrayList<Evento> items) {
+    public AdapterEvento(Activity activity, ArrayList<Clase_Evento> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -50,7 +50,7 @@ public class AdapterEvento extends BaseAdapter {
         }
 
         // Creamos un objeto directivo
-        Evento event = items.get(position);
+        Clase_Evento event = items.get(position);
         TextView id = (TextView) v.findViewById(R.id.tvDescripcionEvento);
         id.setText(event.getDescripcion());
         //Rellenamos el nombre
@@ -59,10 +59,10 @@ public class AdapterEvento extends BaseAdapter {
         //Rellenamos el puntuación
         ImageView online = (ImageView) v.findViewById(R.id.ivOnline);
         if (event.isIsOnline()){
-            online.setImageDrawable(Main_Activity.circle_green);
+            online.setImageDrawable(Activity_Main.circle_green);
         }
         else {
-            online.setImageDrawable(Main_Activity.circle_red);
+            online.setImageDrawable(Activity_Main.circle_red);
         }
             // Retornamos la vista
             return v;

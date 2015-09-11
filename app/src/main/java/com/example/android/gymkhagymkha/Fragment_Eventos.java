@@ -1,14 +1,10 @@
 package com.example.android.gymkhagymkha;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -30,48 +26,48 @@ public class Fragment_Eventos extends Fragment {
         /* Rellenamos el ListView manualmente, más adelante con un servicio lo rellenamos con
         información del servidor */
         ListView listaEventos = (ListView) view.findViewById(R.id.lvEventos);
-        ArrayList<Evento> arrayEvent = new ArrayList<Evento>();
-        Evento event;
+        ArrayList<Clase_Evento> arrayEvent = new ArrayList<Clase_Evento>();
+        Clase_Evento event;
 
-        event = new Evento(1,"Evento22","13:00", true);
+        event = new Clase_Evento(1,"Evento22","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", false);
+        event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento1","13:00", true);
+        event = new Clase_Evento(1,"Evento1","13:00", true);
         arrayEvent.add(event);
-        event = new Evento(1,"Evento33","13:00", false);
+        event = new Clase_Evento(1,"Evento33","13:00", false);
         arrayEvent.add(event);
 
         AdapterEvento adapter2 = new AdapterEvento(getActivity(), arrayEvent);

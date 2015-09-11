@@ -3,6 +3,7 @@ package com.example.android.gymkhagymkha;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,12 +14,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class Main_Activity extends AppCompatActivity {
+public class Activity_Main extends AppCompatActivity {
 
     BDManager manager;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
+    TextView tvUsuarioBurguer;
+    String userName;
+    Cursor cursor;
     ActionBar actionBar;
     FragmentManager fManager;
     FragmentTransaction fTransaction;
@@ -45,6 +50,13 @@ public class Main_Activity extends AppCompatActivity {
 
         // Inicializamos la base de datos
         manager = new BDManager(this);
+
+        // Rellenamos el campo con el nombre del usuario en el menú de la hamburguesa
+        cursor = manager.cursorLogin();
+        cursor.moveToFirst();
+        userName = cursor.getString(cursor.getColumnIndex(manager.CN_USER));
+        tvUsuarioBurguer = (TextView) findViewById(R.id.tvUsuarioBurguer);
+        tvUsuarioBurguer.setText(userName);
 
         // Inicializamos dos Drawables
         circle_green = getResources().getDrawable(R.drawable.circle_green);
@@ -139,7 +151,7 @@ public class Main_Activity extends AppCompatActivity {
                                 menuItem.setChecked(true);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 // Vamos al Activity_Ajustes
-                                Intent intent = new Intent(Main_Activity.this, Ajustes_Activity.class);
+                                Intent intent = new Intent(Activity_Main.this, Activity_Ajustes.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.item_navigation_drawer_ayuda_y_contacto:
