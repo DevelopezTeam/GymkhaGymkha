@@ -2,10 +2,14 @@ package com.example.android.gymkhagymkha;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,12 +19,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class Activity_Login extends AppCompatActivity {
 
     Toolbar toolbarLogin;
     EditText etUsuario, etContrasena;
     Button btnLogin;
-    String user, pass;
+    String user, pass,resul;
     BDManager manager;
 
     @Override
@@ -80,12 +93,46 @@ public class Activity_Login extends AppCompatActivity {
         user = etUsuario.getText().toString();
         pass = etContrasena.getText().toString();
 
+
+
         /* De momento si no son vacios vale, pero habría que comprobar en el servidor
          si el usuario y contraseña existen. */
+
         if (user.compareTo("") != 0 && pass.compareTo("") != 0) {
 
-            manager.login(user, pass);
-            intentMainActivity();
+            //manager.login(user, pass);
+            //intentMainActivity();
+
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+
+            //Conexión (sin especificar)
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            boolean isConnected = false;
+            try{
+                isConnected = networkInfo.isConnected();
+            }
+            catch(NullPointerException ex){
+                Toast.makeText(this, "No tiene conexión de red", Toast.LENGTH_LONG).show();
+            }
+            if(!isConnected)
+                Toast.makeText(this, "No tiene conexión de red", Toast.LENGTH_LONG).show();
+            else{
+
+                //Conexión MOVIL
+                networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                boolean isMobileConn = networkInfo.isConnected();
+                if(isMobileConn)
+                    Toast.makeText(this, "Sería conveniente conectarse a un punto WiFi", Toast.LENGTH_LONG).show();
+                //Conexión WIFI
+                networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                boolean isWifiConn = networkInfo.isConnected();
+                //if(isWifiConn){
+                //http://victordam2b.hol.es/loginAcceso.php?email=v@v.com&password=vic
+                // http://victordam2b.hol.es/loginAcceso.php?email=v@v.com&password=vic}
+                new TareaLeerUrl().execute("http://www.victordam2b.hol.es/loginAcceso.php?email="+user+"&password="+pass);
+
+
+            }
 
             /* En este caso si son vacios, pero más adelante si no coinciden usuario y contraseña
             borrariamos la contraseña y mostrariamos un toast. */
@@ -96,6 +143,7 @@ public class Activity_Login extends AppCompatActivity {
                     "Usuario o contraseña incorrectos, inténtelo de nuevo...",
                     Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override
@@ -109,5 +157,77 @@ public class Activity_Login extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
+    }
+
+    public class TareaLeerUrl extends AsyncTask<String, Void, StringBuilder> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+
+            //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.VISIBLE);
+            //((TextView)findViewById(R.id.tvResultado)).setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected StringBuilder doInBackground(String... _url) {
+            HttpURLConnection urlConnection=null;
+            StringBuilder sb = new StringBuilder();
+            String linea;
+            resul = "";
+            try {
+                URL url = new URL(_url[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                while ((linea = br.readLine()) != null) {
+                    //sb.append(linea);
+                    linea = linea.toLowerCase();
+                    resul = resul + linea.toLowerCase();
+                /*
+                while (linea.indexOf(pal) > -1) {
+                    linea = linea.substring(linea.indexOf(pal)+pal.length(),linea.length());
+                    contador++;
+                }
+                */
+                    //contador++;
+                }
+                Log.i("Resultado",resul);
+                if(resul.compareTo("exito") == 0){
+                    Log.i("Mensaje","OLEEEEEEEEEEE");
+                    Log.i("Mensaje", resul);
+                    //Toast.makeText(Activity_Login.this, "OLEEEEEEEEEEEEE", Toast.LENGTH_LONG).show();
+                    // manager.login(user, pass);
+                    //intentMainActivity();
+                }
+                else{
+                    Log.i("Mensaje","NANAAAI");
+                    Log.i("Mensaje", resul);
+                    //Toast.makeText(Activity_Login.this, "Usuario no valido", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (MalformedURLException e) {
+                Log.e("TESTNET", "URL MAL FORMADA");
+
+            }
+            catch (IOException e) {
+                Log.e("TESTNET", "IO ERROR");
+                //Toast.makeText(MainActivity.this, "Escriba una url correcta", Toast.LENGTH_LONG).show();
+            }
+            finally {
+                urlConnection.disconnect();
+            }
+            return sb;
+        }
+        protected void onPostExecute(StringBuilder sb) {
+            Log.e("TESTNET", sb.toString());
+            //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.INVISIBLE);
+            //TextView tvRes = ((TextView)findViewById(R.id.tvResultado));
+            //tvRes.setText("Encontro "+ contador+" coincidencia/s");
+
+            //tvRes.setVisibility(View.VISIBLE);
+
+        }
     }
 }
