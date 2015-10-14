@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -35,6 +36,7 @@ public class Activity_Login extends AppCompatActivity {
     Button btnLogin;
     String user, pass,resul;
     BDManager manager;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class Activity_Login extends AppCompatActivity {
         etContrasena = (EditText) findViewById(R.id.etContrasena);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         toolbarLogin = (Toolbar) findViewById(R.id.toolbarLogin);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         // Añadimos titulo y lo ponemos en blanco
         toolbarLogin.setTitle(R.string.app_name);
@@ -166,8 +169,7 @@ public class Activity_Login extends AppCompatActivity {
             // TODO Auto-generated method stub
             super.onPreExecute();
 
-            //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.VISIBLE);
-            //((TextView)findViewById(R.id.tvResultado)).setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -224,12 +226,7 @@ public class Activity_Login extends AppCompatActivity {
             Log.e("TESTNET", sb.toString());
             manager.login(user, pass);
             intentMainActivity();
-            //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.INVISIBLE);
-            //TextView tvRes = ((TextView)findViewById(R.id.tvResultado));
-            //tvRes.setText("Encontro "+ contador+" coincidencia/s");
-
-            //tvRes.setVisibility(View.VISIBLE);
-
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 }
