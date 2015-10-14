@@ -222,6 +222,8 @@ public class Activity_Login extends AppCompatActivity {
         }
         protected void onPostExecute(StringBuilder sb) {
             Log.e("TESTNET", sb.toString());
+            manager.login(user, pass);
+            intentMainActivity();
             //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.INVISIBLE);
             //TextView tvRes = ((TextView)findViewById(R.id.tvResultado));
             //tvRes.setText("Encontro "+ contador+" coincidencia/s");

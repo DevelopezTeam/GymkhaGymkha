@@ -13,7 +13,7 @@ import android.view.MenuItem;
 public class Activity_Ajustes extends AppCompatActivity {
 
     Toolbar toolbar;
-
+    String inservible = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
