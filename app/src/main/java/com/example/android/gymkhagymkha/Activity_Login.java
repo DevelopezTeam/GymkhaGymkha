@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -38,7 +39,11 @@ public class Activity_Login extends AppCompatActivity {
     Button btnLogin;
     String user, pass,resul;
     BDManager manager;
+
     JSONObject resultadoJSON;
+
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class Activity_Login extends AppCompatActivity {
         etContrasena = (EditText) findViewById(R.id.etContrasena);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         toolbarLogin = (Toolbar) findViewById(R.id.toolbarLogin);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         // Añadimos titulo y lo ponemos en blanco
         toolbarLogin.setTitle(R.string.app_name);
@@ -170,8 +176,7 @@ public class Activity_Login extends AppCompatActivity {
             // TODO Auto-generated method stub
             super.onPreExecute();
 
-            //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.VISIBLE);
-            //((TextView)findViewById(R.id.tvResultado)).setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -227,6 +232,7 @@ public class Activity_Login extends AppCompatActivity {
         protected void onPostExecute(StringBuilder sb) {
             Log.e("TESTNET", sb.toString());
 
+
             if(resul.compareTo("-1") == 0){
                 Toast.makeText(Activity_Login.this, "Anda flipaoooo ", Toast.LENGTH_LONG).show();
             }
@@ -250,6 +256,10 @@ public class Activity_Login extends AppCompatActivity {
             //tvRes.setText("Encontro "+ contador+" coincidencia/s");
 
             //tvRes.setVisibility(View.VISIBLE);
+
+            manager.login(user, pass);
+            intentMainActivity();
+            progressBar.setVisibility(View.INVISIBLE);
 
         }
     }
