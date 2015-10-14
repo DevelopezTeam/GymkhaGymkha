@@ -248,7 +248,7 @@ public class Activity_Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
+            progressBar.setVisibility(View.INVISIBLE);
             //manager.login(user, pass);
             //intentMainActivity();
             //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.INVISIBLE);
@@ -257,9 +257,10 @@ public class Activity_Login extends AppCompatActivity {
 
             //tvRes.setVisibility(View.VISIBLE);
 
-            manager.login(user, pass);
+            /*manager.login(user, pass);
             intentMainActivity();
             progressBar.setVisibility(View.INVISIBLE);
+            */
 
         }
     }
