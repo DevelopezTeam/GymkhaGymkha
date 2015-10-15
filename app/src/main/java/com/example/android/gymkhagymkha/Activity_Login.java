@@ -17,7 +17,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -36,6 +40,11 @@ public class Activity_Login extends AppCompatActivity {
     String user, pass,resul;
     BDManager manager;
 
+    JSONObject resultadoJSON;
+
+    ProgressBar progressBar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +58,7 @@ public class Activity_Login extends AppCompatActivity {
         etContrasena = (EditText) findViewById(R.id.etContrasena);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         toolbarLogin = (Toolbar) findViewById(R.id.toolbarLogin);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         // Añadimos titulo y lo ponemos en blanco
         toolbarLogin.setTitle(R.string.app_name);
@@ -129,7 +139,7 @@ public class Activity_Login extends AppCompatActivity {
                 //if(isWifiConn){
                 //http://victordam2b.hol.es/loginAcceso.php?email=v@v.com&password=vic
                 // http://victordam2b.hol.es/loginAcceso.php?email=v@v.com&password=vic}
-                new TareaLeerUrl().execute("http://www.victordam2b.hol.es/loginAcceso.php?email="+user+"&password="+pass);
+                new TareaLeerUrl().execute("http://www.victordam2b.hol.es/loginAcceso.php?usuario="+user+"&password="+pass);
 
 
             }
@@ -166,8 +176,7 @@ public class Activity_Login extends AppCompatActivity {
             // TODO Auto-generated method stub
             super.onPreExecute();
 
-            //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.VISIBLE);
-            //((TextView)findViewById(R.id.tvResultado)).setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -193,6 +202,7 @@ public class Activity_Login extends AppCompatActivity {
                 */
                     //contador++;
                 }
+
                 Log.i("Resultado",resul);
                 if(resul.compareTo("exito") == 0){
                     Log.i("Mensaje","OLEEEEEEEEEEE");
@@ -214,21 +224,42 @@ public class Activity_Login extends AppCompatActivity {
             catch (IOException e) {
                 Log.e("TESTNET", "IO ERROR");
                 //Toast.makeText(MainActivity.this, "Escriba una url correcta", Toast.LENGTH_LONG).show();
-            }
-            finally {
+            }  finally {
                 urlConnection.disconnect();
             }
             return sb;
         }
         protected void onPostExecute(StringBuilder sb) {
             Log.e("TESTNET", sb.toString());
-            manager.login(user, pass);
-            intentMainActivity();
+
+
+            if(resul.compareTo("-1") == 0){
+                Toast.makeText(Activity_Login.this, "Anda flipaoooo ", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Clase_Jugador jugador;
+                try {
+                    resultadoJSON = new JSONObject(resul);
+                    //jugador = new Clase_Jugador(resultadoJSON);
+                    //Log.i("Resultado",jugador.getApellido());
+                    Toast.makeText(Activity_Login.this, "OLEEEEEEEEEEEEE ", Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    Log.e("Mensaje","Error al crear Clase_Jugador JSON");
+                    e.printStackTrace();
+                }
+            }
+
+            //manager.login(user, pass);
+            //intentMainActivity();
             //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.INVISIBLE);
             //TextView tvRes = ((TextView)findViewById(R.id.tvResultado));
             //tvRes.setText("Encontro "+ contador+" coincidencia/s");
 
             //tvRes.setVisibility(View.VISIBLE);
+
+            manager.login(user, pass);
+            intentMainActivity();
+            progressBar.setVisibility(View.INVISIBLE);
 
         }
     }
