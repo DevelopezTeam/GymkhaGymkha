@@ -128,20 +128,8 @@ public class Activity_Login extends AppCompatActivity {
                 Toast.makeText(this, "No tiene conexión de red", Toast.LENGTH_LONG).show();
             else{
 
-                //Conexión MOVIL
-                networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-                boolean isMobileConn = networkInfo.isConnected();
-                if(isMobileConn)
-                    Toast.makeText(this, "Sería conveniente conectarse a un punto WiFi", Toast.LENGTH_LONG).show();
-                //Conexión WIFI
-                networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                boolean isWifiConn = networkInfo.isConnected();
-                //if(isWifiConn){
-                //http://victordam2b.hol.es/loginAcceso.php?email=v@v.com&password=vic
-                // http://victordam2b.hol.es/loginAcceso.php?email=v@v.com&password=vic}
                 new TareaLeerUrl().execute("http://www.victordam2b.hol.es/loginAcceso.php?usuario="+user+"&password="+pass);
-
-
+                btnLogin.setEnabled(false);
             }
 
             /* En este caso si son vacios, pero más adelante si no coinciden usuario y contraseña
@@ -191,30 +179,8 @@ public class Activity_Login extends AppCompatActivity {
                 InputStream is = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 while ((linea = br.readLine()) != null) {
-                    //sb.append(linea);
                     linea = linea.toLowerCase();
                     resul = resul + linea.toLowerCase();
-                /*
-                while (linea.indexOf(pal) > -1) {
-                    linea = linea.substring(linea.indexOf(pal)+pal.length(),linea.length());
-                    contador++;
-                }
-                */
-                    //contador++;
-                }
-
-                Log.i("Resultado",resul);
-                if(resul.compareTo("exito") == 0){
-                    Log.i("Mensaje","OLEEEEEEEEEEE");
-                    Log.i("Mensaje", resul);
-                    //Toast.makeText(Activity_Login.this, "OLEEEEEEEEEEEEE", Toast.LENGTH_LONG).show();
-                    // manager.login(user, pass);
-                    //intentMainActivity();
-                }
-                else{
-                    Log.i("Mensaje","NANAAAI");
-                    Log.i("Mensaje", resul);
-                    //Toast.makeText(Activity_Login.this, "Usuario no valido", Toast.LENGTH_LONG).show();
                 }
             }
             catch (MalformedURLException e) {
@@ -223,44 +189,31 @@ public class Activity_Login extends AppCompatActivity {
             }
             catch (IOException e) {
                 Log.e("TESTNET", "IO ERROR");
-                //Toast.makeText(MainActivity.this, "Escriba una url correcta", Toast.LENGTH_LONG).show();
             }  finally {
                 urlConnection.disconnect();
             }
             return sb;
         }
         protected void onPostExecute(StringBuilder sb) {
-            Log.e("TESTNET", sb.toString());
-
-
             if(resul.compareTo("-1") == 0){
-                Toast.makeText(Activity_Login.this, "Anda flipaoooo ", Toast.LENGTH_LONG).show();
+                Toast.makeText(Activity_Login.this, "Usuario o contraseña incorrecto, intentelo de nuevo...", Toast.LENGTH_LONG).show();
             }
             else{
                 Clase_Jugador jugador;
                 try {
                     resultadoJSON = new JSONObject(resul);
-                    //jugador = new Clase_Jugador(resultadoJSON);
-                    //Log.i("Resultado",jugador.getApellido());
-                    Toast.makeText(Activity_Login.this, "OLEEEEEEEEEEEEE ", Toast.LENGTH_LONG).show();
+
+                    jugador = new Clase_Jugador(resultadoJSON);
+                    Toast.makeText(Activity_Login.this, "Bienvenido "+jugador.getNombre(), Toast.LENGTH_LONG).show();
+                    manager.login(user, pass);
+                    intentMainActivity();
                 } catch (JSONException e) {
                     Log.e("Mensaje","Error al crear Clase_Jugador JSON");
                     e.printStackTrace();
                 }
             }
-
-            //manager.login(user, pass);
-            //intentMainActivity();
-            //((ProgressBar)findViewById(R.id.pbCargando)).setVisibility(View.INVISIBLE);
-            //TextView tvRes = ((TextView)findViewById(R.id.tvResultado));
-            //tvRes.setText("Encontro "+ contador+" coincidencia/s");
-
-            //tvRes.setVisibility(View.VISIBLE);
-
-            manager.login(user, pass);
-            intentMainActivity();
             progressBar.setVisibility(View.INVISIBLE);
-
+            btnLogin.setEnabled(true);
         }
     }
 }

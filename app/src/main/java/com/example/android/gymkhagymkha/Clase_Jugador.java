@@ -7,25 +7,25 @@ import org.json.JSONObject;
  * Created by Victor on 14/10/2015.
  */
 public class Clase_Jugador {
-    private String idJugador;
+    private int idJugador;
     private String usuario;
     private String nombre;
     private String apellido;
     private String email;
 
     public Clase_Jugador(JSONObject objetoJSON) throws JSONException {
-        idJugador = objetoJSON.getString("idJugador");
+        idJugador = objetoJSON.getInt("idjugador");
         usuario = objetoJSON.getString("usuario");
         nombre = objetoJSON.getString("nombre");
         apellido = objetoJSON.getString("apellido");
         email = objetoJSON.getString("email");
     }
 
-    public String getIdJugador() {
+    public int getIdJugador() {
         return idJugador;
     }
 
-    public void setIdJugador(String idJugador) {
+    public void setIdJugador(int idJugador) {
         this.idJugador = idJugador;
     }
 
