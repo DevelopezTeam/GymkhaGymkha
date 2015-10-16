@@ -176,8 +176,7 @@ public class Activity_Login extends AppCompatActivity {
                 InputStream is = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 while ((linea = br.readLine()) != null) {
-                    linea = linea.toLowerCase();
-                    resul = resul + linea.toLowerCase();
+                    resul = resul + linea;
                 }
             }
             catch (MalformedURLException e) {
@@ -202,7 +201,7 @@ public class Activity_Login extends AppCompatActivity {
 
                     jugador = new Clase_Jugador(resultadoJSON);
                     Toast.makeText(Activity_Login.this, "Bienvenido "+jugador.getNombre(), Toast.LENGTH_LONG).show();
-                    manager.login(user, pass);
+                    manager.login(jugador.getIdJugador(), jugador.getUsuario(), jugador.getNombre(), jugador.getApellido(), jugador.getEmail());
                     intentMainActivity();
                 } catch (JSONException e) {
                     Log.e("Mensaje","Error al crear Clase_Jugador JSON");

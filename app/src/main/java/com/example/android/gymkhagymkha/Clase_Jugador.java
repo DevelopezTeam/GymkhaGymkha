@@ -14,7 +14,7 @@ public class Clase_Jugador {
     private String email;
 
     public Clase_Jugador(JSONObject objetoJSON) throws JSONException {
-        idJugador = objetoJSON.getInt("idjugador");
+        idJugador = objetoJSON.getInt("idJugador");
         usuario = objetoJSON.getString("usuario");
         nombre = objetoJSON.getString("nombre");
         apellido = objetoJSON.getString("apellido");
