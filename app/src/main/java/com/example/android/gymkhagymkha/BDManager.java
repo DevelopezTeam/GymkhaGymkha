@@ -12,17 +12,13 @@ public class BDManager {
 	public static final String TABLE_LOGIN = "login";
 
 	public static final String CN_ID = "_id";
-	public static final String CN_USER_ID = "user_id";
-	public static final String CN_USER = "username";
-	public static final String CN_FIRSTNAME = "firstname";
-	public static final String CN_LASTNAME = "lastname";
-	public static final String CN_EMAIL = "email";
-
+	public static final String CN_USER = "user";
+	public static final String CN_PASS = "password";
 	
 	// Variable para crear las tablas necesarias
 	public static final String CREATE_TABLE = "create table " + TABLE_LOGIN
-			+ " (" + CN_ID + " integer primary key autoincrement," + CN_USER_ID + " integer," + CN_USER
-			+ " text," + CN_FIRSTNAME + " text," + CN_LASTNAME + " text," + CN_EMAIL + " text)";
+			+ " (" + CN_ID + " integer primary key autoincrement," + CN_USER
+			+ " text," + CN_PASS + " text);";
 
 	private BDHelper helper;
 	private SQLiteDatabase bd;
@@ -34,15 +30,12 @@ public class BDManager {
 	}
 
 	// Método para insertar el login en la base de datos
-	public void login(int id, String username, String firstname, String lastname, String email) {
+	public void login(String user, String pass) {
 
 		ContentValues valores = new ContentValues();
 
-		valores.put(CN_USER_ID, id);
-		valores.put(CN_USER, username);
-		valores.put(CN_FIRSTNAME, firstname);
-		valores.put(CN_LASTNAME, lastname);
-		valores.put(CN_EMAIL, email);
+		valores.put(CN_USER, user);
+		valores.put(CN_PASS, pass);
 
 		bd.insert(TABLE_LOGIN, null, valores);
 	}
@@ -50,7 +43,7 @@ public class BDManager {
 	// Método que te devuelve el contenido de la tabla "login"
 	public Cursor cursorLogin() {
 
-		String[] columnas = new String[] { CN_ID, CN_USER_ID , CN_FIRSTNAME, CN_LASTNAME };
+		String[] columnas = new String[] { CN_ID, CN_USER, CN_PASS};
 		return bd.query(TABLE_LOGIN, columnas, null, null, null, null, null);
 	}
 

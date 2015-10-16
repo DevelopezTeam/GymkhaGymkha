@@ -22,7 +22,7 @@ public class Activity_Main extends AppCompatActivity {
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     TextView tvUsuarioBurguer;
-    String fullname;
+    String userName;
     Cursor cursor;
     ActionBar actionBar;
     FragmentManager fManager;
@@ -54,9 +54,9 @@ public class Activity_Main extends AppCompatActivity {
         // Rellenamos el campo con el nombre del usuario en el menú de la hamburguesa
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
-        fullname = cursor.getString(cursor.getColumnIndex(manager.CN_FIRSTNAME)) + " " + cursor.getString(cursor.getColumnIndex(manager.CN_LASTNAME));
+        userName = cursor.getString(cursor.getColumnIndex(manager.CN_USER));
         tvUsuarioBurguer = (TextView) findViewById(R.id.tvUsuarioBurguer);
-        tvUsuarioBurguer.setText(fullname);
+        tvUsuarioBurguer.setText(userName);
 
         // Inicializamos dos Drawables
         circle_green = getResources().getDrawable(R.drawable.circle_green);
