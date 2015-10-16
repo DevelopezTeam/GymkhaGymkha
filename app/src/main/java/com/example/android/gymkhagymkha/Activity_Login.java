@@ -110,9 +110,6 @@ public class Activity_Login extends AppCompatActivity {
 
         if (user.compareTo("") != 0 && pass.compareTo("") != 0) {
 
-            //manager.login(user, pass);
-            //intentMainActivity();
-
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
 
             //Conexión (sin especificar)
