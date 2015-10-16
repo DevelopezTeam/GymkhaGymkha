@@ -199,10 +199,9 @@ public class Activity_Login extends AppCompatActivity {
                 Clase_Jugador jugador;
                 try {
                     resultadoJSON = new JSONObject(resul);
-
                     jugador = new Clase_Jugador(resultadoJSON);
                     Toast.makeText(Activity_Login.this, "Bienvenido "+jugador.getNombre(), Toast.LENGTH_LONG).show();
-                    manager.login(user, pass);
+                    manager.login(jugador.getIdJugador(), jugador.getUsuario(), jugador.getNombre(), jugador.getApellido(), jugador.getEmail());
                     intentMainActivity();
                 } catch (JSONException e) {
                     Log.e("Mensaje","Error al crear Clase_Jugador JSON");

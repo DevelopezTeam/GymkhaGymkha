@@ -19,10 +19,10 @@ import android.widget.Toast;
 public class Fragment_Cuenta extends Fragment {
 
     Button btnCerrarSesion;
-    TextView tvUsuario, tvUsuarioBurguer;
+    TextView tvUsuario;
     BDManager manager;
     int id;
-    String userName;
+    String fullname;
     Cursor cursor;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class Fragment_Cuenta extends Fragment {
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
-        userName = cursor.getString(cursor.getColumnIndex(manager.CN_USER));
+        fullname = cursor.getString(cursor.getColumnIndex(manager.CN_FIRSTNAME)) + " " + cursor.getString(cursor.getColumnIndex(manager.CN_LASTNAME));
 
     }
 
@@ -43,7 +43,7 @@ public class Fragment_Cuenta extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         
         tvUsuario = (TextView) view.findViewById(R.id.tvUsuario);
-        tvUsuario.setText(userName);
+        tvUsuario.setText(fullname);
 
         // Evento para cerrar sesión
         btnCerrarSesion = (Button) view.findViewById(R.id.btnCerrarSesion);
