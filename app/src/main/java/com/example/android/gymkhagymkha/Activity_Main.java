@@ -1,7 +1,9 @@
 package com.example.android.gymkhagymkha;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -12,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -77,8 +80,6 @@ public class Activity_Main extends AppCompatActivity {
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
         }
-        setupNavigationDrawerContent(navigationView);
-
     }
 
     @Override
@@ -98,12 +99,47 @@ public class Activity_Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onKeyDown(int keycode, KeyEvent e) {
+        switch(keycode) {
+            case KeyEvent.KEYCODE_MENU:
+                if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+                return true;
+            case KeyEvent.KEYCODE_BACK:
+                if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle(R.string.title_cerrarApp);
+                    builder.setMessage(R.string.message_cerrarApp)
+
+                        /* Si pulsamos aceptar saldriamos de la aplicación */
+                            .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                }
+                            })
+                                    // Si pulsamos cancelar no haría nada
+                            .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    builder.show();
+                }
+                return true;
+        }
+        return super.onKeyDown(keycode, e);
+    }
+
     private void setupNavigationDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-
                         switch (menuItem.getItemId()) {
                             case R.id.item_navigation_drawer_eventos:
                                 menuItem.setChecked(true);

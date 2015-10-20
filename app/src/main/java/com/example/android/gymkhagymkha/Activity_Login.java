@@ -9,8 +9,12 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +41,7 @@ public class Activity_Login extends AppCompatActivity {
     Toolbar toolbarLogin;
     EditText etUsuario, etContrasena;
     Button btnLogin;
-    String user, pass,resul;
+    String user, pass, resul;
     BDManager manager;
 
     JSONObject resultadoJSON;
@@ -55,10 +59,13 @@ public class Activity_Login extends AppCompatActivity {
 
         // Inicializamos las variables
         etUsuario = (EditText) findViewById(R.id.etUsuario);
+        // No mostrar sugerencias en el teclado con este EditText
+        etUsuario.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         etContrasena = (EditText) findViewById(R.id.etContrasena);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin.setEnabled(false);
         toolbarLogin = (Toolbar) findViewById(R.id.toolbarLogin);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         // Añadimos titulo y lo ponemos en blanco
         toolbarLogin.setTitle(R.string.app_name);
@@ -76,6 +83,10 @@ public class Activity_Login extends AppCompatActivity {
         // Evento del botón "Acceder"
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (v != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
                 revisarLogin();
             }
         });
@@ -85,6 +96,44 @@ public class Activity_Login extends AppCompatActivity {
         if (manager.cursorLogin().getCount() != 0) {
             intentMainActivity();
         }
+
+        etUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (etUsuario.getText().toString().compareTo("") != 0 && etContrasena.getText().toString().compareTo("") != 0)
+                    btnLogin.setEnabled(true);
+                else
+                    btnLogin.setEnabled(false);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        etContrasena.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (etUsuario.getText().toString().compareTo("") != 0 && etContrasena.getText().toString().compareTo("") != 0)
+                    btnLogin.setEnabled(true);
+                else
+                    btnLogin.setEnabled(false);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     private void intentMainActivity() {
@@ -102,8 +151,6 @@ public class Activity_Login extends AppCompatActivity {
         // Recogemos los datos en variables string
         user = etUsuario.getText().toString();
         pass = etContrasena.getText().toString();
-
-
 
         /* De momento si no son vacios vale, pero habría que comprobar en el servidor
          si el usuario y contraseña existen. */
@@ -125,7 +172,7 @@ public class Activity_Login extends AppCompatActivity {
                 Toast.makeText(this, "No tiene conexión de red", Toast.LENGTH_LONG).show();
             else{
 
-                new TareaLeerUrl().execute("http://www.victordam2b.hol.es/loginAcceso.php?usuario="+user+"&password="+pass);
+                new TareaLeerUrl().execute("http://www.victordam2b.hol.es/loginAcceso.php?usuario=" + user+"&password="+pass);
                 btnLogin.setEnabled(false);
             }
 
@@ -134,11 +181,25 @@ public class Activity_Login extends AppCompatActivity {
         } else {
 
             etContrasena.setText("");
+            etUsuario.setText("");
+            btnLogin.setEnabled(false);
             Toast.makeText(getApplicationContext(),
                     "Usuario o contraseña incorrectos, inténtelo de nuevo...",
                     Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public boolean onKeyUp(int keycode, KeyEvent e) {
+        switch(keycode) {
+            case KeyEvent.KEYCODE_ENTER:
+                if(etContrasena.isFocused() && etContrasena.getText().toString().compareTo("") !=0) {
+                    revisarLogin();
+                }
+                return true;
+        }
+        return super.onKeyUp(keycode, e);
     }
 
     @Override

@@ -14,7 +14,7 @@
 
     <item android:title="Configuración">
         <menu>
-
+            <group android:checkableBehavior="single">
             <item
                 android:id="@+id/item_navigation_drawer_cuenta"
                 android:icon="@drawable/ic_account_circle_black_24dp"
@@ -28,6 +28,7 @@
                 android:id="@+id/item_navigation_drawer_ayuda_y_contacto"
                 android:icon="@drawable/ic_help_black_24dp"
                 android:title="Ayuda y Contacto" />
+            </group>
         </menu>
     </item>
     </group>

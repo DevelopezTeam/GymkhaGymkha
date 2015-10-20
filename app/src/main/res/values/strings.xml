@@ -5,14 +5,16 @@
     <string name="title_activity_settings">Ajustes</string>
     <string name="title_activity_eventos">Eventos</string>
     <string name="title_cerrarSesion">Cerrar Sesión</string>
+    <string name="title_cerrarApp">Salir</string>
     <string name="message_cerrarSesion">¿Está seguro de que desea cerrar sesión?</string>
+    <string name="message_cerrarApp">¿Está seguro de que desea salir?</string>
     <string name="title_acercade">Acerca de Gymkha Gymkha</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="creditos">Proyecto Gymkha Gymkha \n
           Versión 0.25 \n \n
         - Equipo: \n
-          Victor López Medina \n
+          Víctor López Medina \n
           Hector Mediero de la Morena\n
           Francisco López Pérez \n
     </string>
