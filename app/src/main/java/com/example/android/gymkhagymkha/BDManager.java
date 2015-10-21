@@ -17,11 +17,12 @@ public class BDManager {
 	public static final String CN_FIRSTNAME = "firstname";
 	public static final String CN_LASTNAME = "lastname";
 	public static final String CN_EMAIL = "email";
-	
+	public static final String CN_IDADMINISTRADOR = "idAdministrador";
+
 	// Variable para crear las tablas necesarias
 	public static final String CREATE_TABLE = "create table " + TABLE_LOGIN
 			+ " (" + CN_ID + " integer primary key autoincrement," + CN_USER_ID + " integer," + CN_USER
-			+ " text," + CN_FIRSTNAME + " text," + CN_LASTNAME + " text," + CN_EMAIL + " text)";
+			+ " text," + CN_FIRSTNAME + " text," + CN_LASTNAME + " text," + CN_EMAIL + " text,"+CN_IDADMINISTRADOR+" integer)";
 
 	private BDHelper helper;
 	private SQLiteDatabase bd;
@@ -33,7 +34,7 @@ public class BDManager {
 	}
 
 	// Método para insertar el login en la base de datos
-	public void login(int id, String username, String firstname, String lastname, String email) {
+	public void login(int id, String username, String firstname, String lastname, String email,int idAdministrador) {
 
 		ContentValues valores = new ContentValues();
 
@@ -42,6 +43,7 @@ public class BDManager {
 		valores.put(CN_FIRSTNAME, firstname);
 		valores.put(CN_LASTNAME, lastname);
 		valores.put(CN_EMAIL, email);
+		valores.put(CN_IDADMINISTRADOR, idAdministrador);
 
 		bd.insert(TABLE_LOGIN, null, valores);
 	}
