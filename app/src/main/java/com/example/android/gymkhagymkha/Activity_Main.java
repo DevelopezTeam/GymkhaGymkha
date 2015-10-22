@@ -99,9 +99,11 @@ public class Activity_Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Evento para botones
     @Override
     public boolean onKeyDown(int keycode, KeyEvent e) {
         switch(keycode) {
+            // Con el botón menú abriremos y cerraremos el Navigation-Drawer
             case KeyEvent.KEYCODE_MENU:
                 if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
@@ -109,6 +111,7 @@ public class Activity_Main extends AppCompatActivity {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
                 return true;
+            // Con el botón back cerraremos el Navigation-Drawer antes de salir de la app
             case KeyEvent.KEYCODE_BACK:
                 if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
