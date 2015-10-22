@@ -63,7 +63,10 @@ public class Fragment_Eventos extends Fragment {
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
-        String idAdministrador = String.valueOf(cursor.getInt(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR)));
+
+
+
+        int idAdministrador = cursor.getInt(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR));
         new AsyncEventos().execute("http://www.victordam2b.hol.es/eventosAcceso.php?idAdministrador=" + idAdministrador);
 
     }
@@ -111,7 +114,6 @@ public class Fragment_Eventos extends Fragment {
             }
             else{
                 JSONObject resultadoJSON;
-                JSONArray resultadoArrayJSON;
                 try {
                     resultadoJSON = new JSONObject(resul);
 
