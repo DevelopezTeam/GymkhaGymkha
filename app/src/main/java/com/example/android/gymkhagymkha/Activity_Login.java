@@ -172,7 +172,7 @@ public class Activity_Login extends AppCompatActivity {
                 Toast.makeText(this, "No tiene conexión de red", Toast.LENGTH_LONG).show();
             else{
 
-                new TareaLeerUrl().execute("http://www.victordam2b.hol.es/loginAcceso.php?usuario=" + user+"&password="+pass);
+                new AsyncLogin().execute("http://www.victordam2b.hol.es/loginAcceso.php?usuario=" + user + "&password=" + pass);
                 btnLogin.setEnabled(false);
             }
 
@@ -215,7 +215,7 @@ public class Activity_Login extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class TareaLeerUrl extends AsyncTask<String, Void, StringBuilder> {
+    public class AsyncLogin extends AsyncTask<String, Void, StringBuilder> {
 
         @Override
         protected void onPreExecute() {
