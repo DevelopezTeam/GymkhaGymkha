@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Fragment_Eventos extends Fragment {
@@ -37,62 +38,14 @@ public class Fragment_Eventos extends Fragment {
         // do your variables initialisations here except Views!!!
     }
 
-    ArrayList<Clase_Evento> listaEventos = new ArrayList<Clase_Evento>();
+    ArrayList<Clase_Evento> arrayEvent = new ArrayList<Clase_Evento>();
 
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
         /* Rellenamos el ListView manualmente, más adelante con un servicio lo rellenamos con
         información del servidor */
-        ListView listaEventos = (ListView) view.findViewById(R.id.lvEventos);
-        ArrayList<Clase_Evento> arrayEvent = new ArrayList<Clase_Evento>();
-        Clase_Evento event;
 
-        event = new Clase_Evento(1,"Evento22","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento33","13:00", false);
-        arrayEvent.add(event);
-
-
-
-        AdapterEvento adapter2 = new AdapterEvento(getActivity(), arrayEvent);
-        listaEventos.setAdapter(adapter2);
 
         //eventosAcceso.php?idAdministrador=1
 
@@ -154,19 +107,21 @@ public class Fragment_Eventos extends Fragment {
                 JSONArray resultadoArrayJSON;
                 try {
                     resultadoJSON = new JSONObject(resul);
-                    resultadoArrayJSON = resultadoJSON.names();
 
-                    for (int i = 0; i < resultadoArrayJSON.length(); i++) {
-                        JSONObject auxObj = resultadoArrayJSON.getJSONObject(i);
-                        String nada = "";
-                        //listaEventos.add(new Clase_Evento()); //creamos un objeto Fruta y lo insertamos en la lista
+                    for (int i = 0; i < resultadoJSON.length(); i++) {
+                        //JSONObject aux = resultadoJSON.getJSONObject(i+"");
+                        arrayEvent.add(new Clase_Evento(resultadoJSON.getJSONObject(i+"")));
                     }
-                } catch (JSONException e) {
-                    Log.e("Mensaje","Error al crear El JSON");
+                    ListView listaEventos = (ListView) Fragment_Eventos.this.getActivity().findViewById(R.id.lvEventos);
+                    AdapterEvento adapter2 = new AdapterEvento(getActivity(), arrayEvent);
+                    listaEventos.setAdapter(adapter2);
+
+                    } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
 }
+
 
