@@ -97,10 +97,13 @@ public class Activity_Login extends AppCompatActivity {
             intentMainActivity();
         }
 
+        // Evento que capta si el EditText sufre cambios
         etUsuario.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // En el caso de que no estén vacios
                 if (etUsuario.getText().toString().compareTo("") != 0 && etContrasena.getText().toString().compareTo("") != 0)
+                    // Activamos el botón acceder
                     btnLogin.setEnabled(true);
                 else
                     btnLogin.setEnabled(false);
@@ -116,10 +119,13 @@ public class Activity_Login extends AppCompatActivity {
             }
         });
 
+        // Evento que capta si el EditText sufre cambios
         etContrasena.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // En el caso de que no estén vacios
                 if (etUsuario.getText().toString().compareTo("") != 0 && etContrasena.getText().toString().compareTo("") != 0)
+                    // Activamos el botón acceder
                     btnLogin.setEnabled(true);
                 else
                     btnLogin.setEnabled(false);
@@ -190,6 +196,7 @@ public class Activity_Login extends AppCompatActivity {
 
     }
 
+    // Evento que se usará para revisar el login con el botón "ENTER" del teclado de android
     @Override
     public boolean onKeyUp(int keycode, KeyEvent e) {
         switch(keycode) {

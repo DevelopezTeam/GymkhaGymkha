@@ -42,59 +42,16 @@ public class Fragment_Eventos extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        /* Rellenamos el ListView manualmente, más adelante con un servicio lo rellenamos con
-        información del servidor */
+        /*TE DEJO ESTO PARA QUE VEAS COMO ES LA ESTRUCTURA DEL ITEM EVENTO*/
         ListView listaEventos = (ListView) view.findViewById(R.id.lvEventos);
         ArrayList<Clase_Evento> arrayEvent = new ArrayList<Clase_Evento>();
         Clase_Evento event;
-
         event = new Clase_Evento(1,"Evento22","13:00", true);
         arrayEvent.add(event);
         event = new Clase_Evento(1,"Evento1","13:00", false);
         arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", false);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento1","13:00", true);
-        arrayEvent.add(event);
-        event = new Clase_Evento(1,"Evento33","13:00", false);
-        arrayEvent.add(event);
-
-
-
         AdapterEvento adapter2 = new AdapterEvento(getActivity(), arrayEvent);
         listaEventos.setAdapter(adapter2);
-
-        //eventosAcceso.php?idAdministrador=1
 
         BDManager manager;
         Cursor cursor;
@@ -102,8 +59,7 @@ public class Fragment_Eventos extends Fragment {
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
-        //String idAdministrador = cursor.getString(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR));
-        String idAdministrador = "1";
+        String idAdministrador = String.valueOf(cursor.getInt(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR)));
         new AsyncEventos().execute("http://www.victordam2b.hol.es/eventosAcceso.php?idAdministrador=" + idAdministrador);
 
     }

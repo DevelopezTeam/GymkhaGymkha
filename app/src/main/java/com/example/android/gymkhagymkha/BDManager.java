@@ -22,7 +22,7 @@ public class BDManager {
 	// Variable para crear las tablas necesarias
 	public static final String CREATE_TABLE = "create table " + TABLE_LOGIN
 			+ " (" + CN_ID + " integer primary key autoincrement," + CN_USER_ID + " integer," + CN_USER
-			+ " text," + CN_FIRSTNAME + " text," + CN_LASTNAME + " text," + CN_EMAIL + " text,"+CN_IDADMINISTRADOR+" integer)";
+			+ " text," + CN_FIRSTNAME + " text," + CN_LASTNAME + " text," + CN_EMAIL + " text," + CN_IDADMINISTRADOR + " integer)";
 
 	private BDHelper helper;
 	private SQLiteDatabase bd;
@@ -51,7 +51,7 @@ public class BDManager {
 	// Método que te devuelve el contenido de la tabla "login"
 	public Cursor cursorLogin() {
 
-		String[] columnas = new String[] { CN_ID, CN_USER_ID , CN_FIRSTNAME, CN_LASTNAME };
+		String[] columnas = new String[] { CN_ID, CN_USER_ID , CN_FIRSTNAME, CN_LASTNAME, CN_IDADMINISTRADOR};
 		return bd.query(TABLE_LOGIN, columnas, null, null, null, null, null);
 	}
 
