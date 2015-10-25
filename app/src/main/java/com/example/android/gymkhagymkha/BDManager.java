@@ -10,6 +10,7 @@ public class BDManager {
 
 	// Variables que contienen los campos de las bases de datos
 	public static final String TABLE_LOGIN = "login";
+	public static final String TABLE_EVENT = "eventos";
 
 	public static final String CN_ID = "_id";
 	public static final String CN_USER_ID = "user_id";
@@ -19,13 +20,20 @@ public class BDManager {
 	public static final String CN_EMAIL = "email";
 	public static final String CN_IDADMINISTRADOR = "idAdministrador";
 
+	public static final String CN_IDEVENT = "event_id";
+	public static final String CN_EVENT_DESCRIPTION = "event_description";
+
 	// Variable para crear las tablas necesarias
-	public static final String CREATE_TABLE = "create table " + TABLE_LOGIN
+	public static final String CREATE_TABLE_LOGIN = "create table " + TABLE_LOGIN
 			+ " (" + CN_ID + " integer primary key autoincrement," + CN_USER_ID + " integer," + CN_USER
 			+ " text," + CN_FIRSTNAME + " text," + CN_LASTNAME + " text," + CN_EMAIL + " text," + CN_IDADMINISTRADOR + " integer)";
+	public static final String CREATE_TABLE_EVENTS = "create table " + TABLE_EVENT
+			+ " (" + CN_ID + " integer primary key autoincrement," + CN_IDEVENT + " integer," + CN_EVENT_DESCRIPTION
+			+ " text)";
 
 	private BDHelper helper;
 	private SQLiteDatabase bd;
+	ContentValues valores;
 
 	public BDManager(Context context) {
 
@@ -36,7 +44,7 @@ public class BDManager {
 	// Método para insertar el login en la base de datos
 	public void login(int id, String username, String firstname, String lastname, String email,int idAdministrador) {
 
-		ContentValues valores = new ContentValues();
+		valores = new ContentValues();
 
 		valores.put(CN_USER_ID, id);
 		valores.put(CN_USER, username);
@@ -48,11 +56,27 @@ public class BDManager {
 		bd.insert(TABLE_LOGIN, null, valores);
 	}
 
+	public void guardarEvento(int id, String event_description) {
+
+		valores = new ContentValues();
+
+		valores.put(CN_USER_ID, id);
+		valores.put(CN_FIRSTNAME, event_description);
+
+		bd.insert(TABLE_LOGIN, null, valores);
+	}
+
 	// Método que te devuelve el contenido de la tabla "login"
 	public Cursor cursorLogin() {
 
 		String[] columnas = new String[] { CN_ID, CN_USER_ID , CN_FIRSTNAME, CN_LASTNAME, CN_IDADMINISTRADOR};
 		return bd.query(TABLE_LOGIN, columnas, null, null, null, null, null);
+	}
+
+	public Cursor cursorEventos() {
+
+		String[] columnas = new String[] { CN_ID, CN_IDEVENT , CN_EVENT_DESCRIPTION};
+		return bd.query(TABLE_EVENT, columnas, null, null, null, null, null);
 	}
 
 	// Método para borrar el campo de la base de datos al cerrar sesión

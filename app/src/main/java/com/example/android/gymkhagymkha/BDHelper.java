@@ -17,7 +17,8 @@ public class BDHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(BDManager.CREATE_TABLE);
+		db.execSQL(BDManager.CREATE_TABLE_LOGIN);
+		db.execSQL(BDManager.CREATE_TABLE_EVENTS);
 	}
 
 	@Override

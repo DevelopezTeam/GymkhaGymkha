@@ -8,6 +8,7 @@ import java.util.Date;
 // Clase para crear objetos evento
 public class Clase_Evento {
     private int id;
+    private String nombre;
     private String descripcion;
     private String hora;
     private boolean isOnline;
@@ -25,6 +26,8 @@ public class Clase_Evento {
 
     public Clase_Evento(JSONObject objetoJSON) throws JSONException {
         id = objetoJSON.getInt("idEvento");
+        //TODO Añadir al objeto JSON nombre de evento
+        //nombre = objetoJSON.getString("nombre");
         descripcion = objetoJSON.getString("descripcion");
         //diaEmpiece = objetoJSON.getString("diaEmpiece");
         //horaEmpiece = objetoJSON.getString("horaEmpiece");
@@ -32,12 +35,14 @@ public class Clase_Evento {
         this.isOnline = true;
     }
 
-    public int getIdEvento() {
-        return id;
-    }
+    public int getIdEvento() {return id;}
 
-    public void setIdEvento(int id) {
-        this.id = id;
+    public void setIdEvento(int id) {this.id = id;}
+
+    public String getNombre() {return nombre;}
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {

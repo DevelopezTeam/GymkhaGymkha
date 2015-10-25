@@ -4,6 +4,15 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBarEventos"
+        android:visibility="invisible"
+        android:layout_gravity="center" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -14,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lvEventos" />
-
-
     </LinearLayout>
+
+
 </FrameLayout>
