@@ -13,6 +13,7 @@ public class Clase_Jugador {
     private String apellido;
     private String email;
     private int idAministrador;
+    private int idCentro;
 
     public Clase_Jugador(JSONObject objetoJSON) throws JSONException {
         idJugador = objetoJSON.getInt("idJugador");
@@ -21,6 +22,7 @@ public class Clase_Jugador {
         apellido = objetoJSON.getString("apellido");
         email = objetoJSON.getString("email");
         idAministrador = objetoJSON.getInt("idAdministrador");
+        idCentro = objetoJSON.getInt("idCentro");
     }
 
     public int getIdJugador() {
@@ -69,5 +71,13 @@ public class Clase_Jugador {
 
     public void setIdAministrador(int idAministrador) {
         this.idAministrador = idAministrador;
+    }
+
+    public int getIdCentro() {
+        return idCentro;
+    }
+
+    public void setIdCentro(int idCentro) {
+        this.idCentro = idCentro;
     }
 }

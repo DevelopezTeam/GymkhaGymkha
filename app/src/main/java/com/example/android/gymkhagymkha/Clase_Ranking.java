@@ -1,9 +1,15 @@
 package com.example.android.gymkhagymkha;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 // Clase para crear objetos Ranking tanto general como de evento
 public class Clase_Ranking {
 
     private int id;
+    private int idCentro;
+    private int idJugador;
+    private double puntos;
     private String nombre;
     private String puntuacion;
 
@@ -11,6 +17,12 @@ public class Clase_Ranking {
         this.id = id;
         this.nombre = nombre;
         this.puntuacion = puntuacion;
+    }
+
+    public Clase_Ranking(JSONObject objetoJSON) throws JSONException {
+        setIdCentro(objetoJSON.getInt("idCentro"));
+        setIdJugador(objetoJSON.getInt("idJugador"));
+        setPuntos(objetoJSON.getDouble("puntos"));
     }
 
     public int getIdRanking() {
@@ -38,4 +50,27 @@ public class Clase_Ranking {
     }
 
 
+    public int getIdCentro() {
+        return idCentro;
+    }
+
+    public void setIdCentro(int idCentro) {
+        this.idCentro = idCentro;
+    }
+
+    public int getIdJugador() {
+        return idJugador;
+    }
+
+    public void setIdJugador(int idJugador) {
+        this.idJugador = idJugador;
+    }
+
+    public double getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(double puntos) {
+        this.puntos = puntos;
+    }
 }

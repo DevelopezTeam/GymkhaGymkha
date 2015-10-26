@@ -26,13 +26,13 @@ public class Clase_Evento {
 
     public Clase_Evento(JSONObject objetoJSON) throws JSONException {
         id = objetoJSON.getInt("idEvento");
-        //TODO Añadir al objeto JSON nombre de evento
-        //nombre = objetoJSON.getString("nombre");
+        nombre = objetoJSON.getString("nombre");
         descripcion = objetoJSON.getString("descripcion");
-        //diaEmpiece = objetoJSON.getString("diaEmpiece");
+        diaEmpiece = objetoJSON.getString("diaEmpiece");
         //horaEmpiece = objetoJSON.getString("horaEmpiece");
+        //TODO hacer que sea de tipo Date
         hora = objetoJSON.getString("horaEmpiece");
-        this.isOnline = true;
+        this.isOnline = false;
     }
 
     public int getIdEvento() {return id;}

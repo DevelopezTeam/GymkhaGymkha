@@ -109,7 +109,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         evento = new Clase_Evento(resultadoJSON.getJSONObject(i+""));
-                        manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion());
+                        manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
                         arrayEvent.add(evento);
                     }
                     listaEventos = (ListView) Fragment_Eventos.this.getActivity().findViewById(R.id.lvEventos);
