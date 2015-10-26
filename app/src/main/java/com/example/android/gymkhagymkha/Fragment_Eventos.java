@@ -1,5 +1,7 @@
 package com.example.android.gymkhagymkha;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,9 +33,11 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     AdapterEvento adapterEventos;
     BDManager manager;
     Cursor cursorEventos;
+    View dialogview;
 
         @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_eventos, container, false);
+            dialogview = inflater.inflate(R.layout.dialog_event_description, null);
             return view; }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -118,11 +122,17 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                         @Override
                         public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                                        int position, long id) {
-                            cursorEventos = manager.cursorEventos();
+                            /*cursorEventos = manager.cursorEventos();
                             cursorEventos.moveToPosition(position);
-                            cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION));
-                            //TODO Hacer un dialog personalizado para mostrar los detalles del evento al hacer pulsación larga
-                            // http://developer.android.com/intl/es/guide/topics/ui/dialogs.html
+                            cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION));*/
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setView(dialogview)
+                                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+
+                                        }
+                                    });
+                            builder.show();
                             return true;
                         }
                     });
