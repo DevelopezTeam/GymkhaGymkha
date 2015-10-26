@@ -20,9 +20,10 @@ public class Clase_Ranking {
     }
 
     public Clase_Ranking(JSONObject objetoJSON) throws JSONException {
-        setIdCentro(objetoJSON.getInt("idCentro"));
-        setIdJugador(objetoJSON.getInt("idJugador"));
-        setPuntos(objetoJSON.getDouble("puntos"));
+        idCentro = objetoJSON.getInt("idCentro");
+        idJugador = objetoJSON.getInt("idJugador");
+        puntos = objetoJSON.getDouble("puntos");
+        nombre = objetoJSON.getString("nombre");
     }
 
     public int getIdRanking() {
