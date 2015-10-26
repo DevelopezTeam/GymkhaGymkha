@@ -23,6 +23,7 @@ public class BDManager {
 	public static final String CN_IDEVENT = "event_id";
 	public static final String CN_EVENT_DESCRIPTION = "event_description";
 	public static final String CN_EVENT_NAME = "event_name";
+	public static final String CN_EVENT_HOUR = "event_hour";
 
 	// Variable para crear las tablas necesarias
 	public static final String CREATE_TABLE_LOGIN = "create table " + TABLE_LOGIN
@@ -30,7 +31,7 @@ public class BDManager {
 			+ " text," + CN_FIRSTNAME + " text," + CN_LASTNAME + " text," + CN_EMAIL + " text," + CN_IDADMINISTRADOR + " integer,"+CN_IDCENTRO+" integer)";
 	public static final String CREATE_TABLE_EVENTS = "create table " + TABLE_EVENT
 			+ " (" + CN_ID + " integer primary key autoincrement," + CN_IDEVENT + " integer," + CN_EVENT_DESCRIPTION
-			+ " text,"+ CN_EVENT_NAME +" text)";
+			+ " text,"+ CN_EVENT_NAME +" text," + CN_EVENT_HOUR + " text)";
 
 	private BDHelper helper;
 	private SQLiteDatabase bd;
@@ -58,13 +59,14 @@ public class BDManager {
 		bd.insert(TABLE_LOGIN, null, valores);
 	}
 
-	public void guardarEvento(int id, String event_description, String event_name) {
+	public void guardarEvento(int id, String event_description, String event_name, String event_hour) {
 
 		valores = new ContentValues();
 
-		valores.put(CN_USER_ID, id);
+		valores.put(CN_IDEVENT, id);
 		valores.put(CN_EVENT_DESCRIPTION, event_description);
 		valores.put(CN_EVENT_NAME, event_name);
+		valores.put(CN_EVENT_HOUR, event_hour);
 
 		bd.insert(TABLE_EVENT, null, valores);
 	}
@@ -79,7 +81,7 @@ public class BDManager {
 
 	public Cursor cursorEventos() {
 
-		String[] columnas = new String[] { CN_ID, CN_IDEVENT , CN_EVENT_DESCRIPTION,CN_EVENT_NAME};
+		String[] columnas = new String[] { CN_ID, CN_IDEVENT , CN_EVENT_DESCRIPTION, CN_EVENT_NAME, CN_EVENT_HOUR};
 		return bd.query(TABLE_EVENT, columnas, null, null, null, null, null);
 	}
 

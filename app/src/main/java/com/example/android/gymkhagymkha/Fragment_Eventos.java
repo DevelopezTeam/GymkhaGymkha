@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedInputStream;
@@ -33,6 +35,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     AdapterEvento adapterEventos;
     BDManager manager;
     Cursor cursorEventos;
+    TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog;
     View dialogview;
 
         @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +54,9 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         super.onViewCreated(view, savedInstanceState);
 
         progressBarEventos = (ProgressBar) view.findViewById(R.id.progressBarEventos);
+        tvDescripcionEventoDialog = (TextView) view.findViewById(R.id.tvDescripcionEventoDialog);
+        tvHoraEventoDialog = (TextView) view.findViewById(R.id.tvHoraEventoDialog);
+        tvNombreEventoDialog = (TextView) view.findViewById(R.id.tvNombreEventoDialog);
 
         manager = new BDManager(getActivity());
         Cursor cursor = manager.cursorLogin();
@@ -113,7 +119,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         evento = new Clase_Evento(resultadoJSON.getJSONObject(i+""));
-                        manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
+                        manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre(), evento.getHora());
                         arrayEvent.add(evento);
                     }
                     listaEventos = (ListView) Fragment_Eventos.this.getActivity().findViewById(R.id.lvEventos);
@@ -122,14 +128,15 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                         @Override
                         public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                                        int position, long id) {
-                            /*cursorEventos = manager.cursorEventos();
+                            cursorEventos = manager.cursorEventos();
                             cursorEventos.moveToPosition(position);
-                            cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION));*/
+                            /*tvDescripcionEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION)));
+                            tvNombreEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_NAME)));
+                            tvHoraEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR)));*/
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setView(dialogview)
                                     .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-
                                         }
                                     });
                             builder.show();
