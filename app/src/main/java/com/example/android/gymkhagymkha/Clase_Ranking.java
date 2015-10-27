@@ -9,7 +9,7 @@ public class Clase_Ranking {
     private int id;
     private int idCentro;
     private int idJugador;
-    private double puntos;
+    private int puntos;
     private String nombre;
     private String puntuacion;
 
@@ -22,7 +22,7 @@ public class Clase_Ranking {
     public Clase_Ranking(JSONObject objetoJSON) throws JSONException {
         idCentro = objetoJSON.getInt("idCentro");
         idJugador = objetoJSON.getInt("idJugador");
-        puntos = objetoJSON.getDouble("puntos");
+        puntos = objetoJSON.getInt("puntos");
         nombre = objetoJSON.getString("nombre");
     }
 
@@ -67,11 +67,11 @@ public class Clase_Ranking {
         this.idJugador = idJugador;
     }
 
-    public double getPuntos() {
+    public int getPuntos() {
         return puntos;
     }
 
-    public void setPuntos(double puntos) {
+    public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
 }
