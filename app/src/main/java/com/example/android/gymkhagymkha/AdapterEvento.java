@@ -51,8 +51,8 @@ public class AdapterEvento extends BaseAdapter {
 
         // Creamos un objeto directivo
         Clase_Evento event = items.get(position);
-        TextView id = (TextView) v.findViewById(R.id.tvDescripcionEvento);
-        id.setText(event.getDescripcion());
+        TextView id = (TextView) v.findViewById(R.id.tvNombreEvento);
+        id.setText(event.getNombre());
         //Rellenamos el nombre
         TextView nombre = (TextView) v.findViewById(R.id.tvHoraEvento);
         nombre.setText(event.getHora());

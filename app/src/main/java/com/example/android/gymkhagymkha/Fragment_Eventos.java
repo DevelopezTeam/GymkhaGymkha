@@ -1,6 +1,7 @@
 package com.example.android.gymkhagymkha;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -10,10 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,13 +38,11 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     ListView listaEventos;
     AdapterEvento adapterEventos;
     BDManager manager;
-    Cursor cursorEventos;
+    Cursor cursorEventos, cursor;
     TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog;
-    View dialogview;
 
         @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_eventos, container, false);
-            dialogview = inflater.inflate(R.layout.dialog_event_description, null);
             return view; }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -54,12 +56,9 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         super.onViewCreated(view, savedInstanceState);
 
         progressBarEventos = (ProgressBar) view.findViewById(R.id.progressBarEventos);
-        tvDescripcionEventoDialog = (TextView) view.findViewById(R.id.tvDescripcionEventoDialog);
-        tvHoraEventoDialog = (TextView) view.findViewById(R.id.tvHoraEventoDialog);
-        tvNombreEventoDialog = (TextView) view.findViewById(R.id.tvNombreEventoDialog);
 
         manager = new BDManager(getActivity());
-        Cursor cursor = manager.cursorLogin();
+        cursor = manager.cursorLogin();
         cursor.moveToFirst();
 
         int idAdministrador = cursor.getInt(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR));
@@ -130,16 +129,22 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                                                        int position, long id) {
                             cursorEventos = manager.cursorEventos();
                             cursorEventos.moveToPosition(position);
-                            /*tvDescripcionEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION)));
+                            final Dialog dialog = new Dialog(getActivity());
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setContentView(R.layout.dialog_event_description);
+                            tvDescripcionEventoDialog = (TextView) dialog.findViewById(R.id.tvDescripcionEventoDialog);
+                            tvHoraEventoDialog = (TextView) dialog.findViewById(R.id.tvHoraEventoDialog);
+                            tvNombreEventoDialog = (TextView) dialog.findViewById(R.id.tvNombreEventoDialog);
+                            tvDescripcionEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION)));
                             tvNombreEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_NAME)));
-                            tvHoraEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR)));*/
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setView(dialogview)
-                                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                        }
-                                    });
-                            builder.show();
+                            tvHoraEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR)));
+                            dialog.setTitle("Detalles del evento");
+                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                            lp.copyFrom(dialog.getWindow().getAttributes());
+                            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                            dialog.getWindow().setAttributes(lp);
+                            dialog.show();
                             return true;
                         }
                     });
