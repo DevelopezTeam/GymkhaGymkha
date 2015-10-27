@@ -6,7 +6,7 @@
     android:weightSum="1">
 
     <TextView
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -23,15 +23,18 @@
         android:text="Nombre"
         android:id="@+id/tvNombreRanking"
         android:layout_weight="0.53"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:gravity="left" />
 
     <TextView
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
         android:id="@+id/tvPuntuacionRanking"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:textAlignment="center"
+        android:gravity="center" />
 </LinearLayout>
