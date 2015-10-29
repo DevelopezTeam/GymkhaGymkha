@@ -3,6 +3,7 @@ package com.example.android.gymkhagymkha;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClickListener {
+public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     ProgressBar progressBarEventos;
     Clase_Evento evento;
@@ -39,6 +40,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     AdapterEvento adapterEventos;
     BDManager manager;
     Cursor cursorEventos, cursor;
+    String resul = "";
     TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog;
 
         @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,8 +57,9 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        progressBarEventos = (ProgressBar) view.findViewById(R.id.progressBarEventos);
 
+
+        progressBarEventos = (ProgressBar) view.findViewById(R.id.progressBarEventos);
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
@@ -66,13 +69,6 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapter, View view, int position,
-                            long id) {
-        //TODO este evento nos llevaria a dentro del evento
-    }
-
-    String resul = "";
     public class AsyncEventos extends AsyncTask<String, Void, StringBuilder> {
 
         @Override
@@ -123,32 +119,9 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                     }
                     listaEventos = (ListView) Fragment_Eventos.this.getActivity().findViewById(R.id.lvEventos);
                     adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
-                    listaEventos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                        @Override
-                        public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                                       int position, long id) {
-                            cursorEventos = manager.cursorEventos();
-                            cursorEventos.moveToPosition(position);
-                            final Dialog dialog = new Dialog(getActivity());
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog.setContentView(R.layout.dialog_event_description);
-                            tvDescripcionEventoDialog = (TextView) dialog.findViewById(R.id.tvDescripcionEventoDialog);
-                            tvHoraEventoDialog = (TextView) dialog.findViewById(R.id.tvHoraEventoDialog);
-                            tvNombreEventoDialog = (TextView) dialog.findViewById(R.id.tvNombreEventoDialog);
-                            tvDescripcionEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION)));
-                            tvNombreEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_NAME)));
-                            tvHoraEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR)));
-                            dialog.setTitle("Detalles del evento");
-                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                            lp.copyFrom(dialog.getWindow().getAttributes());
-                            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                            dialog.getWindow().setAttributes(lp);
-                            dialog.show();
-                            return true;
-                        }
-                    });
                     listaEventos.setAdapter(adapterEventos);
+                    listaEventos.setOnItemClickListener(Fragment_Eventos.this);
+                    listaEventos.setOnItemLongClickListener(Fragment_Eventos.this);
                     } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -156,6 +129,35 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             progressBarEventos.setVisibility(View.INVISIBLE);
             cursorEventos = manager.cursorEventos();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), Activity_InGame.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        cursorEventos = manager.cursorEventos();
+        cursorEventos.moveToPosition(position);
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_event_description);
+        tvDescripcionEventoDialog = (TextView) dialog.findViewById(R.id.tvDescripcionEventoDialog);
+        tvHoraEventoDialog = (TextView) dialog.findViewById(R.id.tvHoraEventoDialog);
+        tvNombreEventoDialog = (TextView) dialog.findViewById(R.id.tvNombreEventoDialog);
+        tvDescripcionEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION)));
+        tvNombreEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_NAME)));
+        tvHoraEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR)));
+        dialog.setTitle("Detalles del evento");
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(lp);
+        dialog.show();
+        return true;
     }
 }
 
