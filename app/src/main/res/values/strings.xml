@@ -15,10 +15,11 @@
     <string name="creditos">Proyecto Gymkha Gymkha \n
           Versión 0.25 \n \n
         - Equipo: \n
-          Víctor López Medina \n
-          Hector Mediero de la Morena\n
-          Francisco López Pérez \n
+          \tVíctor López Medina \n
+          \tFrancisco López Pérez \n
     </string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+        AIzaSyCRVLCzn2u_dyUKtwL0XMGhSOpSRCeYRlo</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

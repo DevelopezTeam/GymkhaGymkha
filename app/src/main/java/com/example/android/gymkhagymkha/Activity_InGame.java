@@ -31,6 +31,9 @@ public class Activity_InGame extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //TODO: Cargar el nombre del tesoro actual en el toolbar
+        toolbar.setTitle("Tesoro");
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         addFragmentToViewPager(viewPager);
 
@@ -98,16 +101,6 @@ public class Activity_InGame extends AppCompatActivity {
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
-        }
-
-        String[] titles = { "Pista", "Mapa", "Puntuación"};
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            String title = titles[position];
-            toolbar.setTitle(title);
-            return titles[position];
         }
     }
 }

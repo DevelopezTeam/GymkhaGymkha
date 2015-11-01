@@ -50,7 +50,6 @@ public class Clase_Ranking {
         this.puntuacion = puntuacion;
     }
 
-
     public int getIdCentro() {
         return idCentro;
     }
