@@ -24,7 +24,7 @@ public class Clase_Tesoro {
         estado = objetoJSON.getString("estado");
         latitud = objetoJSON.getDouble("latitud");
         longitud = objetoJSON.getDouble("longitud");
-        idGanador = 0;
+        idGanador = objetoJSON.getInt("idGanador");
     }
 
     public Clase_Tesoro(int idTes,String nom,String pis,String est,double lat,double longi/*,int idGan*/){

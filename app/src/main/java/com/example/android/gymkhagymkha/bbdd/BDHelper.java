@@ -19,11 +19,14 @@ public class BDHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(BDManager.CREATE_TABLE_LOGIN);
 		db.execSQL(BDManager.CREATE_TABLE_EVENTS);
+		db.execSQL(BDManager.CREATE_TABLE_TREASURE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS agenda"); 
+		db.execSQL("DROP TABLE IF EXISTS "+BDManager.TABLE_LOGIN);
+		db.execSQL("DROP TABLE IF EXISTS "+BDManager.TABLE_EVENT);
+		db.execSQL("DROP TABLE IF EXISTS "+BDManager.TABLE_TREASURE);
 		this.onCreate(db);
 	}
 

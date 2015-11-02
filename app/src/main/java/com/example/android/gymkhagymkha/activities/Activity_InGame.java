@@ -48,6 +48,7 @@ public class Activity_InGame extends AppCompatActivity {
     private ViewPager viewPager;
     String resul;
     ArrayList<Clase_Tesoro> arrayTesoros;
+    BDManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class Activity_InGame extends AppCompatActivity {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
 
+        manager = new BDManager(this);
         arrayTesoros = new ArrayList<Clase_Tesoro>();
         new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento=12");
     }
@@ -181,9 +183,9 @@ public class Activity_InGame extends AppCompatActivity {
                         //Clase_Tesoro auxAux = new Clase_Tesoro(auxTesoro.getIdTesoro(),auxTesoro.getNombre(),auxTesoro.getPista(),auxTesoro.getEstado(),auxTesoro.getLatitud(),auxTesoro.getLongitud());
                         //manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
                         arrayTesoros.add(auxTesoro);
+                        manager.guardarTesoro(auxTesoro);
                     }
-                    String algo = "algo";
-                    Log.i("Tesoros",".size "+arrayTesoros.size());
+
                     //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
                     //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
 

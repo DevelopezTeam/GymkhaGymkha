@@ -63,6 +63,8 @@ public class Fragment_Cuenta extends Fragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 id = cursor.getInt(cursor.getColumnIndex(manager.CN_ID));
                                 manager.borrarLogin(id);
+                                manager.borrarEventos();
+                                manager.borrarTesoros();
 
                                 Intent intent = new Intent(getActivity(), Activity_Login.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

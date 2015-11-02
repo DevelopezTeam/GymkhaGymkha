@@ -5,11 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
+
 public class BDManager {
 
 	// Variables que contienen los campos de las bases de datos
 	public static final String TABLE_LOGIN = "login";
 	public static final String TABLE_EVENT = "eventos";
+	public static final String TABLE_TREASURE = "tesoros";
 
 	public static final String CN_ID = "_id";
 	public static final String CN_USER_ID = "user_id";
@@ -25,6 +28,15 @@ public class BDManager {
 	public static final String CN_EVENT_NAME = "event_name";
 	public static final String CN_EVENT_HOUR = "event_hour";
 
+	public static final String CN_IDTREASURE = "treasure_id";
+	public static final String CN_TREASURE_NAME = "treasure_name";
+	public static final String CN_TREASURE_CLUE = "treasure_clue";
+	public static final String CN_TREASURE_STATE = "treasure_state";
+	public static final String CN_TREASURE_LATITUDE = "treasure_latitude";
+	public static final String CN_TREASURE_LONGITUDE = "treasure_longitude";
+	//public static final String CN_TREASURE_IDWINNER = "treasure_idwinner";
+
+
 	// Variable para crear las tablas necesarias
 	public static final String CREATE_TABLE_LOGIN = "create table " + TABLE_LOGIN
 			+ " (" + CN_ID + " integer primary key autoincrement," + CN_USER_ID + " integer," + CN_USER
@@ -32,6 +44,9 @@ public class BDManager {
 	public static final String CREATE_TABLE_EVENTS = "create table " + TABLE_EVENT
 			+ " (" + CN_ID + " integer primary key autoincrement," + CN_IDEVENT + " integer," + CN_EVENT_DESCRIPTION
 			+ " text,"+ CN_EVENT_NAME +" text," + CN_EVENT_HOUR + " text)";
+	public static final String CREATE_TABLE_TREASURE = "create table " + TABLE_TREASURE
+			+ " (" + CN_ID + " integer primary key autoincrement," + CN_IDTREASURE + " integer," + CN_TREASURE_NAME
+			+ " text," + CN_TREASURE_CLUE + " text," + CN_TREASURE_STATE + " text," + CN_TREASURE_LATITUDE + " double," + CN_TREASURE_LONGITUDE + " double)";
 
 	private BDHelper helper;
 	private SQLiteDatabase bd;
@@ -71,6 +86,27 @@ public class BDManager {
 		bd.insert(TABLE_EVENT, null, valores);
 	}
 
+	/*public static final String CN_IDTREASURE = "treasure_id";
+	public static final String CN_TREASURE_NAME = "treasure_name";
+	public static final String CN_TREASURE_CLUE = "treasure_clue";
+	public static final String CN_TREASURE_STATE = "treasure_state";
+	public static final String CN_TREASURE_LATITUDE = "treasure_latitude";
+	public static final String CN_TREASURE_LONGITUDE = "treasure_longitude";*/
+
+	public void guardarTesoro(Clase_Tesoro tesoro) {
+
+		valores = new ContentValues();
+
+		valores.put(CN_IDTREASURE, tesoro.getIdTesoro());
+		valores.put(CN_TREASURE_NAME, tesoro.getNombre());
+		valores.put(CN_TREASURE_CLUE, tesoro.getPista());
+		valores.put(CN_TREASURE_STATE, tesoro.getEstado());
+		valores.put(CN_TREASURE_LATITUDE, tesoro.getLatitud());
+		valores.put(CN_TREASURE_LONGITUDE, tesoro.getLongitud());
+
+		bd.insert(TABLE_TREASURE, null, valores);
+	}
+
 	// Método que te devuelve el contenido de la tabla "login"
 	public Cursor cursorLogin() {
 
@@ -90,8 +126,12 @@ public class BDManager {
 	public void borrarLogin(int id) {
 		bd.delete(TABLE_LOGIN, CN_ID + "=" + id , null);
 	}
-	public void borrarEventos(int id) {
+	public void borrarEventos() {
 		bd.delete(TABLE_EVENT, null , null);
+	}
+
+	public void borrarTesoros() {
+		bd.delete(TABLE_TREASURE, null , null);
 	}
 
 }
