@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.android.gymkhagymkha.classes.Clase_Evento;
+import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.activities.Activity_Main;
 
 import java.util.ArrayList;
 

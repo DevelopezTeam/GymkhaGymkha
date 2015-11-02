@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.adapters;
 
 
 import android.app.Activity;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.android.gymkhagymkha.classes.Clase_Ranking;
+import com.example.android.gymkhagymkha.R;
 
 import java.util.ArrayList;
 

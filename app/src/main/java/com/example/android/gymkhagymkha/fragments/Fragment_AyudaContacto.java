@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.android.gymkhagymkha.R;
 
 public class Fragment_AyudaContacto extends Fragment {
 

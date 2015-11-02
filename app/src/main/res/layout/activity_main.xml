@@ -44,7 +44,7 @@
             <fragment
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:name="com.example.android.gymkhagymkha.Fragment_Eventos"
+                android:name="com.example.android.gymkhagymkha.fragments.Fragment_Eventos"
                 android:id="@+id/fragment_eventos"
                 android:layout_gravity="center"
                 tools:layout="@layout/fragment_eventos" />
@@ -52,7 +52,7 @@
             <fragment
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:name="com.example.android.gymkhagymkha.Fragment_Ranking_General"
+                android:name="com.example.android.gymkhagymkha.fragments.Fragment_Ranking_General"
                 android:id="@+id/fragment_ranking_general"
                 android:layout_gravity="center"
                 tools:layout="@layout/fragment_ranking_general" />
@@ -60,7 +60,7 @@
             <fragment
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:name="com.example.android.gymkhagymkha.Fragment_Cuenta"
+                android:name="com.example.android.gymkhagymkha.fragments.Fragment_Cuenta"
                 android:id="@+id/fragment_cuenta"
                 android:layout_gravity="center"
                 tools:layout="@layout/fragment_cuenta" />
@@ -68,7 +68,7 @@
             <fragment
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:name="com.example.android.gymkhagymkha.Fragment_AyudaContacto"
+                android:name="com.example.android.gymkhagymkha.fragments.Fragment_AyudaContacto"
                 android:id="@+id/fragment_ayudaContacto"
                 android:layout_gravity="center"
                 tools:layout="@layout/fragment_ayuda_contacto" />

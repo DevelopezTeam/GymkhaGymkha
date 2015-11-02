@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.activities.Activity_Login;
+import com.example.android.gymkhagymkha.bbdd.BDManager;
 
 
 public class Fragment_Cuenta extends Fragment {

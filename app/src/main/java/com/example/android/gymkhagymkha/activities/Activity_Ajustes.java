@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.activities;
 
 
 import android.app.AlertDialog;
@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.android.gymkhagymkha.R;
 
 public class Activity_Ajustes extends AppCompatActivity {
 

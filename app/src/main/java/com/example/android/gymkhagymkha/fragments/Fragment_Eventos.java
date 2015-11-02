@@ -1,8 +1,6 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -18,7 +16,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.android.gymkhagymkha.classes.Clase_Evento;
+import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.activities.Activity_InGame;
+import com.example.android.gymkhagymkha.adapters.AdapterEvento;
+import com.example.android.gymkhagymkha.bbdd.BDManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,6 +136,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //TODO pasar variable de idEvento del que se ha seleccionado
         Intent intent = new Intent(getActivity(), Activity_InGame.class);
         startActivity(intent);
     }

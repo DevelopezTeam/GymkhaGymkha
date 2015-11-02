@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.fragments;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -8,8 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.example.android.gymkhagymkha.classes.Clase_Ranking;
+import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.adapters.AdapterRanking;
+import com.example.android.gymkhagymkha.bbdd.BDManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;

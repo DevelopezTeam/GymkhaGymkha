@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.bbdd;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

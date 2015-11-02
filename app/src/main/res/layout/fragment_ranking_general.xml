@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:padding="0dp"
     android:layout_margin="0dp"
-    tools:context="com.example.android.gymkhagymkha.Fragment_Ranking_General">
+    tools:context="com.example.android.gymkhagymkha.fragments.Fragment_Ranking_General">
 
     <!-- TODO: Update blank fragment layout -->
 

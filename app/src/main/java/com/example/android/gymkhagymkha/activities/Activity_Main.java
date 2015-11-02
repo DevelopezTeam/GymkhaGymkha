@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.activities;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -17,9 +17,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
+
+import com.example.android.gymkhagymkha.bbdd.BDManager;
+import com.example.android.gymkhagymkha.fragments.Fragment_AyudaContacto;
+import com.example.android.gymkhagymkha.fragments.Fragment_Cuenta;
+import com.example.android.gymkhagymkha.fragments.Fragment_Eventos;
+import com.example.android.gymkhagymkha.fragments.Fragment_Ranking_General;
+import com.example.android.gymkhagymkha.R;
 
 public class Activity_Main extends AppCompatActivity {
 

@@ -1,10 +1,12 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.android.gymkhagymkha.R;
 
 
 public class Fragment_Login extends Fragment {

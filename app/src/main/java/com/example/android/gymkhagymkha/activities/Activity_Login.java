@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.example.android.gymkhagymkha.bbdd.BDManager;
+import com.example.android.gymkhagymkha.classes.Clase_Jugador;
+import com.example.android.gymkhagymkha.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

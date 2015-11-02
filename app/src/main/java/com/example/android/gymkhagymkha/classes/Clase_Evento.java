@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha;
+package com.example.android.gymkhagymkha.classes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
