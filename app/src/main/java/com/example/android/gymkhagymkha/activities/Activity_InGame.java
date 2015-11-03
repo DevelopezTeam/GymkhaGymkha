@@ -1,13 +1,13 @@
 package com.example.android.gymkhagymkha.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -15,13 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.example.android.gymkhagymkha.adapters.AdapterRanking;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
-import com.example.android.gymkhagymkha.classes.Clase_Ranking;
 import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
 import com.example.android.gymkhagymkha.fragments.Fragment_Mapa;
 import com.example.android.gymkhagymkha.fragments.Fragment_Pista;
@@ -44,7 +42,7 @@ import java.util.List;
 
 public class Activity_InGame extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    private Toolbar toolbarInGame;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     String resul;
@@ -56,7 +54,6 @@ public class Activity_InGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
 
-        // Para añadir la barra de estado con material design
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_InGame.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -64,8 +61,8 @@ public class Activity_InGame extends AppCompatActivity {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        toolbarInGame = (Toolbar) findViewById(R.id.toolbarInGame);
+        toolbarInGame.setTitle("Tesoro");
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         addFragmentToViewPager(viewPager);
@@ -80,26 +77,41 @@ public class Activity_InGame extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_evento, menu);
+        getMenuInflater().inflate(R.menu.menu_in_game, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_salirEvento) {
-            Toast.makeText(getApplicationContext(),
-                    "TE SALES???? PUES A MAMARLA!",
-                    Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Activity_Main.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.title_salirEvento);
+            builder.setMessage(R.string.message_salirEvento)
+                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            salirEvento();}})
+                    .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {}});
+            builder.show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    private void salirEvento() {
+        Intent intent = new Intent(this, Activity_Main.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keycode, KeyEvent e) {
+        switch(keycode) {
+            case KeyEvent.KEYCODE_BACK: return true;
+        }
+        return super.onKeyDown(keycode, e);
     }
 
     private void addFragmentToViewPager(ViewPager viewPager) {
