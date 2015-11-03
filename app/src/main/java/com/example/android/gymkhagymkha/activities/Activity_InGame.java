@@ -67,9 +67,6 @@ public class Activity_InGame extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //TODO: Cargar el nombre del tesoro actual en el toolbar
-        toolbar.setTitle("Tesoro");
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         addFragmentToViewPager(viewPager);
 
@@ -131,10 +128,14 @@ public class Activity_InGame extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        //TODO: ARREGLAR LO DE LOS TITULOS ESTE METODO ES EL QUE FALLA
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
         }
     }
 
