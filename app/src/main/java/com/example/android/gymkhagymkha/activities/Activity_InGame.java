@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -54,6 +55,15 @@ public class Activity_InGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
+
+        // Para añadir la barra de estado con material design
+        TypedValue typedValueColorPrimaryDark = new TypedValue();
+        Activity_InGame.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
+        final int colorPrimaryDark = typedValueColorPrimaryDark.data;
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(colorPrimaryDark);
+        }
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -65,13 +75,6 @@ public class Activity_InGame extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        TypedValue typedValueColorPrimaryDark = new TypedValue();
-        Activity_InGame.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
-        final int colorPrimaryDark = typedValueColorPrimaryDark.data;
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setStatusBarColor(colorPrimaryDark);
-        }
 
         manager = new BDManager(this);
         arrayTesoros = new ArrayList<Clase_Tesoro>();
@@ -128,6 +131,7 @@ public class Activity_InGame extends AppCompatActivity {
             return mFragmentList.size();
         }
 
+        //TODO: ARREGLAR LO DE LOS TITULOS ESTE METODO ES EL QUE FALLA
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
@@ -145,7 +149,7 @@ public class Activity_InGame extends AppCompatActivity {
 
         @Override
         protected StringBuilder doInBackground(String... _url) {
-            HttpURLConnection urlConnection=null;
+            HttpURLConnection urlConnection = null;
             StringBuilder sb = new StringBuilder();
             String linea;
             resul = "";
@@ -157,29 +161,27 @@ public class Activity_InGame extends AppCompatActivity {
                 while ((linea = br.readLine()) != null) {
                     resul = resul + linea;
                 }
-            }
-            catch (MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 Log.e("TESTNET", "URL MAL FORMADA");
 
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Log.e("TESTNET", "IO ERROR");
-            }  finally {
+            } finally {
                 urlConnection.disconnect();
             }
             return sb;
         }
+
         protected void onPostExecute(StringBuilder sb) {
-            if(resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0 ){
-                Log.i("Tesoros","no encontrados");
-            }
-            else{
+            if (resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0) {
+                Log.i("Tesoros", "no encontrados");
+            } else {
                 JSONObject resultadoJSON;
                 Clase_Tesoro auxTesoro;
                 try {
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
-                        auxTesoro = new Clase_Tesoro(resultadoJSON.getJSONObject(i +""));
+                        auxTesoro = new Clase_Tesoro(resultadoJSON.getJSONObject(i + ""));
                         //Clase_Tesoro auxAux = new Clase_Tesoro(auxTesoro.getIdTesoro(),auxTesoro.getNombre(),auxTesoro.getPista(),auxTesoro.getEstado(),auxTesoro.getLatitud(),auxTesoro.getLongitud());
                         //manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
                         arrayTesoros.add(auxTesoro);

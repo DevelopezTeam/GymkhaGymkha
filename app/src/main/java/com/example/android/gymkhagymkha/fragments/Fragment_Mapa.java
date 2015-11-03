@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.android.gymkhagymkha.R;
 
-public class Fragment_Mapa extends Fragment {
+public class Fragment_Mapa extends android.support.v4.app.Fragment {
 
     //private GoogleMap mMap;
 
