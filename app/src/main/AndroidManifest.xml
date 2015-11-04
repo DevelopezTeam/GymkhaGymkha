@@ -45,7 +45,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activities.Activity_InGame"
+            android:name=".activities.Activity_Game"
             android:label="@string/title_activity_in_game"
             android:theme="@style/AppTheme" >
         </activity>

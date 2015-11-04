@@ -40,7 +40,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_InGame extends AppCompatActivity {
+public class Activity_Game extends AppCompatActivity {
 
     private Toolbar toolbarInGame;
     private TabLayout tabLayout;
@@ -52,10 +52,10 @@ public class Activity_InGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in_game);
+        setContentView(R.layout.activity_game);
 
         TypedValue typedValueColorPrimaryDark = new TypedValue();
-        Activity_InGame.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
+        Activity_Game.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(colorPrimaryDark);
@@ -77,7 +77,7 @@ public class Activity_InGame extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_in_game, menu);
+        getMenuInflater().inflate(R.menu.menu_game, menu);
         return true;
     }
 

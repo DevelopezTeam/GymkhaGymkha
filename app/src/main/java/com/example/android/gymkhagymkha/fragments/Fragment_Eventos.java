@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.classes.Clase_Evento;
 import com.example.android.gymkhagymkha.R;
-import com.example.android.gymkhagymkha.activities.Activity_InGame;
+import com.example.android.gymkhagymkha.activities.Activity_Game;
 import com.example.android.gymkhagymkha.adapters.AdapterEvento;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 
@@ -137,7 +137,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //TODO pasar variable de idEvento del que se ha seleccionado
-        Intent intent = new Intent(getActivity(), Activity_InGame.class);
+        Intent intent = new Intent(getActivity(), Activity_Game.class);
         startActivity(intent);
     }
 
