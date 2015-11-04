@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.android.gymkhagymkha.classes.Clase_Evento;
 import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
+
+import java.util.ArrayList;
 
 public class BDManager {
 

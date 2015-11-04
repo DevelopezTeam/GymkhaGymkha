@@ -136,8 +136,14 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        manager.borrarTesoros();
+
         //TODO pasar variable de idEvento del que se ha seleccionado
         Intent intent = new Intent(getActivity(), Activity_Game.class);
+        Cursor cursorEventos = manager.cursorEventos();
+        cursorEventos.moveToPosition(position);
+        //Log.i("idEvento",String.valueOf(cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT))));
+        intent.putExtra("idEvento", cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT)));
         startActivity(intent);
     }
 

@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
@@ -43,6 +44,7 @@ import java.util.List;
 public class Activity_Game extends AppCompatActivity {
 
     private Toolbar toolbarInGame;
+    //private TextView tvPista;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     String resul;
@@ -62,7 +64,10 @@ public class Activity_Game extends AppCompatActivity {
         }
 
         toolbarInGame = (Toolbar) findViewById(R.id.toolbarInGame);
-        toolbarInGame.setTitle("Tesoro");
+        setSupportActionBar(toolbarInGame);
+        //tvPista = (TextView) findViewById(R.id.tvPista);
+
+        //tvPista.setText("hola");
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         addFragmentToViewPager(viewPager);
@@ -72,7 +77,8 @@ public class Activity_Game extends AppCompatActivity {
 
         manager = new BDManager(this);
         arrayTesoros = new ArrayList<Clase_Tesoro>();
-        new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento=12");
+        int idEvento = getIntent().getExtras().getInt("idEvento");
+        new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento="+idEvento);
     }
 
     @Override
@@ -201,6 +207,12 @@ public class Activity_Game extends AppCompatActivity {
                         manager.guardarTesoro(auxTesoro);
                     }
 
+                    Log.i("Tesoro", arrayTesoros.get(0).getPista());
+
+                    toolbarInGame.setTitle(arrayTesoros.get(0).getNombre());
+
+                    //String auxPista = arrayTesoros.get(0).getPista();
+                    //tvPista.setText(auxPista);
                     //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
                     //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
 

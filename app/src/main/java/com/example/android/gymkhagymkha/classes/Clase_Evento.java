@@ -24,6 +24,13 @@ public class Clase_Evento {
         this.isOnline = isOnline;
     }
 
+    public Clase_Evento(int id, String descripcion, String hora) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.hora = hora;
+        this.isOnline = true;
+    }
+
     public Clase_Evento(JSONObject objetoJSON) throws JSONException {
         id = objetoJSON.getInt("idEvento");
         nombre = objetoJSON.getString("nombre");

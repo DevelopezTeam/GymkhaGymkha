@@ -55,11 +55,13 @@ public class AdapterEvento extends BaseAdapter {
 
         // Creamos un objeto directivo
         Clase_Evento event = items.get(position);
-        TextView id = (TextView) v.findViewById(R.id.tvNombreEvento);
-        id.setText(event.getNombre());
+        TextView idEvento = (TextView) v.findViewById(R.id.tvIdEvento);
+        idEvento.setText(event.getIdEvento()+"");
+        TextView nombre = (TextView) v.findViewById(R.id.tvNombreEvento);
+        nombre.setText(event.getNombre());
         //Rellenamos el nombre
-        TextView nombre = (TextView) v.findViewById(R.id.tvHoraEvento);
-        nombre.setText(event.getHora());
+        TextView hora = (TextView) v.findViewById(R.id.tvHoraEvento);
+        hora.setText(event.getHora());
         //Rellenamos el puntuación
         ImageView online = (ImageView) v.findViewById(R.id.ivOnline);
         if (event.isIsOnline()){
