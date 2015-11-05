@@ -10,12 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -45,10 +52,41 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     private ArrayList<Clase_Tesoro> arrayTesoros;
     private Toolbar toolbarInGame;
     private TextView tvPista;
+    MapView mapView;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //View view = inflater.inflate(R.layout.fragment_mapa, container, false);
+        //setUpMapIfNeeded();
+        GoogleMap auxMap = mMap;
+        // Gets the MapView from the XML layout and creates it
         View view = inflater.inflate(R.layout.fragment_mapa, container, false);
-        setUpMapIfNeeded();
+        MapsInitializer.initialize(getActivity());
+
+
+        switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity()) )
+        {
+            case ConnectionResult.SUCCESS:
+                Toast.makeText(getActivity(), "SUCCESS", Toast.LENGTH_SHORT).show();
+                mapView = (MapView) view.findViewById(R.id.map);
+                mapView.onCreate(savedInstanceState);
+                // Gets to GoogleMap from the MapView and does initialization stuff
+                if(mapView!=null)
+                {
+                    mMap = mapView.getMap();
+                    //mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                    //mMap.setMyLocationEnabled(true);
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10);
+                    mMap.animateCamera(cameraUpdate);
+                }
+                break;
+            case ConnectionResult.SERVICE_MISSING:
+                Toast.makeText(getActivity(), "SERVICE MISSING", Toast.LENGTH_SHORT).show();
+                break;
+            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+                Toast.makeText(getActivity(), "UPDATE REQUIRED", Toast.LENGTH_SHORT).show();
+                break;
+            default: Toast.makeText(getActivity(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity()), Toast.LENGTH_SHORT).show();
+        }
 
         return view;
     }
@@ -68,6 +106,17 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     public void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
 
@@ -163,8 +212,17 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitud,longitud )).title(pista));
-                    //mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10));
+
+
+                    //mMap = mapView.getMap();
+                    //mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                    //mMap.setMyLocationEnabled(true);
+                    //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10);
+                    //mMap.animateCamera(cameraUpdate);
+
+
                     //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
                     //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
 
