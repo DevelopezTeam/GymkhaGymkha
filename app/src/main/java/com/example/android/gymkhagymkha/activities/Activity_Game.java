@@ -72,10 +72,10 @@ public class Activity_Game extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        manager = new BDManager(this);
-        arrayTesoros = new ArrayList<Clase_Tesoro>();
-        int idEvento = getIntent().getExtras().getInt("idEvento");
-        new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento="+idEvento);
+//        manager = new BDManager(this);
+//        arrayTesoros = new ArrayList<Clase_Tesoro>();
+//        int idEvento = getIntent().getExtras().getInt("idEvento");
+//        new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento="+idEvento);
     }
 
     @Override
@@ -119,8 +119,8 @@ public class Activity_Game extends AppCompatActivity {
 
     private void addFragmentToViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Fragment_Pista(), "Pista");
         adapter.addFragment(new Fragment_Mapa(), "Mapa");
+        adapter.addFragment(new Fragment_Pista(), "Pista");
         adapter.addFragment(new Fragment_Ranking_Evento(), "Ranking");
         viewPager.setAdapter(adapter);
     }
@@ -154,72 +154,5 @@ public class Activity_Game extends AppCompatActivity {
         }
     }
 
-    public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
 
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
-            //progressBarEventos.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected StringBuilder doInBackground(String... _url) {
-            HttpURLConnection urlConnection = null;
-            StringBuilder sb = new StringBuilder();
-            String linea;
-            resul = "";
-            try {
-                URL url = new URL(_url[0]);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream is = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                while ((linea = br.readLine()) != null) {
-                    resul = resul + linea;
-                }
-            } catch (MalformedURLException e) {
-                Log.e("TESTNET", "URL MAL FORMADA");
-
-            } catch (IOException e) {
-                Log.e("TESTNET", "IO ERROR");
-            } finally {
-                urlConnection.disconnect();
-            }
-            return sb;
-        }
-
-        protected void onPostExecute(StringBuilder sb) {
-            if (resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0) {
-                Log.i("Tesoros", "no encontrados");
-            } else {
-                JSONObject resultadoJSON;
-                Clase_Tesoro auxTesoro;
-                try {
-                    resultadoJSON = new JSONObject(resul);
-                    for (int i = 0; i < resultadoJSON.length(); i++) {
-                        auxTesoro = new Clase_Tesoro(resultadoJSON.getJSONObject(i + ""));
-                        //Clase_Tesoro auxAux = new Clase_Tesoro(auxTesoro.getIdTesoro(),auxTesoro.getNombre(),auxTesoro.getPista(),auxTesoro.getEstado(),auxTesoro.getLatitud(),auxTesoro.getLongitud());
-                        //manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
-                        arrayTesoros.add(auxTesoro);
-                        manager.guardarTesoro(auxTesoro);
-                    }
-
-                    toolbarInGame.setTitle(arrayTesoros.get(0).getNombre());
-                    String auxPista = arrayTesoros.get(0).getPista();
-                    tvPista = (TextView) findViewById(R.id.tvPista);
-                    tvPista.setText(auxPista);
-
-                    //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
-                    //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
-
-                    // Creo el adapter personalizado
-                    //AdapterRanking adapter = new AdapterRanking(getActivity(), arrayRank);
-                    // Lo aplico
-                    //listaRankingGeneral.setAdapter(adapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }

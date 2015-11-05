@@ -89,13 +89,6 @@ public class BDManager {
 		bd.insert(TABLE_EVENT, null, valores);
 	}
 
-	/*public static final String CN_IDTREASURE = "treasure_id";
-	public static final String CN_TREASURE_NAME = "treasure_name";
-	public static final String CN_TREASURE_CLUE = "treasure_clue";
-	public static final String CN_TREASURE_STATE = "treasure_state";
-	public static final String CN_TREASURE_LATITUDE = "treasure_latitude";
-	public static final String CN_TREASURE_LONGITUDE = "treasure_longitude";*/
-
 	public void guardarTesoro(Clase_Tesoro tesoro) {
 
 		valores = new ContentValues();
@@ -122,6 +115,12 @@ public class BDManager {
 
 		String[] columnas = new String[] { CN_ID, CN_IDEVENT , CN_EVENT_DESCRIPTION, CN_EVENT_NAME, CN_EVENT_HOUR};
 		return bd.query(TABLE_EVENT, columnas, null, null, null, null, null);
+	}
+
+	public Cursor cursorTesoros() {
+
+		String[] columnas = new String[] { CN_ID, CN_IDTREASURE , CN_TREASURE_NAME, CN_TREASURE_CLUE, CN_TREASURE_STATE,CN_TREASURE_LATITUDE,CN_TREASURE_LONGITUDE};
+		return bd.query(TABLE_TREASURE, columnas, null, null, null, null, null);
 	}
 
 	// Método para borrar el campo de la base de datos al cerrar sesión
