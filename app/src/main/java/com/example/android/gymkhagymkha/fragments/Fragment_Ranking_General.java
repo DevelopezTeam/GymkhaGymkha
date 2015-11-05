@@ -4,11 +4,13 @@ import android.app.Fragment;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.android.gymkhagymkha.classes.Clase_Ranking;
 import com.example.android.gymkhagymkha.R;
@@ -43,6 +45,9 @@ public class Fragment_Ranking_General extends Fragment {
     ArrayList<Clase_Ranking> arrayRank;
     ListView listaRankingGeneral;
     BDManager manager;
+    int idCentro;
+    ProgressBar pbRankingGeneral;
+    FloatingActionButton fabRankingGeneral;
 
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
@@ -53,15 +58,27 @@ public class Fragment_Ranking_General extends Fragment {
         arrayRank = new ArrayList<Clase_Ranking>();
         Clase_Ranking rank;
 
-
+        fabRankingGeneral = (FloatingActionButton) view.findViewById(R.id.fabRankingGeneral);
+        pbRankingGeneral = (ProgressBar) view.findViewById(R.id.progressBarRankingGeneral);
 
         manager = new BDManager(getActivity());
         Cursor cursor = manager.cursorLogin();
         cursor.moveToFirst();
 
-        int idCentro = cursor.getInt(cursor.getColumnIndex(manager.CN_IDCENTRO));
-        new AsyncRanking().execute("http://www.victordam2b.hol.es/rankingAcceso.php?idCentro=" + idCentro);
+        idCentro = cursor.getInt(cursor.getColumnIndex(manager.CN_IDCENTRO));
+        newAsyncTask(idCentro);
 
+        fabRankingGeneral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listaRankingGeneral.setAdapter(null);
+                newAsyncTask(idCentro);
+            }
+        });
+    }
+
+    public void newAsyncTask(int id) {
+        new AsyncRanking().execute("http://www.victordam2b.hol.es/rankingAcceso.php?idCentro=" + id);
     }
 
     public class AsyncRanking extends AsyncTask<String, Void, StringBuilder> {
@@ -70,7 +87,8 @@ public class Fragment_Ranking_General extends Fragment {
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
-            //progressBarEventos.setVisibility(View.VISIBLE);
+            fabRankingGeneral.setVisibility(View.INVISIBLE);
+            pbRankingGeneral.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -107,6 +125,7 @@ public class Fragment_Ranking_General extends Fragment {
                 JSONObject resultadoJSON;
                 Clase_Ranking auxRanking;
                 try {
+                    arrayRank.clear();
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         auxRanking = new Clase_Ranking(resultadoJSON.getJSONObject(i+""));
@@ -125,8 +144,8 @@ public class Fragment_Ranking_General extends Fragment {
                     e.printStackTrace();
                 }
             }
-            //progressBarEventos.setVisibility(View.INVISIBLE);
-            //cursorEventos = manager.cursorEventos();
+            pbRankingGeneral.setVisibility(View.INVISIBLE);
+            fabRankingGeneral.setVisibility(View.VISIBLE);
         }
     }
 }

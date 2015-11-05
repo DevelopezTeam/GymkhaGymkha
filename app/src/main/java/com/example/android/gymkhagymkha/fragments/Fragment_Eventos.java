@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,15 +41,16 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     ProgressBar progressBarEventos;
     Clase_Evento evento;
     ListView listaEventos;
-    AdapterEvento adapterEventos;
     BDManager manager;
     Cursor cursorEventos, cursor;
     String resul = "";
+    int idAdministrador;
+    FloatingActionButton fabEventos;
     TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog;
 
-        @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_eventos, container, false);
-            return view; }
+    @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_eventos, container, false);
+        return view; }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,16 +62,29 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-
-
         progressBarEventos = (ProgressBar) view.findViewById(R.id.progressBarEventos);
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
 
-        int idAdministrador = cursor.getInt(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR));
-        new AsyncEventos().execute("http://www.victordam2b.hol.es/eventosAcceso.php?idAdministrador=" + idAdministrador);
+        fabEventos = (FloatingActionButton) view.findViewById(R.id.fabEvento);
+        listaEventos = (ListView) view.findViewById(R.id.lvEventos);
+        idAdministrador = cursor.getInt(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR));
 
+        newAsyncTask(idAdministrador);
+
+        fabEventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listaEventos.setAdapter(null);
+                newAsyncTask(idAdministrador);
+            }
+        });
+
+    }
+
+    public void newAsyncTask(int id) {
+        new AsyncEventos().execute("http://www.victordam2b.hol.es/eventosAcceso.php?idAdministrador=" + id);
     }
 
     public class AsyncEventos extends AsyncTask<String, Void, StringBuilder> {
@@ -78,6 +93,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
+            fabEventos.setVisibility(View.INVISIBLE);
             progressBarEventos.setVisibility(View.VISIBLE);
         }
 
@@ -114,14 +130,15 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             else{
                 JSONObject resultadoJSON;
                 try {
+                    arrayEvent.clear();
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         evento = new Clase_Evento(resultadoJSON.getJSONObject(i+""));
                         manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre(), evento.getHora());
                         arrayEvent.add(evento);
                     }
-                    listaEventos = (ListView) Fragment_Eventos.this.getActivity().findViewById(R.id.lvEventos);
-                    adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
+
+                    AdapterEvento adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
                     listaEventos.setAdapter(adapterEventos);
                     listaEventos.setOnItemClickListener(Fragment_Eventos.this);
                     listaEventos.setOnItemLongClickListener(Fragment_Eventos.this);
@@ -130,6 +147,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                 }
             }
             progressBarEventos.setVisibility(View.INVISIBLE);
+            fabEventos.setVisibility(View.VISIBLE);
             cursorEventos = manager.cursorEventos();
         }
     }
