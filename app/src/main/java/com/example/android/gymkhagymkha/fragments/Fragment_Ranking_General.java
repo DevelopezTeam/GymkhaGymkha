@@ -46,11 +46,14 @@ public class Fragment_Ranking_General extends Fragment {
     ListView listaRankingGeneral;
     BDManager manager;
     int idCentro;
+    boolean inAsyncTask;
     ProgressBar pbRankingGeneral;
     FloatingActionButton fabRankingGeneral;
 
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+
+        inAsyncTask = false;
 
         /* Rellenamos el ListView manualmente, más adelante con un servicio lo rellenamos con
         información del servidor */
@@ -71,8 +74,11 @@ public class Fragment_Ranking_General extends Fragment {
         fabRankingGeneral.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listaRankingGeneral.setAdapter(null);
-                newAsyncTask(idCentro);
+                if (!inAsyncTask) {
+                    listaRankingGeneral.setAdapter(null);
+                    inAsyncTask = true;
+                    newAsyncTask(idCentro);
+                }
             }
         });
     }
@@ -87,7 +93,6 @@ public class Fragment_Ranking_General extends Fragment {
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
-            fabRankingGeneral.setVisibility(View.INVISIBLE);
             pbRankingGeneral.setVisibility(View.VISIBLE);
         }
 
@@ -146,6 +151,7 @@ public class Fragment_Ranking_General extends Fragment {
             }
             pbRankingGeneral.setVisibility(View.INVISIBLE);
             fabRankingGeneral.setVisibility(View.VISIBLE);
+            inAsyncTask = false;
         }
     }
 }

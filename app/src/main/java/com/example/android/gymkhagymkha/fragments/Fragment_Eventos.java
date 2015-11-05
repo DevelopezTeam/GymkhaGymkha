@@ -45,6 +45,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     Cursor cursorEventos, cursor;
     String resul = "";
     int idAdministrador;
+    boolean inAsyncTask;
     FloatingActionButton fabEventos;
     TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog;
 
@@ -62,6 +63,8 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
+        inAsyncTask = false;
+
         progressBarEventos = (ProgressBar) view.findViewById(R.id.progressBarEventos);
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
@@ -76,8 +79,11 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         fabEventos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listaEventos.setAdapter(null);
-                newAsyncTask(idAdministrador);
+                if (!inAsyncTask) {
+                    listaEventos.setAdapter(null);
+                    inAsyncTask = true;
+                    newAsyncTask(idAdministrador);
+                }
             }
         });
 
@@ -93,7 +99,6 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
-            fabEventos.setVisibility(View.INVISIBLE);
             progressBarEventos.setVisibility(View.VISIBLE);
         }
 
@@ -149,6 +154,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             progressBarEventos.setVisibility(View.INVISIBLE);
             fabEventos.setVisibility(View.VISIBLE);
             cursorEventos = manager.cursorEventos();
+            inAsyncTask = false;
         }
     }
 
