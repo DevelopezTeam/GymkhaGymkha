@@ -44,7 +44,7 @@ import java.util.List;
 public class Activity_Game extends AppCompatActivity {
 
     private Toolbar toolbarInGame;
-    //private TextView tvPista;
+    private TextView tvPista;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     String resul;
@@ -65,9 +65,6 @@ public class Activity_Game extends AppCompatActivity {
 
         toolbarInGame = (Toolbar) findViewById(R.id.toolbarInGame);
         setSupportActionBar(toolbarInGame);
-        //tvPista = (TextView) findViewById(R.id.tvPista);
-
-        //tvPista.setText("hola");
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         addFragmentToViewPager(viewPager);
@@ -207,12 +204,11 @@ public class Activity_Game extends AppCompatActivity {
                         manager.guardarTesoro(auxTesoro);
                     }
 
-                    Log.i("Tesoro", arrayTesoros.get(0).getPista());
-
                     toolbarInGame.setTitle(arrayTesoros.get(0).getNombre());
+                    String auxPista = arrayTesoros.get(0).getPista();
+                    tvPista = (TextView) findViewById(R.id.tvPista);
+                    tvPista.setText(auxPista);
 
-                    //String auxPista = arrayTesoros.get(0).getPista();
-                    //tvPista.setText(auxPista);
                     //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
                     //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
 
