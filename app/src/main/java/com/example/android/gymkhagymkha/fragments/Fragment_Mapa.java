@@ -55,38 +55,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     MapView mapView;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_mapa, container, false);
-        //setUpMapIfNeeded();
-        GoogleMap auxMap = mMap;
-        // Gets the MapView from the XML layout and creates it
         View view = inflater.inflate(R.layout.fragment_mapa, container, false);
-        MapsInitializer.initialize(getActivity());
-
-
-        switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity()) )
-        {
-            case ConnectionResult.SUCCESS:
-                Toast.makeText(getActivity(), "SUCCESS", Toast.LENGTH_SHORT).show();
-                mapView = (MapView) view.findViewById(R.id.map);
-                mapView.onCreate(savedInstanceState);
-                // Gets to GoogleMap from the MapView and does initialization stuff
-                if(mapView!=null)
-                {
-                    mMap = mapView.getMap();
-                    //mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                    //mMap.setMyLocationEnabled(true);
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10);
-                    mMap.animateCamera(cameraUpdate);
-                }
-                break;
-            case ConnectionResult.SERVICE_MISSING:
-                Toast.makeText(getActivity(), "SERVICE MISSING", Toast.LENGTH_SHORT).show();
-                break;
-            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-                Toast.makeText(getActivity(), "UPDATE REQUIRED", Toast.LENGTH_SHORT).show();
-                break;
-            default: Toast.makeText(getActivity(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity()), Toast.LENGTH_SHORT).show();
-        }
+        setUpMapIfNeeded();
 
         return view;
     }
@@ -102,6 +72,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento=" + idEvento);
     }
 
+    /*
     @Override
     public void onResume() {
         super.onResume();
@@ -118,7 +89,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
+    */
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {
@@ -142,9 +113,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        //map.addMarker(new MarkerOptions().position(new LatLng(latitud,longitud )).title(pista));
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        //map.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
     }
 
     public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
@@ -205,31 +175,17 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     tvPista = (TextView) getActivity().findViewById(R.id.tvPista);
                     tvPista.setText(auxPista);
 
-                    Cursor cursorTesoros = manager.cursorTesoros();
+                    cursorTesoros = manager.cursorTesoros();
                     cursorTesoros.moveToFirst();
                     latitud = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LATITUDE));
                     longitud = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LONGITUDE));
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitud,longitud )).title(pista));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                    //mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10));
 
 
-                    //mMap = mapView.getMap();
-                    //mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                    //mMap.setMyLocationEnabled(true);
-                    //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10);
-                    //mMap.animateCamera(cameraUpdate);
-
-
-                    //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
-                    //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
-
-                    // Creo el adapter personalizado
-                    //AdapterRanking adapter = new AdapterRanking(getActivity(), arrayRank);
-                    // Lo aplico
-                    //listaRankingGeneral.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
