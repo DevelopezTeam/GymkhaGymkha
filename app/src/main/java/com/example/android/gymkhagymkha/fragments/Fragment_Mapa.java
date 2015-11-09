@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -191,8 +193,12 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(pista));
-                    //mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 16));
+                    mMap.addCircle(new CircleOptions()
+                            .center(new LatLng(latitud, longitud))
+                            .radius(250)
+                            .strokeColor(Color.RED)
+                            .fillColor(Color.TRANSPARENT));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
