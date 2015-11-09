@@ -27,6 +27,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -116,7 +118,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     public void onMapReady(GoogleMap map) {
         mMap = map;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        mMap.getUiSettings().setAllGesturesEnabled(false);
     }
 
     public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
@@ -188,10 +190,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     longitud = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LONGITUDE));
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitud,longitud )).title(pista));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(pista));
                     //mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 10));
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
