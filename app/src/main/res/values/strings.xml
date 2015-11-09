@@ -7,7 +7,7 @@
     <string name="title_cerrarSesion">Cerrar Sesión</string>
     <string name="title_cerrarApp">Salir</string>
     <string name="title_salirEvento">¿Seguro que desea salir del evento actual?</string>
-    <string name="message_salirEvento">No podrá volver a entrar, ya que el evento ya esta en marcha.</string>
+    <string name="message_salirEvento">No podrá volver a entrar, ya que el evento esta en marcha.</string>
     <string name="message_cerrarSesion">¿Está seguro de que desea cerrar sesión?</string>
     <string name="message_cerrarApp">¿Está seguro de que desea salir?</string>
     <string name="title_acercade">Acerca de Gymkha Gymkha</string>
