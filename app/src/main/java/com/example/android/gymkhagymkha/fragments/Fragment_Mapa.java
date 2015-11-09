@@ -1,6 +1,8 @@
 package com.example.android.gymkhagymkha.fragments;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -174,6 +176,11 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     String auxPista = arrayTesoros.get(0).getPista();
                     tvPista = (TextView) getActivity().findViewById(R.id.tvPista);
                     tvPista.setText(auxPista);
+
+                    SharedPreferences prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("pista", auxPista);
+                    editor.commit();
 
                     cursorTesoros = manager.cursorTesoros();
                     cursorTesoros.moveToFirst();

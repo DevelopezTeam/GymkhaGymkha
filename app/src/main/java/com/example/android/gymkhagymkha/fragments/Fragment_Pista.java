@@ -1,10 +1,13 @@
 package com.example.android.gymkhagymkha.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.R;
 
@@ -21,5 +24,10 @@ public class Fragment_Pista extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
+
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+
+        String pista = prefs.getString("pista", "no tiene valor");
+        ((TextView) getActivity().findViewById(R.id.tvPista)).setText(pista);
     }
 }
