@@ -123,7 +123,9 @@ public class Activity_Game extends AppCompatActivity {
         adapter.addFragment(new Fragment_Mapa(), "Mapa");
         adapter.addFragment(new Fragment_Ranking_Evento(), "Ranking");
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
     }
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
