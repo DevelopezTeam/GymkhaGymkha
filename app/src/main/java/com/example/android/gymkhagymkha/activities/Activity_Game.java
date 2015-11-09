@@ -1,8 +1,10 @@
 package com.example.android.gymkhagymkha.activities;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,6 +58,8 @@ public class Activity_Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        //this.setTheme(R.style.Toolbar_Purple_Theme);
+
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Game.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -76,6 +80,7 @@ public class Activity_Game extends AppCompatActivity {
 //        arrayTesoros = new ArrayList<Clase_Tesoro>();
 //        int idEvento = getIntent().getExtras().getInt("idEvento");
 //        new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento="+idEvento);
+
     }
 
     @Override
@@ -90,6 +95,7 @@ public class Activity_Game extends AppCompatActivity {
         if (id == R.id.action_salirEvento) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.title_salirEvento);
+            builder.setIcon(R.drawable.ic_warning_black_24dp);
             builder.setMessage(R.string.message_salirEvento)
                     .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

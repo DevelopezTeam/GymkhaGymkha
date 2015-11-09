@@ -125,7 +125,8 @@ public class Activity_Main extends AppCompatActivity {
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle(R.string.title_cerrarApp);
-                    builder.setMessage(R.string.message_cerrarApp)
+                    builder.setMessage(R.string.message_cerrarApp);
+                    builder.setIcon(R.drawable.ic_warning_black_24dp)
 
                         /* Si pulsamos aceptar saldriamos de la aplicación */
                             .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
