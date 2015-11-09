@@ -1,7 +1,9 @@
 package com.example.android.gymkhagymkha.fragments;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -166,8 +168,15 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         Intent intent = new Intent(getActivity(), Activity_Game.class);
         Cursor cursorEventos = manager.cursorEventos();
         cursorEventos.moveToPosition(position);
+        int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
         //Log.i("idEvento",String.valueOf(cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT))));
-        intent.putExtra("idEvento", cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT)));
+        //Shared preferences para añadir valores
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("idEvento", idEvento);
+        editor.commit();
+
+        intent.putExtra("idEvento",idEvento );
         startActivity(intent);
     }
 

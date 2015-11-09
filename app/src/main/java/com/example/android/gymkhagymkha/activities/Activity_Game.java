@@ -119,8 +119,8 @@ public class Activity_Game extends AppCompatActivity {
 
     private void addFragmentToViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Fragment_Mapa(), "Mapa");
         adapter.addFragment(new Fragment_Pista(), "Pista");
+        adapter.addFragment(new Fragment_Mapa(), "Mapa");
         adapter.addFragment(new Fragment_Ranking_Evento(), "Ranking");
         viewPager.setAdapter(adapter);
     }
