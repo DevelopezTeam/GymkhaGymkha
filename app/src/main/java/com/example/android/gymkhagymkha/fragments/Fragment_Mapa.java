@@ -61,6 +61,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     private Toolbar toolbarInGame;
     private TextView tvPista;
     MapView mapView;
+    Location myLocation;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mapa, container, false);
@@ -122,12 +123,20 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     public void onMapReady(GoogleMap map) {
         mMap = map;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.getUiSettings().setAllGesturesEnabled(false);
+        //mMap.getUiSettings().setAllGesturesEnabled(false);
     }
 
     @Override
     public void onLocationChanged(Location location) {
         Toast.makeText(getActivity(), "Cambiando location Latitud:"+location.getLatitude()+" Longitud:"+location.getLongitude(), Toast.LENGTH_LONG).show();
+    }
+
+    public Location getMyLocation() {
+        return myLocation;
+    }
+
+    public void setMyLocation(Location myLocation) {
+        this.myLocation = myLocation;
     }
 
     public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
@@ -199,13 +208,27 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(pista));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 16));
+                    CameraPosition position = new CameraPosition.Builder()
+                            .target(new LatLng(latitud,longitud))
+                            .zoom(16).build();
+
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 16));
                     mMap.addCircle(new CircleOptions()
                             .center(new LatLng(latitud, longitud))
                             .radius(250)
                             .strokeColor(Color.RED)
                             .fillColor(Color.TRANSPARENT));
+                    //mMap.setMyLocationEnabled(true);
                     mMap.setMyLocationEnabled(true);
+                    setMyLocation(mMap.getMyLocation());
+                    //UiSettings.setMyLocationButtonEnabled(false).
+                    /*myLocation = mMap.getMyLocation();
+                    CameraPosition position = new CameraPosition.Builder()
+                            .target(new LatLng(myLocation.getLatitude(),myLocation.getLongitude()))
+                            .zoom(10).build();
+
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));*/
 
                 } catch (JSONException e) {
                     e.printStackTrace();
