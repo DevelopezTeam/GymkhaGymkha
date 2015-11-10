@@ -4,7 +4,7 @@
     <style name="Orange_Theme" parent="Base.Orange_Theme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/md_orange_500</item>
+        <!--<item name="android:navigationBarColor">@color/md_orange_500</item>-->
     </style>
 
     <style name="ToolbarThemeOrange" parent="Orange_Theme">
