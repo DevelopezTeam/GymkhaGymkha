@@ -10,7 +10,7 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ToolbarTheme" />
+        app:theme="@style/ToolbarThemeRed" />
 
     <TextView
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"

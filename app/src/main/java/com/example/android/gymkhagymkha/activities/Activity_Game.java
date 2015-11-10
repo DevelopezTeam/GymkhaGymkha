@@ -58,8 +58,6 @@ public class Activity_Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        //this.setTheme(R.style.Toolbar_Purple_Theme);
-
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Game.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;

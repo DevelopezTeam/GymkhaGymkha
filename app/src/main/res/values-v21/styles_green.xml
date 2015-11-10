@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Purple_Theme" parent="Base.Purple_Theme">
+    <style name="Green_Theme" parent="Base.Green_Theme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/md_purple_500</item>
+        <item name="android:navigationBarColor">@color/md_green_500</item>
     </style>
 
-    <style name="Toolbar_Purple_Theme" parent="Purple_Theme">
+    <style name="ToolbarThemeGreen" parent="Green_Theme">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
 

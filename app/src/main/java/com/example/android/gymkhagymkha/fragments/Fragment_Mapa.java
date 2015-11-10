@@ -173,7 +173,6 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                         manager.guardarTesoro(auxTesoro);
                     }
 
-
                     toolbarInGame = (Toolbar) getActivity().findViewById(R.id.toolbarInGame);
                     //setSupportActionBar(toolbarInGame);
                     toolbarInGame.setTitle(arrayTesoros.get(0).getNombre());

@@ -75,6 +75,7 @@ public class Activity_Main extends AppCompatActivity {
         // Inicializamos la toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Cambiamos titulo y añadimos icono de la hamburguesa
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
