@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,7 +50,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class Fragment_Mapa extends android.support.v4.app.Fragment implements OnMapReadyCallback {
+public class Fragment_Mapa extends android.support.v4.app.Fragment implements OnMapReadyCallback,LocationListener{
 
     private GoogleMap mMap;
     private BDManager manager;
@@ -121,6 +123,11 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         mMap = map;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.getUiSettings().setAllGesturesEnabled(false);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Toast.makeText(getActivity(), "Cambiando location Latitud:"+location.getLatitude()+" Longitud:"+location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
@@ -198,6 +205,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             .radius(250)
                             .strokeColor(Color.RED)
                             .fillColor(Color.TRANSPARENT));
+                    mMap.setMyLocationEnabled(true);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
