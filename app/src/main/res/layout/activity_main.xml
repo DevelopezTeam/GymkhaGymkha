@@ -38,7 +38,7 @@
                 android:background="?attr/colorPrimary"
                 android:elevation="4dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ToolbarThemeRed"
+                app:theme="@style/ToolbarThemeBlue"
                 android:layout_gravity="top" />
 
             <fragment
@@ -85,8 +85,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="@bool/fitsSystemWindows"
         app:headerLayout="@layout/navigation_drawer_header"
-        app:menu="@menu/navigation_drawer_menu"
-        app:theme="@style/Red_Theme" />
+        app:menu="@menu/navigation_drawer_menu"/>
 
 </android.support.v4.widget.DrawerLayout>
 

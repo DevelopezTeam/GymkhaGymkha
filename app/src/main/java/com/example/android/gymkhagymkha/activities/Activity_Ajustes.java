@@ -63,8 +63,8 @@ public class Activity_Ajustes extends AppCompatActivity {
         btnCambiarTema.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(Activity_Ajustes.this);
-                dialog.setTitle(R.string.title_cambiarTema);
                 dialog.setContentView(R.layout.dialog_cambiar_tema);
+                dialog.setTitle(R.string.title_cambiarTema);
                 ibPurple = (ImageButton) dialog.findViewById(R.id.ibPurple);
                 ibRed = (ImageButton) dialog.findViewById(R.id.ibRed);
                 ibBlue = (ImageButton) dialog.findViewById(R.id.ibBlue);

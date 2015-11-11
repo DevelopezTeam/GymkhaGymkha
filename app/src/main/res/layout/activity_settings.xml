@@ -11,7 +11,7 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ToolbarThemeRed" />
+        app:theme="@style/ToolbarThemeBlue" />
 
     <ScrollView
         android:layout_width="fill_parent"

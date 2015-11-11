@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,9 +49,10 @@ public class Activity_Main extends AppCompatActivity {
     Fragment_Cuenta fCuenta;
     Fragment_AyudaContacto fAyudaContacto;
     Fragment_Ranking_General fRankingGeneral;
-    public static Drawable circle_green;
-    public static Drawable circle_red;
+    public static Drawable circle_green, circle_red, header_blue, header_purple, header_red, header_green, header_yellow, header_orange;
     SharedPreferences prefs;
+    NavigationView navigationView;
+    ImageView ivHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class Activity_Main extends AppCompatActivity {
             case 5: this.setTheme(R.style.Orange_Theme);break;
             case 6: this.setTheme(R.style.Yellow_Theme);break;
         }
+        setContentView(R.layout.navigation_drawer_header);
         setContentView(R.layout.activity_main);
 
         // Inicializamos el Fragment_Manager, el Fragment_Transaction
@@ -83,8 +88,15 @@ public class Activity_Main extends AppCompatActivity {
         fullname = cursor.getString(cursor.getColumnIndex(manager.CN_FIRSTNAME)) + " " + cursor.getString(cursor.getColumnIndex(manager.CN_LASTNAME));
 
         // Inicializamos dos Drawables
+
         circle_green = getResources().getDrawable(R.drawable.circle_green);
         circle_red = getResources().getDrawable(R.drawable.circle_red);
+        header_blue = getResources().getDrawable(R.drawable.header_blue);
+        header_purple = getResources().getDrawable(R.drawable.header_purple);
+        header_green = getResources().getDrawable(R.drawable.header_green);
+        header_orange = getResources().getDrawable(R.drawable.header_orange);
+        header_yellow = getResources().getDrawable(R.drawable.header_yellow);
+        header_red = getResources().getDrawable(R.drawable.header_red);
 
         // Inicializamos la toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,30 +110,47 @@ public class Activity_Main extends AppCompatActivity {
 
         // Inicializamos el Menu Lateral
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        //REVISAR ESTE BLOQUE/////////////////////
+        //TODO NullReferenceException en estas dos líneas
+        ivHeader = (ImageView) drawerLayout.findViewById(R.id.ivHeader);
         tvUsuarioBurguer = (TextView) drawerLayout.findViewById(R.id.tvUsuarioBurguer);
-        if (tvUsuarioBurguer != null)
-        tvUsuarioBurguer.setText(fullname);
-        //////////////////////////////////////////
+        //tvUsuarioBurguer.setText(fullname);
 
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
         }
 
-        setToolbarTheme();
+        setTheme();
     }
 
-    private void setToolbarTheme() {
+    private void setTheme() {
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
-            case 1: toolbar.setBackgroundColor(getResources().getColor(R.color.md_deep_purple_500));break;
-            case 2: toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));break;
-            case 3: toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));break;
-            case 4: toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));break;
-            case 5: toolbar.setBackgroundColor(getResources().getColor(R.color.md_amber_700));break;
-            case 6: toolbar.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));break;
+            case 1:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_deep_purple_500));
+                //ivHeader.setImageDrawable(header_purple);
+                break;
+            case 2:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                //ivHeader.setImageDrawable(header_red);
+                break;
+            case 3:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                //ivHeader.setImageDrawable(header_blue);
+                break;
+            case 4:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                //ivHeader.setImageDrawable(header_green);
+                break;
+            case 5:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                //ivHeader.setImageDrawable(header_orange);
+                break;
+            case 6:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                //ivHeader.setImageDrawable(header_yellow);
+                break;
         }
     }
 
