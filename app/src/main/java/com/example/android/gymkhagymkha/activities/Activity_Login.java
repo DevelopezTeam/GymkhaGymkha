@@ -2,6 +2,7 @@ package com.example.android.gymkhagymkha.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -51,11 +52,21 @@ public class Activity_Login extends AppCompatActivity {
     JSONObject resultadoJSON;
 
     ProgressBar progressBar;
-
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1: this.setTheme(R.style.Purple_Theme);break;
+            case 2: this.setTheme(R.style.Red_Theme);break;
+            case 3: this.setTheme(R.style.Blue_Theme);break;
+            case 4: this.setTheme(R.style.Green_Theme);break;
+            case 5: this.setTheme(R.style.Orange_Theme);break;
+            case 6: this.setTheme(R.style.Yellow_Theme);break;
+        }
         setContentView(R.layout.activity_login);
 
         // Instanciamos la base de datos

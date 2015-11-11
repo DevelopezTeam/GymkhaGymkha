@@ -7,7 +7,7 @@
 
     <style name="Base.Purple_Theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/md_purple_500</item>
-        <item name="colorPrimaryDark">@color/md_purple_300</item>
+        <item name="colorPrimaryDark">@color/md_purple_700</item>
         <item name="colorAccent">@color/md_blue_300</item>
         <item name="colorControlHighlight">@color/md_indigo_500_25</item>
         <item name="android:windowBackground">@color/md_white_1000</item>

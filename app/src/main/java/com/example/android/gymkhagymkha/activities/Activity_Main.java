@@ -3,8 +3,10 @@ package com.example.android.gymkhagymkha.activities;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,8 +17,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.bbdd.BDManager;
@@ -43,10 +48,21 @@ public class Activity_Main extends AppCompatActivity {
     Fragment_Ranking_General fRankingGeneral;
     public static Drawable circle_green;
     public static Drawable circle_red;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1: this.setTheme(R.style.Purple_Theme);break;
+            case 2: this.setTheme(R.style.Red_Theme);break;
+            case 3: this.setTheme(R.style.Blue_Theme);break;
+            case 4: this.setTheme(R.style.Green_Theme);break;
+            case 5: this.setTheme(R.style.Orange_Theme);break;
+            case 6: this.setTheme(R.style.Yellow_Theme);break;
+        }
         setContentView(R.layout.activity_main);
 
         // Inicializamos el Fragment_Manager, el Fragment_Transaction
@@ -65,8 +81,6 @@ public class Activity_Main extends AppCompatActivity {
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
         fullname = cursor.getString(cursor.getColumnIndex(manager.CN_FIRSTNAME)) + " " + cursor.getString(cursor.getColumnIndex(manager.CN_LASTNAME));
-        tvUsuarioBurguer = (TextView) findViewById(R.id.tvUsuarioBurguer);
-        tvUsuarioBurguer.setText(fullname);
 
         // Inicializamos dos Drawables
         circle_green = getResources().getDrawable(R.drawable.circle_green);
@@ -85,8 +99,29 @@ public class Activity_Main extends AppCompatActivity {
         // Inicializamos el Menu Lateral
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        //REVISAR ESTE BLOQUE/////////////////////
+        tvUsuarioBurguer = (TextView) drawerLayout.findViewById(R.id.tvUsuarioBurguer);
+        if (tvUsuarioBurguer != null)
+        tvUsuarioBurguer.setText(fullname);
+        //////////////////////////////////////////
+
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
+        }
+
+        setToolbarTheme();
+    }
+
+    private void setToolbarTheme() {
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1: toolbar.setBackgroundColor(getResources().getColor(R.color.md_deep_purple_500));break;
+            case 2: toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));break;
+            case 3: toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));break;
+            case 4: toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));break;
+            case 5: toolbar.setBackgroundColor(getResources().getColor(R.color.md_amber_700));break;
+            case 6: toolbar.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));break;
         }
     }
 

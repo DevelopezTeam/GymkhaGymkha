@@ -2,8 +2,10 @@ package com.example.android.gymkhagymkha.activities;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -52,10 +54,21 @@ public class Activity_Game extends AppCompatActivity {
     String resul;
     ArrayList<Clase_Tesoro> arrayTesoros;
     BDManager manager;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1: this.setTheme(R.style.Purple_Theme);break;
+            case 2: this.setTheme(R.style.Red_Theme);break;
+            case 3: this.setTheme(R.style.Blue_Theme);break;
+            case 4: this.setTheme(R.style.Green_Theme);break;
+            case 5: this.setTheme(R.style.Orange_Theme);break;
+            case 6: this.setTheme(R.style.Yellow_Theme);break;
+        }
         setContentView(R.layout.activity_game);
 
         TypedValue typedValueColorPrimaryDark = new TypedValue();

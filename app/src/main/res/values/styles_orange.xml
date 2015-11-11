@@ -6,9 +6,9 @@
     </style>
 
     <style name="Base.Orange_Theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/md_orange_500</item>
-        <item name="colorPrimaryDark">@color/md_orange_300</item>
-        <item name="colorAccent">@color/md_red_500</item>
+        <item name="colorPrimary">@color/md_amber_700</item>
+        <item name="colorPrimaryDark">@color/md_amber_800</item>
+        <item name="colorAccent">@color/md_green_700</item>
         <item name="colorControlHighlight">@color/md_indigo_500_25</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
     </style>

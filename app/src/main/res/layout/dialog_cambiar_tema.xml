@@ -27,14 +27,14 @@
                 android:layout_height="70dp"
                 android:id="@+id/ibRed"
                 android:layout_margin="5dp"
-                android:background="@color/md_red_500"/>
+                android:background="@color/md_red_700"/>
 
             <ImageButton
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:id="@+id/ibBlue"
                 android:layout_margin="5dp"
-                android:background="@color/md_blue_500"/>
+                android:background="@color/md_indigo_500"/>
         </LinearLayout>
 
         <LinearLayout
@@ -59,32 +59,9 @@
             <ImageButton
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:id="@+id/imageButton6"
-                android:layout_margin="5dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@+id/imageButton7"
-                android:layout_margin="5dp"/>
-
-            <ImageButton
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@+id/imageButton8"
-                android:layout_margin="5dp"/>
-
-            <ImageButton
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@+id/imageButton9"
-                android:layout_margin="5dp"/>
+                android:id="@+id/ibYellow"
+                android:layout_margin="5dp"
+                android:background="@color/md_yellow_700"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
