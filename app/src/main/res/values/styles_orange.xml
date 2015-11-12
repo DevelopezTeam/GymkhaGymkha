@@ -9,7 +9,7 @@
         <item name="colorPrimary">@color/md_amber_700</item>
         <item name="colorPrimaryDark">@color/md_amber_800</item>
         <item name="colorAccent">@color/md_green_700</item>
-        <item name="colorControlHighlight">@color/md_indigo_500_25</item>
+        <item name="colorControlHighlight">@color/md_orange_100</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
     </style>
 

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     ListView listaEventos;
     BDManager manager;
     Cursor cursorEventos, cursor;
+    Button btnCerrarDialog;
     String resul = "";
     int idAdministrador;
     boolean inAsyncTask;
@@ -185,7 +187,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         cursorEventos = manager.cursorEventos();
         cursorEventos.moveToPosition(position);
         final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setTitle(R.string.title_dialog_event);
         dialog.setContentView(R.layout.dialog_event_description);
         tvDescripcionEventoDialog = (TextView) dialog.findViewById(R.id.tvDescripcionEventoDialog);
         tvHoraEventoDialog = (TextView) dialog.findViewById(R.id.tvHoraEventoDialog);
@@ -199,6 +201,12 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(lp);
+        btnCerrarDialog = (Button) dialog.findViewById(R.id.btnCerrarDialogEvento);
+        btnCerrarDialog.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.hide();
+            }
+        });
         dialog.show();
         return true;
     }

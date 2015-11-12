@@ -4,6 +4,7 @@
     <string name="string_acercade">Acerca de...</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="title_activity_eventos">Eventos</string>
+    <string name="title_dialog_event">Detalles del evento</string>
     <string name="title_cerrarSesion">Cerrar Sesión</string>
     <string name="title_cerrarApp">Salir</string>
     <string name="title_cambiarTema">Selecciona un tema</string>
@@ -13,6 +14,7 @@
     <string name="message_cerrarApp">¿Está seguro de que desea salir de Gymkha Gymkha?</string>
     <string name="title_acercade">Acerca de Gymkha Gymkha</string>
     <string name="aceptar">Aceptar</string>
+    <string name="cerrar">Cerrar</string>
     <string name="cancelar">Cancelar</string>
     <string name="salirEvento">Salir del Evento</string>
     <string name="creditos">Proyecto Gymkha Gymkha \n

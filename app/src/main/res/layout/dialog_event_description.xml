@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Detalles del evento"
-        android:layout_marginLeft="10px"
-        android:layout_marginRight="15px"
-        android:layout_marginTop="20px"
-        android:layout_marginBottom="20px"
-        android:textStyle="bold"
-        android:id="@+id/textView2" />
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +34,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10px">
+        android:layout_marginTop="10px"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,37 +55,43 @@
             android:id="@+id/tvHoraEventoDialog" />
     </LinearLayout>
 
+    <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10px">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Descripción:"
-        android:layout_marginTop="10px"
-        android:layout_marginLeft="10px"
-        android:layout_marginRight="15px"
         android:textStyle="bold"
-        android:id="@+id/textView5" />
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textView5"/>
 
     <ScrollView
         android:layout_width="fill_parent"
+        android:layout_height="125dp">
+    <TextView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2"
-        android:layout_marginLeft="10px"
-        android:layout_marginRight="15px">
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:layout_margin="15px"
+        android:id="@+id/tvDescripcionEventoDialog" />
+        </ScrollView>
+    </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="10px">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cerrar"
+        android:id="@+id/btnCerrarDialogEvento"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/transparent"
+        android:textColor="@color/md_blue_300"/>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="350px"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:layout_marginBottom="10px"
-                android:id="@+id/tvDescripcionEventoDialog" />
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>
