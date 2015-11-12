@@ -7,7 +7,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"

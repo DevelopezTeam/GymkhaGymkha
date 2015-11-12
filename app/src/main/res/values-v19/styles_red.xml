@@ -4,5 +4,4 @@
     <style name="Red_Theme" parent="Base.Red_Theme">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
-
 </resources>

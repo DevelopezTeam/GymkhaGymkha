@@ -4,7 +4,6 @@ package com.example.android.gymkhagymkha.activities;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -15,10 +14,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.android.gymkhagymkha.R;
 
@@ -47,15 +44,16 @@ public class Activity_Ajustes extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Instanciamos la toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbarAjustes);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Le damos el estilo a la barra de estado
+
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Ajustes.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21)  {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
 

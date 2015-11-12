@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,12 +17,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.bbdd.BDManager;
@@ -67,7 +62,6 @@ public class Activity_Main extends AppCompatActivity {
             case 5: this.setTheme(R.style.Orange_Theme);break;
             case 6: this.setTheme(R.style.Yellow_Theme);break;
         }
-        setContentView(R.layout.navigation_drawer_header);
         setContentView(R.layout.activity_main);
 
         // Inicializamos el Fragment_Manager, el Fragment_Transaction
@@ -114,7 +108,6 @@ public class Activity_Main extends AppCompatActivity {
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
         }
-
         setTheme();
     }
 
