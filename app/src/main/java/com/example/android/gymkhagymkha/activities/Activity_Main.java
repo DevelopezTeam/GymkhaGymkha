@@ -91,12 +91,6 @@ public class Activity_Main extends AppCompatActivity {
 
         circle_green = getResources().getDrawable(R.drawable.circle_green);
         circle_red = getResources().getDrawable(R.drawable.circle_red);
-        header_blue = getResources().getDrawable(R.drawable.header_blue);
-        header_purple = getResources().getDrawable(R.drawable.header_purple);
-        header_green = getResources().getDrawable(R.drawable.header_green);
-        header_orange = getResources().getDrawable(R.drawable.header_orange);
-        header_yellow = getResources().getDrawable(R.drawable.header_yellow);
-        header_red = getResources().getDrawable(R.drawable.header_red);
 
         // Inicializamos la toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -113,8 +107,8 @@ public class Activity_Main extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         //TODO NullReferenceException en estas dos líneas
-        ivHeader = (ImageView) drawerLayout.findViewById(R.id.ivHeader);
-        tvUsuarioBurguer = (TextView) drawerLayout.findViewById(R.id.tvUsuarioBurguer);
+        ivHeader = (ImageView) this.findViewById(R.id.ivHeader);
+        tvUsuarioBurguer = (TextView) this.findViewById(R.id.tvUsuarioBurguer);
         //tvUsuarioBurguer.setText(fullname);
 
         if (navigationView != null) {
@@ -129,26 +123,32 @@ public class Activity_Main extends AppCompatActivity {
         switch (idTema) {
             case 1:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_deep_purple_500));
+                header_purple = getResources().getDrawable(R.drawable.header_purple);
                 //ivHeader.setImageDrawable(header_purple);
                 break;
             case 2:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                header_red = getResources().getDrawable(R.drawable.header_red);
                 //ivHeader.setImageDrawable(header_red);
                 break;
             case 3:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                header_blue = getResources().getDrawable(R.drawable.header_blue);
                 //ivHeader.setImageDrawable(header_blue);
                 break;
             case 4:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                header_green = getResources().getDrawable(R.drawable.header_green);
                 //ivHeader.setImageDrawable(header_green);
                 break;
             case 5:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                header_orange = getResources().getDrawable(R.drawable.header_orange);
                 //ivHeader.setImageDrawable(header_orange);
                 break;
             case 6:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                header_yellow = getResources().getDrawable(R.drawable.header_yellow);
                 //ivHeader.setImageDrawable(header_yellow);
                 break;
         }
