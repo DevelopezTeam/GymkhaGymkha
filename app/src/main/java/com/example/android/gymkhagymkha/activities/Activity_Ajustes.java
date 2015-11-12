@@ -24,6 +24,7 @@ public class Activity_Ajustes extends AppCompatActivity {
     Toolbar toolbar;
     Button btnCambiarTema;
     ImageButton ibPurple, ibRed, ibBlue, ibGreen, ibOrange, ibYellow;
+    Button btnCancelarTema;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
@@ -69,6 +70,7 @@ public class Activity_Ajustes extends AppCompatActivity {
                 ibGreen = (ImageButton) dialog.findViewById(R.id.ibGreen);
                 ibOrange = (ImageButton) dialog.findViewById(R.id.ibOrange);
                 ibYellow = (ImageButton) dialog.findViewById(R.id.ibYellow);
+                btnCancelarTema = (Button) dialog.findViewById(R.id.btnCancelarTema);
                 ibPurple.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         editor.putInt("idTema", 1);
@@ -109,6 +111,11 @@ public class Activity_Ajustes extends AppCompatActivity {
                         editor.putInt("idTema", 6);
                         editor.commit();
                         intentMainActivity();
+                    }
+                });
+                btnCancelarTema.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dialog.hide();
                     }
                 });
                 dialog.show();

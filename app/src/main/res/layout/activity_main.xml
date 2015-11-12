@@ -83,8 +83,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="@bool/fitsSystemWindows"
-        app:headerLayout="@layout/navigation_drawer_header"
+
         app:menu="@menu/navigation_drawer_menu"/>
 
 </android.support.v4.widget.DrawerLayout>
-
+    <!-- app:headerLayout="@layout/navigation_drawer_header"-->
