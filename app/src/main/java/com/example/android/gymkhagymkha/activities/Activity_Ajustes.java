@@ -50,7 +50,6 @@ public class Activity_Ajustes extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Le damos el estilo a la barra de estado
-
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Ajustes.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -127,7 +126,7 @@ public class Activity_Ajustes extends AppCompatActivity {
     private void setToolbarTheme() {
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
-            case 1: toolbar.setBackgroundColor(getResources().getColor(R.color.md_deep_purple_500));break;
+            case 1: toolbar.setBackgroundColor(getResources().getColor(R.color.md_purple_800));break;
             case 2: toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));break;
             case 3: toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));break;
             case 4: toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));break;

@@ -87,11 +87,7 @@ public class Activity_Game extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-//        manager = new BDManager(this);
-//        arrayTesoros = new ArrayList<Clase_Tesoro>();
-//        int idEvento = getIntent().getExtras().getInt("idEvento");
-//        new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento="+idEvento);
-
+        setTheme();
     }
 
     @Override
@@ -132,6 +128,36 @@ public class Activity_Game extends AppCompatActivity {
             case KeyEvent.KEYCODE_BACK: return true;
         }
         return super.onKeyDown(keycode, e);
+    }
+
+    private void setTheme() {
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1:
+                toolbarInGame.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                tabLayout.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                break;
+            case 2:
+                toolbarInGame.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                tabLayout.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                break;
+            case 3:
+                toolbarInGame.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                tabLayout.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                break;
+            case 4:
+                toolbarInGame.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                tabLayout.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                break;
+            case 5:
+                toolbarInGame.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                tabLayout.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                break;
+            case 6:
+                toolbarInGame.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                tabLayout.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                break;
+        }
     }
 
     private void addFragmentToViewPager(ViewPager viewPager) {

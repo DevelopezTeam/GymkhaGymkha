@@ -155,6 +155,32 @@ public class Activity_Login extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        setTheme();
+    }
+
+    private void setTheme() {
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1:
+                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                break;
+            case 2:
+                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                break;
+            case 3:
+                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                break;
+            case 4:
+                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                break;
+            case 5:
+                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                break;
+            case 6:
+                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                break;
+        }
     }
 
     private void intentMainActivity() {

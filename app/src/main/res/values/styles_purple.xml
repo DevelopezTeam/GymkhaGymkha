@@ -6,8 +6,8 @@
     </style>
 
     <style name="Base.Purple_Theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/md_purple_500</item>
-        <item name="colorPrimaryDark">@color/md_purple_700</item>
+        <item name="colorPrimary">@color/md_purple_800</item>
+        <item name="colorPrimaryDark">@color/md_purple_900</item>
         <item name="colorAccent">@color/md_blue_300</item>
         <item name="colorControlHighlight">@color/md_purple_100</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
@@ -16,7 +16,7 @@
     <style name="Toolbar_Purple_Theme" parent="Purple_Theme">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:background">@color/md_purple_500</item>
+        <item name="android:background">@color/md_purple_700</item>
     </style>
 
     <style name="NavigationView_Purple_Theme" parent="Purple_Theme">

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -112,13 +114,21 @@ public class Activity_Main extends AppCompatActivity {
             setupNavigationDrawerContent(navigationView);
         }
         setTheme();
+
+        // Le damos el estilo a la barra de estado
+        TypedValue typedValueColorPrimaryDark = new TypedValue();
+        Activity_Main.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
+        final int colorPrimaryDark = typedValueColorPrimaryDark.data;
+        if (Build.VERSION.SDK_INT >= 21)  {
+            getWindow().setStatusBarColor(colorPrimaryDark);
+        }
     }
 
     private void setTheme() {
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
             case 1:
-                toolbar.setBackgroundColor(getResources().getColor(R.color.md_deep_purple_500));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
                 header_purple = getResources().getDrawable(R.drawable.header_purple);
                 ivHeader.setImageDrawable(header_purple);
                 break;
