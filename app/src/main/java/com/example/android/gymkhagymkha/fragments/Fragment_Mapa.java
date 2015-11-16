@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +24,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -123,12 +127,18 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     public void onMapReady(GoogleMap map) {
         mMap = map;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
         //mMap.getUiSettings().setAllGesturesEnabled(false);
     }
 
+
+
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(getActivity(), "Cambiando location Latitud:"+location.getLatitude()+" Longitud:"+location.getLongitude(), Toast.LENGTH_LONG).show();
+        String mensaje = "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude();
+        ((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
+        Toast.makeText(getActivity(), "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     public Location getMyLocation() {
@@ -138,6 +148,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     public void setMyLocation(Location myLocation) {
         this.myLocation = myLocation;
     }
+
+
 
     public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
 
@@ -208,27 +220,19 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(pista));
-                    CameraPosition position = new CameraPosition.Builder()
-                            .target(new LatLng(latitud,longitud))
-                            .zoom(16).build();
-
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
                     //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 16));
                     mMap.addCircle(new CircleOptions()
                             .center(new LatLng(latitud, longitud))
                             .radius(250)
                             .strokeColor(Color.RED)
                             .fillColor(Color.TRANSPARENT));
-                    //mMap.setMyLocationEnabled(true);
-                    mMap.setMyLocationEnabled(true);
                     setMyLocation(mMap.getMyLocation());
-                    //UiSettings.setMyLocationButtonEnabled(false).
-                    /*myLocation = mMap.getMyLocation();
                     CameraPosition position = new CameraPosition.Builder()
-                            .target(new LatLng(myLocation.getLatitude(),myLocation.getLongitude()))
-                            .zoom(10).build();
+                            .target(new LatLng(latitud, longitud))
+                            //.target(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()))
+                            .zoom(16).build();
 
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));*/
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
