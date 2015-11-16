@@ -3,6 +3,8 @@ package com.example.android.gymkhagymkha.classes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 // Clase para crear objetos evento
@@ -39,7 +41,17 @@ public class Clase_Evento {
         //horaEmpiece = objetoJSON.getString("horaEmpiece");
         //TODO hacer que sea de tipo Date
         hora = objetoJSON.getString("horaEmpiece");
-        this.isOnline = false;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date fechaEvento = formatter.parse(diaEmpiece);
+            if (fechaEvento.before(new Date())) {
+                this.isOnline = false;
+            } else {
+                this.isOnline = true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getIdEvento() {return id;}

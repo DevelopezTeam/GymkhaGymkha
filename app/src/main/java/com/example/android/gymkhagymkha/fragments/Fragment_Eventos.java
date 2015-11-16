@@ -1,7 +1,9 @@
 package com.example.android.gymkhagymkha.fragments;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -21,6 +23,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.classes.Clase_Evento;
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Game;
@@ -37,7 +40,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
@@ -51,7 +57,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     int idAdministrador;
     boolean inAsyncTask;
     FloatingActionButton fabEventos;
-    TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog;
+    TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog, tvFechaEvento;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_eventos, container, false);
@@ -143,7 +149,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         evento = new Clase_Evento(resultadoJSON.getJSONObject(i+""));
-                        manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre(), evento.getHora());
+                        manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre(), evento.getDiaEmpiece(), evento.getHora());
                         arrayEvent.add(evento);
                     }
 
@@ -166,20 +172,39 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         manager.borrarTesoros();
 
-        //TODO pasar variable de idEvento del que se ha seleccionado
-        Intent intent = new Intent(getActivity(), Activity_Game.class);
         Cursor cursorEventos = manager.cursorEventos();
         cursorEventos.moveToPosition(position);
-        int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
-        //Log.i("idEvento",String.valueOf(cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT))));
-        //Shared preferences para añadir valores
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("idEvento", idEvento);
-        editor.commit();
+        String fechaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE));
 
-        intent.putExtra("idEvento",idEvento );
-        startActivity(intent);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date date = formatter.parse(fechaEvento);
+            if (date.before(new Date())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.title_EventoCerrado);
+                builder.setIcon(R.drawable.ic_lock_black_24dp);
+                builder.setMessage(R.string.message_EventoCerrado)
+                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                builder.show();
+            } else {
+                Intent intent = new Intent(getActivity(), Activity_Game.class);
+                int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
+                SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("idEvento", idEvento);
+                editor.commit();
+
+                intent.putExtra("idEvento",idEvento );
+                startActivity(intent);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
@@ -194,7 +219,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         tvNombreEventoDialog = (TextView) dialog.findViewById(R.id.tvNombreEventoDialog);
         tvDescripcionEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DESCRIPTION)));
         tvNombreEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_NAME)));
-        tvHoraEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR)));
+        tvHoraEventoDialog.setText(cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR)) + " del " + cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE)));
         dialog.setTitle("Detalles del evento");
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());

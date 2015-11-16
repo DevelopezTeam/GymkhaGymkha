@@ -13,7 +13,11 @@ import com.example.android.gymkhagymkha.classes.Clase_Evento;
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Main;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 // Clase para Adapter personalizado de eventos
 public class AdapterEvento extends BaseAdapter {
@@ -59,7 +63,22 @@ public class AdapterEvento extends BaseAdapter {
         idEvento.setText(event.getIdEvento()+"");
         TextView nombre = (TextView) v.findViewById(R.id.tvNombreEvento);
         nombre.setText(event.getNombre());
-        //Rellenamos el nombre
+        TextView fecha = (TextView)v.findViewById(R.id.tvFechaEvento);
+        fecha.setText(event.getDiaEmpiece());
+
+        /*
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date fechaEvento = formatter.parse(event.getDiaEmpiece());
+            fecha.setText(new String(formatter.format(fechaEvento)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+        /*
+        Date d = Calendar.getInstance().getTime(); // Current time
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); // Set your date format
+        String currentData = sdf.format(d);
+        */
         TextView hora = (TextView) v.findViewById(R.id.tvHoraEvento);
         hora.setText(event.getHora());
         //Rellenamos el puntuación
