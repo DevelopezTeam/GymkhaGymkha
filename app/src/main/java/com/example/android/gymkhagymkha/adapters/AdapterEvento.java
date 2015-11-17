@@ -64,21 +64,13 @@ public class AdapterEvento extends BaseAdapter {
         TextView nombre = (TextView) v.findViewById(R.id.tvNombreEvento);
         nombre.setText(event.getNombre());
         TextView fecha = (TextView)v.findViewById(R.id.tvFechaEvento);
-        fecha.setText(event.getDiaEmpiece());
-
-        /*
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaEvento = formatter.parse(event.getDiaEmpiece());
             fecha.setText(new String(formatter.format(fechaEvento)));
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/
-        /*
-        Date d = Calendar.getInstance().getTime(); // Current time
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); // Set your date format
-        String currentData = sdf.format(d);
-        */
+        }
         TextView hora = (TextView) v.findViewById(R.id.tvHoraEvento);
         hora.setText(event.getHora());
         //Rellenamos el puntuación

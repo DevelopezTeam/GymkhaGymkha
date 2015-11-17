@@ -41,13 +41,14 @@ public class Clase_Evento {
         //horaEmpiece = objetoJSON.getString("horaEmpiece");
         //TODO hacer que sea de tipo Date
         hora = objetoJSON.getString("horaEmpiece");
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
         try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaEvento = formatter.parse(diaEmpiece);
-            if (fechaEvento.before(new Date())) {
-                this.isOnline = false;
-            } else {
+            if (fechaEvento.getDate() == new Date().getDate()) {
                 this.isOnline = true;
+            } else {
+                this.isOnline = false;
             }
         } catch (ParseException e) {
             e.printStackTrace();
