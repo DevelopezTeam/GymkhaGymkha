@@ -173,7 +173,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         manager.borrarTesoros();
 
         Cursor cursorEventos = manager.cursorEventos();
-        cursorEventos.moveToPosition(position);
+        cursorEventos.moveToPosition(position);/*
         String fechaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE));
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -189,7 +189,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                             }
                         });
                 builder.show();
-            } else {
+            } else {*/
                 Intent intent = new Intent(getActivity(), Activity_Game.class);
                 int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
                 SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
@@ -198,13 +198,13 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                 editor.commit();
 
                 intent.putExtra("idEvento",idEvento );
-                startActivity(intent);
+                startActivity(intent);/*
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-
+*/
     }
 
     @Override
