@@ -1,10 +1,14 @@
 package com.example.android.gymkhagymkha.classes;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 // Clase para crear objetos evento
@@ -38,17 +42,22 @@ public class Clase_Evento {
         nombre = objetoJSON.getString("nombre");
         descripcion = objetoJSON.getString("descripcion");
         diaEmpiece = objetoJSON.getString("diaEmpiece");
-        //horaEmpiece = objetoJSON.getString("horaEmpiece");
-        //TODO hacer que sea de tipo Date
         hora = objetoJSON.getString("horaEmpiece");
-
+        hora = "23:45";
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date fechaEvento = formatter.parse(diaEmpiece);
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat formatTime = new SimpleDateFormat ("hh:mm");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(formatTime.parse(hora));
+            cal.add(Calendar.MINUTE, -15);
+            Date horaMin = cal.getTime();
+            Date horaMax = formatTime.parse(hora);
+            Date fechaEvento = formatDate.parse(diaEmpiece);
+            this.isOnline = false;
             if (fechaEvento.getDate() == new Date().getDate()) {
-                this.isOnline = true;
-            } else {
-                this.isOnline = false;
+                if (new Date().getTime() >= horaMin.getTime() && new Date().getTime() <= horaMax.getTime()) {
+                    this.isOnline = true;
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();
