@@ -7,11 +7,13 @@
     <string name="title_dialog_event">Detalles del evento</string>
     <string name="title_cerrarSesion">Cerrar Sesión</string>
     <string name="title_cerrarApp">Salir</string>
+    <string name="title_EventoCerrado">Evento no disponible</string>
     <string name="title_cambiarTema">Selecciona un tema</string>
     <string name="title_salirEvento">¿Seguro que desea salir del evento actual?</string>
     <string name="message_salirEvento">No podrá volver a entrar, ya que el evento esta en marcha.</string>
     <string name="message_cerrarSesion">¿Está seguro de que desea cerrar sesión?</string>
     <string name="message_cerrarApp">¿Está seguro de que desea salir de Gymkha Gymkha?</string>
+    <string name="message_EventoCerrado">Este evento estará disponible en la fecha señalada.</string>
     <string name="title_acercade">Acerca de Gymkha Gymkha</string>
     <string name="aceptar">Aceptar</string>
     <string name="cerrar">Cerrar</string>
