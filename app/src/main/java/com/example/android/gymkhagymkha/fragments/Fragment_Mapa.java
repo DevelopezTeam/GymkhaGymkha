@@ -58,10 +58,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Fragment_Mapa extends android.support.v4.app.Fragment implements OnMapReadyCallback/*,
+public class Fragment_Mapa extends android.support.v4.app.Fragment implements OnMapReadyCallback,
         LocationListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener*/ {
+        GoogleApiClient.OnConnectionFailedListener {
 
     protected static final String TAG = "location-updates";
 
@@ -145,8 +145,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        /*
-        Location agapito
+
+
         mRequestingLocationUpdates = false;
         mLastUpdateTime = "";
 
@@ -157,11 +157,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         // API.
         buildGoogleApiClient();
 
-        if (!mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = true;
-            startLocationUpdates();
-        }
-        //TODO falta poner el stop Location agapito fin*/
+
+        //TODO falta poner el stop
 
         manager = new BDManager(getActivity());
         arrayTesoros = new ArrayList<Clase_Tesoro>();
@@ -169,11 +166,11 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento=" + idEvento);
     }
 
-    /** Location agapito
+    /*
      * Updates fields based on data stored in the bundle.
      *
      * @param savedInstanceState The activity state saved in the Bundle.
-     *//*
+     */
     private void updateValuesFromBundle(Bundle savedInstanceState) {
         Log.i(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
@@ -200,10 +197,10 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         }
     }
 
-    *//**
+    /**
      * Builds a GoogleApiClient. Uses the {@code #addApi} method to request the
      * LocationServices API.
-     *//*
+     */
     protected synchronized void buildGoogleApiClient() {
         Log.i(TAG, "Building GoogleApiClient");
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -214,7 +211,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         createLocationRequest();
     }
 
-    *//**
+    /**
      * Sets up the location request. Android has two location request settings:
      * {@code ACCESS_COARSE_LOCATION} and {@code ACCESS_FINE_LOCATION}. These settings control
      * the accuracy of the current location. This sample uses ACCESS_FINE_LOCATION, as defined in
@@ -226,7 +223,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      * <p/>
      * These settings are appropriate for mapping applications that show real-time location
      * updates.
-     *//*
+     */
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
 
@@ -243,9 +240,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    *//**
+    /**
      * Requests location updates from the FusedLocationApi.
-     *//*
+     */
     protected void startLocationUpdates() {
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
@@ -253,9 +250,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                 mGoogleApiClient, mLocationRequest, this);
     }
 
-    *//**
+    /**
      * Updates the latitude, the longitude, and the last location time in the UI.
-     *//*
+     */
     private void updateUI() {
         String mensaje = "Cambiando location Latitud:" + mCurrentLocation.getLatitude() + " Longitud:" + mCurrentLocation.getLongitude();
         ((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
@@ -263,9 +260,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     }
 
-    *//**
+    /**
      * Removes location updates from the FusedLocationApi.
-     *//*
+     */
     protected void stopLocationUpdates() {
         // It is a good practice to remove location requests when the activity is in a paused or
         // stopped state. Doing so helps battery performance and is especially
@@ -338,11 +335,11 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     @Override
     public void onLocationChanged(Location location) {
-        *//*
+
         String mensaje = "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude();
         ((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
         Toast.makeText(getActivity(), "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude(), Toast.LENGTH_LONG).show();
-        *//*
+
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         updateUI();
@@ -361,8 +358,6 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
-    Location agapito fin
-    */
 
     /*
     @Override
@@ -403,6 +398,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         //mMap.getUiSettings().setAllGesturesEnabled(false);
+
     }
 
     public Location getMyLocation() {
@@ -496,6 +492,12 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             .zoom(16).build();
 
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+
+
+                    if (!mRequestingLocationUpdates) {
+                        mRequestingLocationUpdates = true;
+                        startLocationUpdates();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
