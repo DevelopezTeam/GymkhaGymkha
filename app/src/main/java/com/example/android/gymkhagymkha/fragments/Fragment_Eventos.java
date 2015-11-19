@@ -40,9 +40,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -171,36 +173,56 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         manager.borrarTesoros();
-        //try {
+        try {
             Cursor cursorEventos = manager.cursorEventos();
             cursorEventos.moveToPosition(position);
             String fechaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE));
-            /*SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String horaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR));
+            DateFormat formatTime = new SimpleDateFormat ("hh:mm");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(formatTime.parse(new Date().getHours() + ":" + new Date().getMinutes()));
+            long auxTime = cal.getTimeInMillis();
+            cal.setTime(formatTime.parse(horaEvento));
+            long horaMax = cal.getTimeInMillis();
+            cal.add(Calendar.MINUTE, -15);
+            long horaMin = cal.getTimeInMillis();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date event = formatter.parse(fechaEvento);
-            if (event.getDate() == new Date().getDate()) {*/
-                Intent intent = new Intent(getActivity(), Activity_Game.class);
-                int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
-                SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("idEvento", idEvento);
-                editor.commit();
-
-                intent.putExtra("idEvento",idEvento );
-                startActivity(intent);
-           /*} else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.title_EventoCerrado);
-                builder.setIcon(R.drawable.ic_lock_black_24dp);
-                builder.setMessage(R.string.message_EventoCerrado)
-                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                builder.show();
+            if (event.getDate() == new Date().getDate()) {
+                if (auxTime >= horaMin ) {
+                    if( auxTime <= horaMax) {
+                        Intent intent = new Intent(getActivity(), Activity_Game.class);
+                        int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
+                        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("idEvento", idEvento);
+                        editor.commit();
+                        intent.putExtra("idEvento",idEvento );
+                        startActivity(intent);
+                    } else {
+                        lanzarDialogEventoCerrado();
+                    }
+                } else {
+                    lanzarDialogEventoCerrado();
+                }
+           } else {
+                lanzarDialogEventoCerrado();
             }
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/
+        }
+    }
+
+    private void lanzarDialogEventoCerrado() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.title_EventoCerrado);
+        builder.setIcon(R.drawable.ic_lock_black_24dp);
+        builder.setMessage(R.string.message_EventoCerrado)
+                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        builder.show();
     }
 
     @Override

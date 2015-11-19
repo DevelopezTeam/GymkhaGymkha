@@ -493,10 +493,11 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 
-
-                    if (!mRequestingLocationUpdates) {
-                        mRequestingLocationUpdates = true;
-                        startLocationUpdates();
+                    if(!mGoogleApiClient.isConnecting()){
+                        if (!mRequestingLocationUpdates) {
+                            mRequestingLocationUpdates = true;
+                            startLocationUpdates();
+                        }
                     }
 
                 } catch (JSONException e) {

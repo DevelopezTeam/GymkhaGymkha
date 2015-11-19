@@ -43,25 +43,29 @@ public class Clase_Evento {
         descripcion = objetoJSON.getString("descripcion");
         diaEmpiece = objetoJSON.getString("diaEmpiece");
         hora = objetoJSON.getString("horaEmpiece");
-        /*hora = "23:45";
         try {
             SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
             DateFormat formatTime = new SimpleDateFormat ("hh:mm");
             Calendar cal = Calendar.getInstance();
+            cal.setTime(formatTime.parse(new Date().getHours() + ":" + new Date().getMinutes()));
+            long auxTime = cal.getTimeInMillis();
             cal.setTime(formatTime.parse(hora));
+            long horaMax = cal.getTimeInMillis();
             cal.add(Calendar.MINUTE, -15);
-            Date horaMin = cal.getTime();
-            Date horaMax = formatTime.parse(hora);
+            long horaMin = cal.getTimeInMillis();
+
+
             Date fechaEvento = formatDate.parse(diaEmpiece);
             this.isOnline = false;
             if (fechaEvento.getDate() == new Date().getDate()) {
-                if (new Date().getTime() >= horaMin.getTime() && new Date().getTime() <= horaMax.getTime()) {
-                    this.isOnline = true;
+                if (auxTime >= horaMin ) {
+                    if( auxTime <= horaMax)
+                        this.isOnline = true;
                 }
             }
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     public int getIdEvento() {return id;}
