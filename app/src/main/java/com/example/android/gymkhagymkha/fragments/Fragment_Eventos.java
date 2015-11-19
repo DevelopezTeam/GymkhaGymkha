@@ -196,7 +196,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(R.string.title_entrandoEvento);
                         builder.setIcon(R.drawable.ic_info_black_24dp);
-                        builder.setMessage(R.string.message_EventoCerrado)
+                        builder.setMessage(R.string.message_entrandoEvento)
                                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         intentGame();
