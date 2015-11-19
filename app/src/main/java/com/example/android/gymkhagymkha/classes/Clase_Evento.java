@@ -43,7 +43,7 @@ public class Clase_Evento {
         descripcion = objetoJSON.getString("descripcion");
         diaEmpiece = objetoJSON.getString("diaEmpiece");
         hora = objetoJSON.getString("horaEmpiece");
-        hora = "23:45";
+        /*hora = "23:45";
         try {
             SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
             DateFormat formatTime = new SimpleDateFormat ("hh:mm");
@@ -61,7 +61,7 @@ public class Clase_Evento {
             }
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public int getIdEvento() {return id;}

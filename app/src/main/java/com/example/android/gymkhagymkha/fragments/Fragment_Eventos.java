@@ -171,15 +171,13 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         manager.borrarTesoros();
-
-        Cursor cursorEventos = manager.cursorEventos();
-        cursorEventos.moveToPosition(position);
-        String fechaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE));
-
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        //try {
+            Cursor cursorEventos = manager.cursorEventos();
+            cursorEventos.moveToPosition(position);
+            String fechaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE));
+            /*SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date event = formatter.parse(fechaEvento);
-            if (event.getDate() == new Date().getDate()) {
+            if (event.getDate() == new Date().getDate()) {*/
                 Intent intent = new Intent(getActivity(), Activity_Game.class);
                 int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
                 SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
@@ -189,7 +187,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 
                 intent.putExtra("idEvento",idEvento );
                 startActivity(intent);
-            } else {
+           /*} else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.title_EventoCerrado);
                 builder.setIcon(R.drawable.ic_lock_black_24dp);
@@ -202,7 +200,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             }
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
