@@ -59,6 +59,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     int idAdministrador;
     boolean inAsyncTask;
     FloatingActionButton fabEventos;
+    int positionEvento;
     TextView tvDescripcionEventoDialog, tvNombreEventoDialog, tvHoraEventoDialog, tvFechaEvento;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -176,6 +177,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         try {
             Cursor cursorEventos = manager.cursorEventos();
             cursorEventos.moveToPosition(position);
+            this.positionEvento = position;
             String fechaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE));
             String horaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR));
             DateFormat formatTime = new SimpleDateFormat ("hh:mm");
@@ -191,14 +193,22 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             if (event.getDate() == new Date().getDate()) {
                 if (auxTime >= horaMin ) {
                     if( auxTime <= horaMax) {
-                        Intent intent = new Intent(getActivity(), Activity_Game.class);
-                        int idEvento = cursorEventos.getInt(cursorEventos.getColumnIndex(manager.CN_IDEVENT));
-                        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putInt("idEvento", idEvento);
-                        editor.commit();
-                        intent.putExtra("idEvento",idEvento );
-                        startActivity(intent);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(R.string.title_entrandoEvento);
+                        builder.setIcon(R.drawable.ic_info_black_24dp);
+                        builder.setMessage(R.string.message_EventoCerrado)
+                                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        intentGame();
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                    }
+                                });
+                        builder.show();
+
                     } else {
                         lanzarDialogEventoCerrado();
                     }
@@ -211,6 +221,19 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private void intentGame() {
+        Intent intent = new Intent(getActivity(), Activity_Game.class);
+        Cursor cursor = manager.cursorEventos();
+        cursor.moveToPosition(this.positionEvento);
+        int idEvento = cursor.getInt(cursor.getColumnIndex(manager.CN_IDEVENT));
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("idEvento", idEvento);
+        editor.commit();
+        intent.putExtra("idEvento", idEvento);
+        startActivity(intent);
     }
 
     private void lanzarDialogEventoCerrado() {
