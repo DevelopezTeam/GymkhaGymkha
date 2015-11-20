@@ -190,6 +190,8 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             long horaMin = cal.getTimeInMillis();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date event = formatter.parse(fechaEvento);
+            intentGame();
+            /*
             if (event.getDate() == new Date().getDate()) {
                 if (auxTime >= horaMin ) {
                     if( auxTime <= horaMax) {
@@ -218,6 +220,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
            } else {
                 lanzarDialogEventoCerrado();
             }
+            */
         } catch (ParseException e) {
             e.printStackTrace();
         }

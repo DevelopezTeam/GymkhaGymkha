@@ -256,7 +256,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     private void updateUI() {
         String mensaje = "Cambiando location Latitud:" + mCurrentLocation.getLatitude() + " Longitud:" + mCurrentLocation.getLongitude();
         ((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
-        Toast.makeText(getActivity(), "Cambiando location Latitud:" + mCurrentLocation.getLatitude() + " Longitud:" + mCurrentLocation.getLongitude(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), "Cambiando location Latitud:" + mCurrentLocation.getLatitude() + " Longitud:" + mCurrentLocation.getLongitude(), Toast.LENGTH_LONG).show();
 
     }
 
@@ -336,14 +336,14 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     @Override
     public void onLocationChanged(Location location) {
 
-        String mensaje = "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude();
-        ((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
-        Toast.makeText(getActivity(), "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude(), Toast.LENGTH_LONG).show();
+        //String mensaje = "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude();
+        //((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
 
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         updateUI();
         Toast.makeText(getActivity(), "La location ha updateado",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override
