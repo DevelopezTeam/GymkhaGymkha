@@ -57,8 +57,11 @@ public class Activity_Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		// Inicializamos el SharedPreferences
         prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+		// Recogemos una variable del SharedPreferences
         int idTema = prefs.getInt("idTema", 0);
+		// Insertamos el tema correspondiente a la variable
         switch (idTema) {
             case 1: this.setTheme(R.style.Purple_Theme);break;
             case 2: this.setTheme(R.style.Red_Theme);break;
@@ -87,7 +90,7 @@ public class Activity_Login extends AppCompatActivity {
         toolbarLogin.setTitleTextColor(getResources().getColor(R.color.md_text_white));
         setSupportActionBar(toolbarLogin);
 
-        // Estilo de la barra de estado
+        // Estilo de la barra de estado para android Lollipop
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Login.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -121,6 +124,7 @@ public class Activity_Login extends AppCompatActivity {
                     // Activamos el botón acceder
                     btnLogin.setEnabled(true);
                 else
+					// Desactivamos el botçon acceder
                     btnLogin.setEnabled(false);
             }
 
@@ -143,6 +147,7 @@ public class Activity_Login extends AppCompatActivity {
                     // Activamos el botón acceder
                     btnLogin.setEnabled(true);
                 else
+					// Desactivamos el botón acceder
                     btnLogin.setEnabled(false);
             }
 
@@ -160,9 +165,11 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     private void setTheme() {
+		// Recogemos una variable del SharedPreferences
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
             case 1:
+				// Cambiamos el color del toolbar respecto al valor de la variable
                 toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
                 break;
             case 2:
@@ -280,6 +287,7 @@ public class Activity_Login extends AppCompatActivity {
             String linea;
             resul = "";
             try {
+				// Leemos la salida de la llamada
                 URL url = new URL(_url[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream is = new BufferedInputStream(urlConnection.getInputStream());
@@ -307,7 +315,6 @@ public class Activity_Login extends AppCompatActivity {
                 Clase_Jugador jugador;
                 try {
                     resultadoJSON = new JSONObject(resul);
-
                     jugador = new Clase_Jugador(resultadoJSON);
                     Toast.makeText(Activity_Login.this, "Bienvenido "+jugador.getNombre(), Toast.LENGTH_LONG).show();
                     manager.login(jugador.getIdJugador(), jugador.getUsuario(), jugador.getNombre(), jugador.getApellido(), jugador.getEmail(),jugador.getIdAministrador(),jugador.getIdCentro());

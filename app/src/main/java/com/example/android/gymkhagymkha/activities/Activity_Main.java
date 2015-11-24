@@ -56,8 +56,11 @@ public class Activity_Main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		// Instanciamos los SharedPreferences
         prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+		// Recogemos un valor 
         int idTema = prefs.getInt("idTema", 0);
+		// Se añadirá el tema que corresponda
         switch (idTema) {
             case 1: this.setTheme(R.style.Purple_Theme);break;
             case 2: this.setTheme(R.style.Red_Theme);break;
@@ -100,22 +103,21 @@ public class Activity_Main extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Eventos");
 
-        // Inicializamos el Menu Lateral
+        // Inicializamos el menú lateral
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-
         View header = LayoutInflater.from(this).inflate(R.layout.navigation_drawer_header, null);
         navigationView.addHeaderView(header);
         ivHeader = (ImageView) header.findViewById(R.id.ivHeader);
         tvUsuarioBurguer = (TextView) header.findViewById(R.id.tvUsuarioBurguer);
         tvUsuarioBurguer.setText(fullname);
-
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
         }
+		// Llamamos a este método para completar de añadir el tema
         setTheme();
 
-        // Le damos el estilo a la barra de estado
+        // Le damos el estilo a la barra de estado en android Lollipop
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Main.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -125,10 +127,13 @@ public class Activity_Main extends AppCompatActivity {
     }
 
     private void setTheme() {
+		// Recogemos el dato que se refiere al tema del SharedPreferences
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
             case 1:
+				// Cambia de color al toolbar
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+				// Cambia el fondo al header del menú lateral 
                 header_purple = getResources().getDrawable(R.drawable.header_purple);
                 ivHeader.setImageDrawable(header_purple);
                 break;
@@ -194,6 +199,7 @@ public class Activity_Main extends AppCompatActivity {
                 if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
+					// Mostramos un dialog advirtiendo de que vamos a salir de la app
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle(R.string.title_cerrarApp);
                     builder.setMessage(R.string.message_cerrarApp);
@@ -224,6 +230,7 @@ public class Activity_Main extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.item_navigation_drawer_eventos:
+								// Marcamos el item del menú lateral
                                 menuItem.setChecked(true);
                                 /*********MOSTRAR Y OCULTAR FRAGMENT*************/
                                 fManager = getFragmentManager();
@@ -234,7 +241,9 @@ public class Activity_Main extends AppCompatActivity {
                                 fTransaction.hide(fAyudaContacto);
                                 fTransaction.commit();
                                 /*******************************************/
+								// Ponemos el titulo del item del menú lateral
                                 toolbar.setTitle(menuItem.getTitle());
+								// Cerramos el menú lateral
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_ranking:

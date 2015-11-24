@@ -59,8 +59,11 @@ public class Activity_Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		// Inicializamos el SharedPreferences
         prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+		// Recogemos una variable del SharedPreferences
         int idTema = prefs.getInt("idTema", 0);
+		// Insertamos un tema dependiendo del valor de la variable anterior
         switch (idTema) {
             case 1: this.setTheme(R.style.Purple_Theme);break;
             case 2: this.setTheme(R.style.Red_Theme);break;
@@ -71,6 +74,7 @@ public class Activity_Game extends AppCompatActivity {
         }
         setContentView(R.layout.activity_game);
 
+		// Insertamos un estilo a la barra de estado en android Lollipop
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Game.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -78,12 +82,15 @@ public class Activity_Game extends AppCompatActivity {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
 
+		// Instanciamos la toolbar
         toolbarInGame = (Toolbar) findViewById(R.id.toolbarInGame);
         setSupportActionBar(toolbarInGame);
 
+		// Instanciamos el viewpager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         addFragmentToViewPager(viewPager);
 
+		// Instanciamos el tablayout
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -99,14 +106,18 @@ public class Activity_Game extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+		// Si pulsamos a la opción salir del evento del menú
         if (id == R.id.action_salirEvento) {
+			// Mostrará un dialog donde nos avisará que vamos a salir
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.title_salirEvento);
             builder.setIcon(R.drawable.ic_warning_black_24dp);
             builder.setMessage(R.string.message_salirEvento)
+					// Si pulsamos al positivo, saldremos
                     .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             salirEvento();}})
+					// Si pulsamos al negativo, nos quedaremos
                     .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {}});
             builder.show();
@@ -116,6 +127,7 @@ public class Activity_Game extends AppCompatActivity {
     }
 
     private void salirEvento() {
+		// Intento al MainActivity
         Intent intent = new Intent(this, Activity_Main.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -125,16 +137,20 @@ public class Activity_Game extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keycode, KeyEvent e) {
         switch(keycode) {
+			// Si pulsamos el botón back, no hará nada
             case KeyEvent.KEYCODE_BACK: return true;
         }
         return super.onKeyDown(keycode, e);
     }
 
     private void setTheme() {
+		// Recogemos una variable del SharedPreferences
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
             case 1:
+				// Añadimos el color correspondiente al toolbar
                 toolbarInGame.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+				// Añadimos el color correspondiente al tabLayout
                 tabLayout.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
                 break;
             case 2:
@@ -160,12 +176,17 @@ public class Activity_Game extends AppCompatActivity {
         }
     }
 
+	// Añadimos las vistas de los Fragments al ViewPager
     private void addFragmentToViewPager(ViewPager viewPager) {
+		// Inicializamos el ViewPagerAdapter
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+		// Añadimos al adapter las vistas de los Fragments
         adapter.addFragment(new Fragment_Pista(), "Pista");
         adapter.addFragment(new Fragment_Mapa(), "Mapa");
         adapter.addFragment(new Fragment_Ranking_Evento(), "Ranking");
+		// Añadimos el adaptador al viewpager
         viewPager.setAdapter(adapter);
+		// Posicionamos el viewpager en la posición 1 (en este caso en medio)
         viewPager.setCurrentItem(1);
     }
 
@@ -188,6 +209,7 @@ public class Activity_Game extends AppCompatActivity {
             return mFragmentList.size();
         }
 
+		// Añades el fragment al adapter y le pones su titulo
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);

@@ -31,9 +31,13 @@ public class Activity_Ajustes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		// Inicializamos el SharedPreferences
         prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+		// El SharedPreferences será editable
         editor = prefs.edit();
+		// Recogemos el valor de una variable
         int idTema = prefs.getInt("idTema", 0);
+		// Añadimos un tema dependiendo del valor de la variable
         switch (idTema) {
             case 1: this.setTheme(R.style.Purple_Theme);break;
             case 2: this.setTheme(R.style.Red_Theme);break;
@@ -49,7 +53,7 @@ public class Activity_Ajustes extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Le damos el estilo a la barra de estado
+        // Le damos el estilo a la barra de estado en android Lollipop
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         Activity_Ajustes.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
@@ -57,12 +61,18 @@ public class Activity_Ajustes extends AppCompatActivity {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
 
+		// Instanciamos el botón
         btnCambiarTema = (Button) this.findViewById(R.id.btnCambiarTema);
+		// Añadimos un escuchador al botón
         btnCambiarTema.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				// Mostrará un dialog al pulsar el botón
                 final Dialog dialog = new Dialog(Activity_Ajustes.this);
+				// Añadimos una vista personalizada a este dialog
                 dialog.setContentView(R.layout.dialog_cambiar_tema);
+				// Añadimos un título al dialog
                 dialog.setTitle(R.string.title_cambiarTema);
+				// Instanciamos los botones que contiene
                 ibPurple = (ImageButton) dialog.findViewById(R.id.ibPurple);
                 ibRed = (ImageButton) dialog.findViewById(R.id.ibRed);
                 ibBlue = (ImageButton) dialog.findViewById(R.id.ibBlue);
@@ -70,10 +80,14 @@ public class Activity_Ajustes extends AppCompatActivity {
                 ibOrange = (ImageButton) dialog.findViewById(R.id.ibOrange);
                 ibYellow = (ImageButton) dialog.findViewById(R.id.ibYellow);
                 btnCancelarTema = (Button) dialog.findViewById(R.id.btnCancelarTema);
+				// Añadimos escuchadores a todos
                 ibPurple.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+						// Insertamos un valor a una variable del SharedPreferences
                         editor.putInt("idTema", 1);
+						// La commiteamos
                         editor.commit();
+						// Y hacemos un intent para ver los resultamos
                         intentMainActivity();
                     }
                 });
@@ -122,9 +136,11 @@ public class Activity_Ajustes extends AppCompatActivity {
         });
         setToolbarTheme();
     }
-
+	
     private void setToolbarTheme() {
+		// Recogemos una variable del SharedPreferences
         int idTema = prefs.getInt("idTema", 0);
+		// Añade un color al toolbar dependiendo del valor de la variable anterior
         switch (idTema) {
             case 1: toolbar.setBackgroundColor(getResources().getColor(R.color.md_purple_800));break;
             case 2: toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));break;
@@ -136,6 +152,7 @@ public class Activity_Ajustes extends AppCompatActivity {
     }
 
     private void intentMainActivity() {
+		// Intent al MainActivity
         Intent intent = new Intent(Activity_Ajustes.this, Activity_Main.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -152,7 +169,7 @@ public class Activity_Ajustes extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // Mostramos un AlertDialog
+        // Mostramos un AlertDialog al pulsar el menú
         if (id == R.id.action_acercade) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.title_acercade);
