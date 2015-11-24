@@ -1,7 +1,9 @@
 package com.example.android.gymkhagymkha.fragments;
 
 import android.app.FragmentManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -9,6 +11,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +23,16 @@ import android.widget.Toast;
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
+import com.example.android.gymkhagymkha.geofence.GeofenceErrorMessages;
+import com.example.android.gymkhagymkha.geofence.GeofenceTransitionsIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -56,12 +65,15 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Fragment_Mapa extends android.support.v4.app.Fragment implements OnMapReadyCallback,
         LocationListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        ResultCallback<Status> {
 
     protected static final String TAG = "location-updates";
 
@@ -97,22 +109,6 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      */
     protected Location mCurrentLocation;
 
-    // UI Widgets.
-    /*
-    protected Button mStartUpdatesButton;
-    protected Button mStopUpdatesButton;
-    protected TextView mLastUpdateTimeTextView;
-    protected TextView mLatitudeTextView;
-    protected TextView mLongitudeTextView;
-    */
-
-    // Labels.
-    /*
-    protected String mLatitudeLabel;
-    protected String mLongitudeLabel;
-    protected String mLastUpdateTimeLabel;
-    */
-
     /**
      * Tracks the status of the location updates request. Value changes when the user presses the
      * Start Updates and Stop Updates buttons.
@@ -123,6 +119,57 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      * Time when the location was updated represented as a String.
      */
     protected String mLastUpdateTime;
+
+    //GEOFENCE
+    /**
+     * The list of geofences used in this sample.
+     */
+    protected ArrayList<Geofence> mGeofenceList;
+
+    /**
+     * Used to keep track of whether geofences were added.
+     */
+    private boolean mGeofence1Added;
+    private boolean mGeofence2Added;
+
+    /**
+     * Used when requesting to add or remove geofences.
+     */
+    private PendingIntent mGeofencePendingIntent;
+
+    /**
+     * Used to persist application state about whether geofences were added.
+     */
+
+    private String GEOFENCE1_ADDED_KEY = "GEOFENCE1_ADDED_KEY";
+    private String GEOFENCE2_ADDED_KEY = "GEOFENCE2_ADDED_KEY";
+    /**
+     * Used to set an expiration time for a geofence. After this amount of time Location Services
+     * stops tracking the geofence.
+     */
+    private long GEOFENCE_EXPIRATION_IN_HOURS = 1;
+
+    /**
+     * For this sample, geofences expire after twelve hours.
+     */
+    private long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
+            GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
+    private float GEOFENCE_RADIUS_BIG_IN_METERS = 100;
+    private float GEOFENCE_RADIUS_SMALL_IN_METERS = 20;
+
+    /**
+     * Map for storing information about airports in the San Francisco bay area.
+     */
+    private static HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
+    static {
+        // San Francisco International Airport.
+        //BAY_AREA_LANDMARKS.put("SFO", new LatLng(37.621313, -122.378955));
+        // Garcia noblejas 40.428669, -3.633325.
+        //BAY_AREA_LANDMARKS.put("GARCIA NOBLEJEISION", new LatLng(40.428669, -3.633325)); 40.433131, -3.627294
+        //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
+    }
+
+    private SharedPreferences prefs;
 
     private GoogleMap mMap;
     private BDManager manager;
@@ -149,6 +196,21 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
         mRequestingLocationUpdates = false;
         mLastUpdateTime = "";
+
+        // Empty list for storing geofences.
+        mGeofenceList = new ArrayList<Geofence>();
+
+        // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
+        mGeofencePendingIntent = null;
+
+        prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+
+        // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
+        mGeofence1Added = prefs.getBoolean(GEOFENCE1_ADDED_KEY, false);
+        mGeofence2Added = prefs.getBoolean(GEOFENCE2_ADDED_KEY, false);
+
+        // Get the geofences used. Geofence data is hard coded in this sample.
+        populateGeofenceList();
 
         // Update values using data stored in the Bundle.
         updateValuesFromBundle(savedInstanceState);
@@ -359,6 +421,21 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+
+        // The INITIAL_TRIGGER_ENTER flag indicates that geofencing service should trigger a
+        // GEOFENCE_TRANSITION_ENTER notification when the geofence is added and if the device
+        // is already inside that geofence.
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+
+        // Add the geofences to be monitored by geofencing service.
+        builder.addGeofences(mGeofenceList);
+
+        // Return a GeofencingRequest.
+        return builder.build();
+    }
+
     /*
     @Override
     public void onDestroy() {
@@ -409,6 +486,77 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         this.myLocation = myLocation;
     }
 
+    public void populateGeofenceList() {
+        for (Map.Entry<String, LatLng> entry : BAY_AREA_LANDMARKS.entrySet()) {
+            float auxRadiusMeter;
+            if( entry.getKey().compareTo("CIRCLE_SMALL") == 0 ){
+                auxRadiusMeter = GEOFENCE_RADIUS_SMALL_IN_METERS;
+            }
+            else{
+                auxRadiusMeter = GEOFENCE_RADIUS_BIG_IN_METERS;
+            }
+                mGeofenceList.add(new Geofence.Builder()
+                        // Set the request ID of the geofence. This is a string to identify this
+                        // geofence.
+                        .setRequestId(entry.getKey())
+
+                                // Set the circular region of this geofence.
+                        .setCircularRegion(
+                                entry.getValue().latitude,
+                                entry.getValue().longitude,
+                                auxRadiusMeter
+                        )
+
+                                // Set the expiration duration of the geofence. This geofence gets automatically
+                                // removed after this period of time.
+                        .setExpirationDuration(GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+
+                                // Set the transition types of interest. Alerts are only generated for these
+                                // transition. We track entry and exit transitions in this sample.
+                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                                Geofence.GEOFENCE_TRANSITION_EXIT)
+
+                                // Create the geofence.
+                        .build());
+
+
+        }
+    }
+
+    @Override
+    public void onResult(Status status) {
+        if (status.isSuccess()) {
+            // Update state and save in shared preferences.
+            mGeofence1Added = !mGeofence1Added;
+            mGeofence2Added = !mGeofence2Added;
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(GEOFENCE1_ADDED_KEY, mGeofence1Added);
+            editor.putBoolean(GEOFENCE2_ADDED_KEY, mGeofence2Added);
+            editor.apply();
+
+        } else {
+            // Get the status code for the error and log it using a user-friendly message.
+            String errorMessage = GeofenceErrorMessages.getErrorString(getActivity(),
+                    status.getStatusCode());
+            Log.e("GEOFENCE", errorMessage);
+        }
+    }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        if (mGeofencePendingIntent != null) {
+            return mGeofencePendingIntent;
+        }
+        Intent intent = new Intent(getActivity(), GeofenceTransitionsIntentService.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
+        // addGeofences() and removeGeofences().
+        return PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private void logSecurityException(SecurityException securityException) {
+        Log.e("GEOFENCE", "Invalid location permission. " +
+                "You need to use ACCESS_FINE_LOCATION with geofences", securityException);
+    }
 
     public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
 
@@ -467,7 +615,6 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     tvPista = (TextView) getActivity().findViewById(R.id.tvPista);
                     tvPista.setText(auxPista);
 
-                    SharedPreferences prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("pista", auxPista);
                     editor.commit();
@@ -497,6 +644,24 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                         if (!mRequestingLocationUpdates) {
                             mRequestingLocationUpdates = true;
                             startLocationUpdates();
+                            //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
+                            BAY_AREA_LANDMARKS.put("CIRCLE_BIG",new LatLng(latitud, longitud));
+                            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL",new LatLng(latitud, longitud));
+                            ResultCallback r = (ResultCallback) getChildFragmentManager().findFragmentById(R.id.map);
+                            try {
+                                LocationServices.GeofencingApi.addGeofences(
+                                        mGoogleApiClient,
+                                        // The GeofenceRequest object.
+                                        getGeofencingRequest(),
+                                        // A pending intent that that is reused when calling removeGeofences(). This
+                                        // pending intent is used to generate an intent when a matched geofence
+                                        // transition is observed.
+                                        getGeofencePendingIntent()
+                                ).setResultCallback(r); // Result processed in onResult().
+                            } catch (SecurityException securityException) {
+                                // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+                                logSecurityException(securityException);
+                            }
                         }
                     }
 
