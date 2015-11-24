@@ -87,7 +87,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             sendNotification(geofenceTransitionDetails);
             Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
             //Star wars
-            v.vibrate(new long[]{0,500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500},-1);
+            //v.vibrate(new long[]{0,500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500},-1);
             //Final fantasy sumado 50 a cada uno
             //v.vibrate(new long[]{100,150,100,150,100,150,450,150,350,150,400,100,250,150,150,100,650},-1);
             Log.i(TAG, geofenceTransitionDetails);
@@ -110,7 +110,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             int geofenceTransition,
             List<Geofence> triggeringGeofences) {
 
-        String geofenceTransitionString = getTransitionString(geofenceTransition);
+        String geofenceTransitionString = getTransitionString(geofenceTransition,triggeringGeofences);
 
         // Get the Ids of each geofence that was triggered.
         ArrayList triggeringGeofencesIdsList = new ArrayList();
@@ -119,7 +119,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         }
         String triggeringGeofencesIdsString = TextUtils.join(", ",  triggeringGeofencesIdsList);
 
-        return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
+        return geofenceTransitionString;
     }
 
     /**
@@ -180,14 +180,26 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * @param transitionType    A transition type constant defined in Geofence
      * @return                  A String indicating the type of transition
      */
-    private String getTransitionString(int transitionType) {
-        switch (transitionType) {
-            case Geofence.GEOFENCE_TRANSITION_ENTER:
-                return getString(R.string.geofence_transition_entered);
-            case Geofence.GEOFENCE_TRANSITION_EXIT:
-                return getString(R.string.geofence_transition_exited);
-            default:
-                return getString(R.string.unknown_geofence_transition);
+    private String getTransitionString(int transitionType, List<Geofence> triggeringGeofences) {
+        if(triggeringGeofences.get(0).getRequestId().compareTo("CIRCLE_SMALL") == 0){
+            switch (transitionType) {
+                case Geofence.GEOFENCE_TRANSITION_ENTER:
+                    return getString(R.string.geofence_transition_entered_small);
+                case Geofence.GEOFENCE_TRANSITION_EXIT:
+                    return getString(R.string.geofence_transition_exited_small);
+                default:
+                    return getString(R.string.unknown_geofence_transition);
+            }
+        }
+        else{
+            switch (transitionType) {
+                case Geofence.GEOFENCE_TRANSITION_ENTER:
+                    return getString(R.string.geofence_transition_entered_big);
+                case Geofence.GEOFENCE_TRANSITION_EXIT:
+                    return getString(R.string.geofence_transition_exited_big);
+                default:
+                    return getString(R.string.unknown_geofence_transition);
+            }
         }
     }
 }

@@ -180,6 +180,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     private Toolbar toolbarInGame;
     private TextView tvPista;
     Location myLocation;
+    boolean firstTimeZoom = false;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mapa, container, false);
@@ -208,9 +209,6 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
         mGeofence1Added = prefs.getBoolean(GEOFENCE1_ADDED_KEY, false);
         mGeofence2Added = prefs.getBoolean(GEOFENCE2_ADDED_KEY, false);
-
-        // Get the geofences used. Geofence data is hard coded in this sample.
-        populateGeofenceList();
 
         // Update values using data stored in the Bundle.
         updateValuesFromBundle(savedInstanceState);
@@ -316,8 +314,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      * Updates the latitude, the longitude, and the last location time in the UI.
      */
     private void updateUI() {
-        String mensaje = "Cambiando location Latitud:" + mCurrentLocation.getLatitude() + " Longitud:" + mCurrentLocation.getLongitude();
-        ((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
+        //String mensaje = "Cambiando location Latitud:" + mCurrentLocation.getLatitude() + " Longitud:" + mCurrentLocation.getLongitude();
+        //((TextView) getActivity().findViewById(R.id.tvPista)).setText(mensaje);
         //Toast.makeText(getActivity(), "Cambiando location Latitud:" + mCurrentLocation.getLatitude() + " Longitud:" + mCurrentLocation.getLongitude(), Toast.LENGTH_LONG).show();
 
     }
@@ -406,6 +404,14 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         updateUI();
         Toast.makeText(getActivity(), "La location ha updateado",Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude(), Toast.LENGTH_LONG).show();
+        if(!firstTimeZoom){
+            CameraPosition position = new CameraPosition.Builder()
+                    .target(new LatLng(location.getLatitude(), location.getLongitude()))
+                            //.target(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()))
+                    .zoom(16).build();
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+        }
     }
 
     @Override
@@ -558,6 +564,23 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                 "You need to use ACCESS_FINE_LOCATION with geofences", securityException);
     }
 
+    private void insertarGeofences(){
+        try {
+            LocationServices.GeofencingApi.addGeofences(
+                    mGoogleApiClient,
+                    // The GeofenceRequest object.
+                    getGeofencingRequest(),
+                    // A pending intent that that is reused when calling removeGeofences(). This
+                    // pending intent is used to generate an intent when a matched geofence
+                    // transition is observed.
+                    getGeofencePendingIntent()
+            ).setResultCallback(this); // Result processed in onResult().
+        } catch (SecurityException securityException) {
+            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+            logSecurityException(securityException);
+        }
+    }
+
     public class AsyncTesoros extends AsyncTask<String, Void, StringBuilder> {
 
         @Override
@@ -629,16 +652,23 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 16));
                     mMap.addCircle(new CircleOptions()
                             .center(new LatLng(latitud, longitud))
-                            .radius(250)
+                            .radius(GEOFENCE_RADIUS_BIG_IN_METERS)
                             .strokeColor(Color.RED)
                             .fillColor(Color.TRANSPARENT));
+                    mMap.addCircle(new CircleOptions()
+                            .center(new LatLng(latitud, longitud))
+                            .radius(GEOFENCE_RADIUS_SMALL_IN_METERS)
+                            .strokeColor(Color.BLUE)
+                            .fillColor(Color.TRANSPARENT));
                     setMyLocation(mMap.getMyLocation());
+                    /*
                     CameraPosition position = new CameraPosition.Builder()
                             .target(new LatLng(latitud, longitud))
                             //.target(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()))
                             .zoom(16).build();
 
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+                    */
 
                     if(!mGoogleApiClient.isConnecting()){
                         if (!mRequestingLocationUpdates) {
@@ -646,22 +676,10 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             startLocationUpdates();
                             //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
                             BAY_AREA_LANDMARKS.put("CIRCLE_BIG",new LatLng(latitud, longitud));
-                            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL",new LatLng(latitud, longitud));
-                            ResultCallback r = (ResultCallback) getChildFragmentManager().findFragmentById(R.id.map);
-                            try {
-                                LocationServices.GeofencingApi.addGeofences(
-                                        mGoogleApiClient,
-                                        // The GeofenceRequest object.
-                                        getGeofencingRequest(),
-                                        // A pending intent that that is reused when calling removeGeofences(). This
-                                        // pending intent is used to generate an intent when a matched geofence
-                                        // transition is observed.
-                                        getGeofencePendingIntent()
-                                ).setResultCallback(r); // Result processed in onResult().
-                            } catch (SecurityException securityException) {
-                                // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
-                                logSecurityException(securityException);
-                            }
+                            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitud, longitud));
+                            // Get the geofences used. Geofence data is hard coded in this sample.
+                            populateGeofenceList();
+                            insertarGeofences();
                         }
                     }
 
