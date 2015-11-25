@@ -154,7 +154,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      */
     private long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
             GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
-    private float GEOFENCE_RADIUS_BIG_IN_METERS = 100;
+    private float GEOFENCE_RADIUS_BIG_IN_METERS = 120;
     private float GEOFENCE_RADIUS_SMALL_IN_METERS = 20;
 
     /**
@@ -411,6 +411,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     .zoom(16).build();
 
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+            firstTimeZoom = true;
         }
     }
 
