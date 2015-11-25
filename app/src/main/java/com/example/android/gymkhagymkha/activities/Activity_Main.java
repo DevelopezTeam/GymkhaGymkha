@@ -17,10 +17,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +34,9 @@ import com.example.android.gymkhagymkha.fragments.Fragment_Cuenta;
 import com.example.android.gymkhagymkha.fragments.Fragment_Eventos;
 import com.example.android.gymkhagymkha.fragments.Fragment_Ranking_General;
 import com.example.android.gymkhagymkha.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Activity_Main extends AppCompatActivity {
 
@@ -52,6 +57,9 @@ public class Activity_Main extends AppCompatActivity {
     SharedPreferences prefs;
     NavigationView navigationView;
     ImageView ivHeader;
+    List<Integer> myRoad;
+    MenuItem menuItem;
+    Menu menu_drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,10 @@ public class Activity_Main extends AppCompatActivity {
             case 6: this.setTheme(R.style.Yellow_Theme);break;
         }
         setContentView(R.layout.activity_main);
+
+        myRoad = new ArrayList<Integer>();
+        myRoad.add(0);
+        myRoad.add(1);
 
         // Inicializamos el Fragment_Manager, el Fragment_Transaction
         fManager = getFragmentManager();
@@ -102,10 +114,12 @@ public class Activity_Main extends AppCompatActivity {
 
         // Inicializamos el Menu Lateral
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
+        //drawerLayout.setDrawerListener();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         View header = LayoutInflater.from(this).inflate(R.layout.navigation_drawer_header, null);
         navigationView.addHeaderView(header);
+        navigationView.inflateMenu(R.menu.navigation_drawer_menu);
         ivHeader = (ImageView) header.findViewById(R.id.ivHeader);
         tvUsuarioBurguer = (TextView) header.findViewById(R.id.tvUsuarioBurguer);
         tvUsuarioBurguer.setText(fullname);
@@ -177,6 +191,47 @@ public class Activity_Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void ocultarFragments (int position) {
+        switch (position) {
+            case 1:
+                fManager = getFragmentManager();
+                fTransaction = fManager.beginTransaction();
+                fTransaction.show(fEventos);
+                fTransaction.hide(fRankingGeneral);
+                fTransaction.hide(fCuenta);
+                fTransaction.hide(fAyudaContacto);
+                fTransaction.commit();
+            return;
+            case 2:
+                fManager = getFragmentManager();
+                fTransaction = fManager.beginTransaction();
+                fTransaction.hide(fEventos);
+                fTransaction.show(fRankingGeneral);
+                fTransaction.hide(fCuenta);
+                fTransaction.hide(fAyudaContacto);
+                fTransaction.commit();
+                return;
+            case 3:
+                fManager = getFragmentManager();
+                fTransaction = fManager.beginTransaction();
+                fTransaction.hide(fEventos);
+                fTransaction.hide(fRankingGeneral);
+                fTransaction.show(fCuenta);
+                fTransaction.hide(fAyudaContacto);
+                fTransaction.commit();
+                return;
+            case 4:
+                fManager = getFragmentManager();
+                fTransaction = fManager.beginTransaction();
+                fTransaction.hide(fEventos);
+                fTransaction.hide(fRankingGeneral);
+                fTransaction.hide(fCuenta);
+                fTransaction.show(fAyudaContacto);
+                fTransaction.commit();
+                return;
+        }
+    }
+
     // Evento para botones
     @Override
     public boolean onKeyDown(int keycode, KeyEvent e) {
@@ -191,29 +246,65 @@ public class Activity_Main extends AppCompatActivity {
                 return true;
             // Con el botón back cerraremos el Navigation-Drawer antes de salir de la app
             case KeyEvent.KEYCODE_BACK:
+                int position = 0;
                 if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle(R.string.title_cerrarApp);
-                    builder.setMessage(R.string.message_cerrarApp);
-                    builder.setIcon(R.drawable.ic_warning_black_24dp)
-
-                        /* Si pulsamos aceptar saldriamos de la aplicación */
-                            .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    finish();
-                                }
-                            })
-                                    // Si pulsamos cancelar no haría nada
-                            .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                }
-                            });
-                    builder.show();
+                    if (myRoad.size() > 1) {
+                        myRoad.remove(myRoad.get(myRoad.size() - 1));
+                    }
+                    position = myRoad.get(myRoad.size() - 1);
+                    switch (position) {
+                        case 0:
+                                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                                builder.setTitle(R.string.title_cerrarApp);
+                                builder.setMessage(R.string.message_cerrarApp);
+                                builder.setIcon(R.drawable.ic_warning_black_24dp)
+                                        //Si pulsamos aceptar saldriamos de la aplicación
+                                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                finish();
+                                            }
+                                        })
+                                        // Si pulsamos cancelar no haría nada
+                                        .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                myRoad.add(1);
+                                            }
+                                        });
+                                builder.show();
+                                return true;
+                        case 1:
+                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_eventos);
+                            menuItem.setChecked(true);*/
+                            ocultarFragments(1);
+                            //toolbar.setTitle(menuItem.getTitle());
+                            toolbar.setTitle("Eventos");
+                            return true;
+                        case 2:
+                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ranking);
+                            menuItem.setChecked(true);*/
+                            ocultarFragments(2);
+                            //toolbar.setTitle(menuItem.getTitle());
+                            toolbar.setTitle("Ranking");
+                            return true;
+                        case 3:
+                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_cuenta);
+                            menuItem.setChecked(true);*/
+                            ocultarFragments(3);
+                            //toolbar.setTitle(menuItem.getTitle());
+                            toolbar.setTitle("Cuenta");
+                            return true;
+                        case 4:
+                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ayuda_y_contacto);
+                            menuItem.setChecked(true);*/
+                            ocultarFragments(4);
+                            //toolbar.setTitle(menuItem.getTitle());
+                            toolbar.setTitle("Ayuda y Contacto");
+                            return true;
+                        }
+                    }
                 }
-                return true;
-        }
         return super.onKeyDown(keycode, e);
     }
 
@@ -225,43 +316,22 @@ public class Activity_Main extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.item_navigation_drawer_eventos:
                                 menuItem.setChecked(true);
-                                /*********MOSTRAR Y OCULTAR FRAGMENT*************/
-                                fManager = getFragmentManager();
-                                fTransaction = fManager.beginTransaction();
-                                fTransaction.show(fEventos);
-                                fTransaction.hide(fRankingGeneral);
-                                fTransaction.hide(fCuenta);
-                                fTransaction.hide(fAyudaContacto);
-                                fTransaction.commit();
-                                /*******************************************/
+                                ocultarFragments(1);
+                                myRoad.add(1);
                                 toolbar.setTitle(menuItem.getTitle());
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_ranking:
                                 menuItem.setChecked(true);
-                                /*********MOSTRAR Y OCULTAR FRAGMENT*************/
-                                fManager = getFragmentManager();
-                                fTransaction = fManager.beginTransaction();
-                                fTransaction.hide(fEventos);
-                                fTransaction.show(fRankingGeneral);
-                                fTransaction.hide(fCuenta);
-                                fTransaction.hide(fAyudaContacto);
-                                fTransaction.commit();
-                                /*******************************************/
+                                ocultarFragments(2);
+                                myRoad.add(2);
                                 toolbar.setTitle(menuItem.getTitle());
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_cuenta:
                                 menuItem.setChecked(true);
-                                /*********MOSTRAR Y OCULTAR FRAGMENT*************/
-                                fManager = getFragmentManager();
-                                fTransaction = fManager.beginTransaction();
-                                fTransaction.hide(fEventos);
-                                fTransaction.hide(fRankingGeneral);
-                                fTransaction.show(fCuenta);
-                                fTransaction.hide(fAyudaContacto);
-                                fTransaction.commit();
-                                /*******************************************/
+                                ocultarFragments(3);
+                                myRoad.add(3);
                                 toolbar.setTitle(menuItem.getTitle());
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
@@ -274,15 +344,8 @@ public class Activity_Main extends AppCompatActivity {
                                 return true;
                             case R.id.item_navigation_drawer_ayuda_y_contacto:
                                 menuItem.setChecked(true);
-                                /*********MOSTRAR Y OCULTAR FRAGMENT*************/
-                                fManager = getFragmentManager();
-                                fTransaction = fManager.beginTransaction();
-                                fTransaction.hide(fEventos);
-                                fTransaction.hide(fRankingGeneral);
-                                fTransaction.hide(fCuenta);
-                                fTransaction.show(fAyudaContacto);
-                                fTransaction.commit();
-                                /*******************************************/
+                                ocultarFragments(4);
+                                myRoad.add(4);
                                 toolbar.setTitle(menuItem.getTitle());
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
