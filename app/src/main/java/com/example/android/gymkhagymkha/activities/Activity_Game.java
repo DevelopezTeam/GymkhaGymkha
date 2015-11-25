@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -86,6 +87,7 @@ public class Activity_Game extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
 
         setTheme();
     }
@@ -166,9 +168,9 @@ public class Activity_Game extends AppCompatActivity {
         adapter.addFragment(new Fragment_Mapa(), "Mapa");
         adapter.addFragment(new Fragment_Ranking_Evento(), "Ranking");
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(1, false);
+        viewPager.setOnPageChangeListener(new MyChangeListener());
     }
-
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -176,12 +178,15 @@ public class Activity_Game extends AppCompatActivity {
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
+
         }
 
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
+
+
 
         @Override
         public int getCount() {
@@ -197,7 +202,14 @@ public class Activity_Game extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
     }
 
-
+    private class MyChangeListener extends ViewPager.SimpleOnPageChangeListener {
+        @Override
+        public void onPageSelected(int position) {
+            int focusedPage = position;
+            Log.i("Posición", String.valueOf(focusedPage));
+        }
+    }
 }

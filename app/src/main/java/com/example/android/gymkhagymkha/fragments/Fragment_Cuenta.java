@@ -43,6 +43,7 @@ public class Fragment_Cuenta extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         
+		// Inicializamos el TextView y le añadimos el nombre completo del usuario
         tvUsuario = (TextView) view.findViewById(R.id.tvUsuario);
         tvUsuario.setText(fullname);
 
@@ -66,6 +67,7 @@ public class Fragment_Cuenta extends Fragment {
                                 manager.borrarEventos();
                                 manager.borrarTesoros();
 
+								// Intent al ActivityLogin
                                 Intent intent = new Intent(getActivity(), Activity_Login.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
