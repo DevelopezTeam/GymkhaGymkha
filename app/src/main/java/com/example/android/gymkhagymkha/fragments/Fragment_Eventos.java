@@ -76,25 +76,30 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
+		// Boolean para saber si ya tenemos un AsyncTask en ejecución
         inAsyncTask = false;
 
+		// Inicializamos las variables
         progressBarEventos = (ProgressBar) view.findViewById(R.id.progressBarEventos);
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
-
         fabEventos = (FloatingActionButton) view.findViewById(R.id.fabEvento);
         listaEventos = (ListView) view.findViewById(R.id.lvEventos);
         idAdministrador = cursor.getInt(cursor.getColumnIndex(manager.CN_IDADMINISTRADOR));
 
+		// Lanzamos un primer AsyncTask
         newAsyncTask(idAdministrador);
 
+		// Añadimos al Floating Action Button un escuchador para el evento click
         fabEventos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+				// Si no estamos en un AsyncTask
                 if (!inAsyncTask) {
+					// Vaciamos el adaptador para vaciar la lista de eventos
                     listaEventos.setAdapter(null);
-                    inAsyncTask = true;
+					// Lanzamos un nuevo AsyncTask
                     newAsyncTask(idAdministrador);
                 }
             }
@@ -103,6 +108,9 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     }
 
     public void newAsyncTask(int id) {
+		// Cambiamos a true, para saber que estamos en un AsyncTask
+		inAsyncTask = true;
+		// Y ejecutamos el AsyncTask
         new AsyncEventos().execute("http://www.victordam2b.hol.es/eventosAcceso.php?idAdministrador=" + id);
     }
 
@@ -112,6 +120,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
+			// Mostramos el ProgressBar
             progressBarEventos.setVisibility(View.VISIBLE);
         }
 
@@ -148,25 +157,38 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             else{
                 JSONObject resultadoJSON;
                 try {
+					// Vaciamos el array de eventos
                     arrayEvent.clear();
+					// Creamos un objeto JSON con el resultado del PHP
                     resultadoJSON = new JSONObject(resul);
+					// Recorremos el objeto JSON para ir creando objetos Evento
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         evento = new Clase_Evento(resultadoJSON.getJSONObject(i+""));
+						// Guardamos el evento en la BBDD de SQLite
                         manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre(), evento.getDiaEmpiece(), evento.getHora());
+						// Y lo añadimos a un array
                         arrayEvent.add(evento);
                     }
 
+					// Creamos un objetoo de AdapterEvento y le pasamos el array de eventos
                     AdapterEvento adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
+					// Añadimos al ListView el adaptador de eventos
                     listaEventos.setAdapter(adapterEventos);
+					// Le añadimos un escuchador para el evento setOnItemClickListener
                     listaEventos.setOnItemClickListener(Fragment_Eventos.this);
+					// Le añadimos un escuchador para el evento setOnItemLongClickListener
                     listaEventos.setOnItemLongClickListener(Fragment_Eventos.this);
                     } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+			// Ocultamos el progressBar			
             progressBarEventos.setVisibility(View.INVISIBLE);
+			// Hacemos visible el Floating Action Button
             fabEventos.setVisibility(View.VISIBLE);
+			// Rellenamos el cursor con los eventos que tenemos en la BBDD SQLite
             cursorEventos = manager.cursorEventos();
+			// Y ponemos a false inAsyncTask para saber que ya terminó el AsyncTask
             inAsyncTask = false;
         }
     }
@@ -175,11 +197,17 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         manager.borrarTesoros();
         try {
+			// Creamos un objeto cursor que rellenamos con los eventos disponibles en la BBDD SQLite
             Cursor cursorEventos = manager.cursorEventos();
+			// Movemos el cursor a la posición en la que hemos pulsado en el ListView
             cursorEventos.moveToPosition(position);
+			// Guardamos la posición en una variable global para su uso en otro método
             this.positionEvento = position;
+			// Recogemos la fecha y hora del evento del cursor
             String fechaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_DATE));
             String horaEvento = cursorEventos.getString(cursorEventos.getColumnIndex(manager.CN_EVENT_HOUR));
+			
+			// Cambiamos el formato de las fechas y horas para poder compararlas
             DateFormat formatTime = new SimpleDateFormat ("hh:mm");
             Calendar cal = Calendar.getInstance();
             cal.setTime(formatTime.parse(new Date().getHours() + ":" + new Date().getMinutes()));
@@ -190,20 +218,27 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             long horaMin = cal.getTimeInMillis();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date event = formatter.parse(fechaEvento);
+			// Línea para borrar
             intentGame();
             /*
+			// Si estamos en el día de hoy
             if (event.getDate() == new Date().getDate()) {
+				// Si la hora actual es mayor que la hora mínima de entrada
                 if (auxTime >= horaMin ) {
+					// Si la hora actual es mayor que la hora máxima de entrada
                     if( auxTime <= horaMax) {
+						// Mostramos un dialog para avisar de que vamos a entrar a un evento
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(R.string.title_entrandoEvento);
                         builder.setIcon(R.drawable.ic_info_black_24dp);
                         builder.setMessage(R.string.message_entrandoEvento)
+								// Si pulsamos aceptar, entraremos en el evento
                                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         intentGame();
                                     }
                                 })
+								// Si pulsamos cancelar, se cerrará el dialog
                                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
 
@@ -227,23 +262,35 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
     }
 
     private void intentGame() {
+		// Intent para ir ActivityGame
         Intent intent = new Intent(getActivity(), Activity_Game.class);
+		// Rellenamos un objeto cursor con los eventos que tenemos en la BBDD SQLite
         Cursor cursor = manager.cursorEventos();
+		// Mover el cursor a la posición que hemos puesto como variable global anteriormente
         cursor.moveToPosition(this.positionEvento);
+		// Recogemos el id
         int idEvento = cursor.getInt(cursor.getColumnIndex(manager.CN_IDEVENT));
+		// Abrimos el SharedPreferences
         SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+		// Le decimos que se puede editar
         SharedPreferences.Editor editor = prefs.edit();
+		// Le añadimos un idEvento
         editor.putInt("idEvento", idEvento);
+		// Y le commiteamos
         editor.commit();
+		// Le ponemos al intent el valor del id también
         intent.putExtra("idEvento", idEvento);
+		// Lanzamos el intent al ActivityGame
         startActivity(intent);
     }
 
     private void lanzarDialogEventoCerrado() {
+		// Si no se cumplen los requisitos de la fecha y la hora se mostrará esta Dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.title_EventoCerrado);
         builder.setIcon(R.drawable.ic_lock_black_24dp);
         builder.setMessage(R.string.message_EventoCerrado)
+				// Si pulsamos aceptar se cerrará
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
@@ -253,6 +300,8 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		// En el caso de que hagamos una pulsación larga en el item de la lista eventos
+		// Se abrirá un dialog con los detalles del evento pulsado
         cursorEventos = manager.cursorEventos();
         cursorEventos.moveToPosition(position);
         final Dialog dialog = new Dialog(getActivity());
