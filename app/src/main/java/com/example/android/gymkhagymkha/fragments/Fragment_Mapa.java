@@ -1,6 +1,5 @@
 package com.example.android.gymkhagymkha.fragments;
 
-import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +7,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,8 +23,6 @@ import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
 import com.example.android.gymkhagymkha.geofence.GeofenceErrorMessages;
 import com.example.android.gymkhagymkha.geofence.GeofenceTransitionsIntentService;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -36,17 +31,11 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -154,20 +143,23 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      */
     private long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
             GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
-    private float GEOFENCE_RADIUS_BIG_IN_METERS = 120;
+    private float GEOFENCE_RADIUS_BIG_IN_METERS = 150;
     private float GEOFENCE_RADIUS_SMALL_IN_METERS = 20;
 
     /**
      * Map for storing information about airports in the San Francisco bay area.
      */
     private static HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
+
     static {
+        BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(40.433131, -3.627294));
         // San Francisco International Airport.
         //BAY_AREA_LANDMARKS.put("SFO", new LatLng(37.621313, -122.378955));
         // Garcia noblejas 40.428669, -3.633325.
         //BAY_AREA_LANDMARKS.put("GARCIA NOBLEJEISION", new LatLng(40.428669, -3.633325)); 40.433131, -3.627294
         //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
     }
+
 
     private SharedPreferences prefs;
 
@@ -502,6 +494,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
             else{
                 auxRadiusMeter = GEOFENCE_RADIUS_BIG_IN_METERS;
             }
+            Log.i("LatitudLongitudPopulat","Latitud "+entry.getValue().latitude+" Longitud "+entry.getValue().longitude);
+            Log.i("LatitudLongitudRad","Radio "+auxRadiusMeter);
                 mGeofenceList.add(new Geofence.Builder()
                         // Set the request ID of the geofence. This is a string to identify this
                         // geofence.
@@ -557,6 +551,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         Intent intent = new Intent(getActivity(), GeofenceTransitionsIntentService.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
+        PendingIntent.getService(getActivity(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
         return PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -566,7 +562,11 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     }
 
     private void insertarGeofences(){
+        if (!mGoogleApiClient.isConnected()) {
+            return;
+        }
         try {
+            PendingIntent auxPenInt = getGeofencePendingIntent();
             LocationServices.GeofencingApi.addGeofences(
                     mGoogleApiClient,
                     // The GeofenceRequest object.
@@ -576,6 +576,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     // transition is observed.
                     getGeofencePendingIntent()
             ).setResultCallback(this); // Result processed in onResult().
+            Log.i("Geofence","Geofences ya añadidos");
         } catch (SecurityException securityException) {
             // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
             logSecurityException(securityException);
@@ -676,8 +677,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             mRequestingLocationUpdates = true;
                             startLocationUpdates();
                             //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
-                            BAY_AREA_LANDMARKS.put("CIRCLE_BIG",new LatLng(latitud, longitud));
-                            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitud, longitud));
+                            Log.i("LatitudLongitudPut", "Latitud " + latitud + " Longitud " + longitud);
+                            //BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(latitud, longitud));
+                            //BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitud, longitud));
                             // Get the geofences used. Geofence data is hard coded in this sample.
                             populateGeofenceList();
                             insertarGeofences();
