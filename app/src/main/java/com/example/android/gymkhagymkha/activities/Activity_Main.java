@@ -201,7 +201,8 @@ public class Activity_Main extends AppCompatActivity {
                 fTransaction.hide(fCuenta);
                 fTransaction.hide(fAyudaContacto);
                 fTransaction.commit();
-            return;
+                toolbar.setTitle("Eventos");
+            break;
             case 2:
                 fManager = getFragmentManager();
                 fTransaction = fManager.beginTransaction();
@@ -210,7 +211,8 @@ public class Activity_Main extends AppCompatActivity {
                 fTransaction.hide(fCuenta);
                 fTransaction.hide(fAyudaContacto);
                 fTransaction.commit();
-                return;
+                toolbar.setTitle("Ranking");
+                break;
             case 3:
                 fManager = getFragmentManager();
                 fTransaction = fManager.beginTransaction();
@@ -219,7 +221,8 @@ public class Activity_Main extends AppCompatActivity {
                 fTransaction.show(fCuenta);
                 fTransaction.hide(fAyudaContacto);
                 fTransaction.commit();
-                return;
+                toolbar.setTitle("Cuenta");
+                break;
             case 4:
                 fManager = getFragmentManager();
                 fTransaction = fManager.beginTransaction();
@@ -228,7 +231,8 @@ public class Activity_Main extends AppCompatActivity {
                 fTransaction.hide(fCuenta);
                 fTransaction.show(fAyudaContacto);
                 fTransaction.commit();
-                return;
+                toolbar.setTitle("Ayuda y Contacto");
+                break;
         }
     }
 
@@ -247,64 +251,66 @@ public class Activity_Main extends AppCompatActivity {
             // Con el botón back cerraremos el Navigation-Drawer antes de salir de la app
             case KeyEvent.KEYCODE_BACK:
                 int position = 0;
-                if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                } else {
+                }
+                else {
                     if (myRoad.size() > 1) {
-                        myRoad.remove(myRoad.get(myRoad.size() - 1));
+                        myRoad.remove(myRoad.size() - 1);
                     }
                     position = myRoad.get(myRoad.size() - 1);
                     switch (position) {
                         case 0:
-                                myRoad.add(1);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                builder.setTitle(R.string.title_cerrarApp);
-                                builder.setMessage(R.string.message_cerrarApp);
-                                builder.setIcon(R.drawable.ic_warning_black_24dp)
-                                        //Si pulsamos aceptar saldriamos de la aplicación
-                                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                finish();
-                                            }
-                                        })
-                                        // Si pulsamos cancelar no haría nada
-                                        .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
+                            checkLastFragment(1);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                            builder.setTitle(R.string.title_cerrarApp);
+                            builder.setMessage(R.string.message_cerrarApp);
+                            builder.setIcon(R.drawable.ic_warning_black_24dp)
+                                //Si pulsamos aceptar saldriamos de la aplicación
+                                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        finish();
+                                    }
+                                })
+                                // Si pulsamos cancelar no haría nada
+                                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
 
-                                            }
-                                        });
-                                builder.show();break;
+                                    }
+                                });
+                            builder.show();break;
                         case 1:
                             /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_eventos);
                             menuItem.setChecked(true);*/
-                            ocultarFragments(1);
-                            toolbar.setTitle("Eventos");break;
+                            ocultarFragments(position);
+                            break;
                         case 2:
                             /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ranking);
                             menuItem.setChecked(true);*/
-                            ocultarFragments(2);
-                            toolbar.setTitle("Ranking");break;
+                            ocultarFragments(position);
+                            break;
                         case 3:
                             /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_cuenta);
                             menuItem.setChecked(true);*/
-                            ocultarFragments(3);
-                            toolbar.setTitle("Cuenta");break;
+                            ocultarFragments(position);
+                            break;
                         case 4:
                             /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ayuda_y_contacto);
                             menuItem.setChecked(true);*/
-                            ocultarFragments(4);
-                            toolbar.setTitle("Ayuda y Contacto");break;
+                            ocultarFragments(position);
+                            break;
                         }
                     }
                 return true;
-                }
+            }
         return super.onKeyDown(keycode, e);
     }
 
-    private void comprobarUltimoFragment (int position) {
-        if (position != myRoad.get(myRoad.size() - 1)) {
-            myRoad.add(position);
+    private void checkLastFragment (int n) {
+        if (n != myRoad.get(myRoad.size() - 1)) {
+            myRoad.add(n);
         }
+        ocultarFragments(n);
     }
 
     private void setupNavigationDrawerContent(NavigationView navigationView) {
@@ -315,23 +321,17 @@ public class Activity_Main extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.item_navigation_drawer_eventos:
                                 menuItem.setChecked(true);
-                                ocultarFragments(1);
-                                comprobarUltimoFragment(1);
-                                toolbar.setTitle(menuItem.getTitle());
+                                checkLastFragment(1);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_ranking:
                                 menuItem.setChecked(true);
-                                ocultarFragments(2);
-                                comprobarUltimoFragment(2);
-                                toolbar.setTitle(menuItem.getTitle());
+                                checkLastFragment(2);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_cuenta:
                                 menuItem.setChecked(true);
-                                ocultarFragments(3);
-                                comprobarUltimoFragment(3);
-                                toolbar.setTitle(menuItem.getTitle());
+                                checkLastFragment(3);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_ajustes:
@@ -343,9 +343,7 @@ public class Activity_Main extends AppCompatActivity {
                                 return true;
                             case R.id.item_navigation_drawer_ayuda_y_contacto:
                                 menuItem.setChecked(true);
-                                ocultarFragments(4);
-                                comprobarUltimoFragment(4);
-                                toolbar.setTitle(menuItem.getTitle());
+                                checkLastFragment(4);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                         }
