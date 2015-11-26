@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -57,9 +59,9 @@ public class Activity_Main extends AppCompatActivity {
     SharedPreferences prefs;
     NavigationView navigationView;
     ImageView ivHeader;
-    List<Integer> myRoad;
-    MenuItem menuItem;
-    Menu menu_drawer;
+    //List<Integer> myRoad;
+    ActionBarDrawerToggle drawerToggle;
+    //MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +77,11 @@ public class Activity_Main extends AppCompatActivity {
             case 6: this.setTheme(R.style.Yellow_Theme);break;
         }
         setContentView(R.layout.activity_main);
-
+        /*
         myRoad = new ArrayList<Integer>();
         myRoad.add(0);
         myRoad.add(1);
-
+        */
         // Inicializamos el Fragment_Manager, el Fragment_Transaction
         fManager = getFragmentManager();
         fTransaction = fManager.beginTransaction();
@@ -124,6 +126,9 @@ public class Activity_Main extends AppCompatActivity {
         tvUsuarioBurguer = (TextView) header.findViewById(R.id.tvUsuarioBurguer);
         tvUsuarioBurguer.setText(fullname);
 
+        drawerToggle = setupDrawerToggle();
+        drawerLayout.setDrawerListener(drawerToggle);
+
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
         }
@@ -136,6 +141,24 @@ public class Activity_Main extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 21)  {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
+    }
+
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open,  R.string.drawer_close);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void setTheme() {
@@ -183,6 +206,9 @@ public class Activity_Main extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -250,7 +276,7 @@ public class Activity_Main extends AppCompatActivity {
                 return true;
             // Con el botón back cerraremos el Navigation-Drawer antes de salir de la app
             case KeyEvent.KEYCODE_BACK:
-                int position = 0;
+                /*int position = 0;
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
@@ -261,7 +287,7 @@ public class Activity_Main extends AppCompatActivity {
                     position = myRoad.get(myRoad.size() - 1);
                     switch (position) {
                         case 0:
-                            checkLastFragment(1);
+                            checkLastFragment(1);*/
                             AlertDialog.Builder builder = new AlertDialog.Builder(this);
                             builder.setTitle(R.string.title_cerrarApp);
                             builder.setMessage(R.string.message_cerrarApp);
@@ -278,38 +304,39 @@ public class Activity_Main extends AppCompatActivity {
 
                                     }
                                 });
-                            builder.show();break;
+                            builder.show();break;/*
+                        //TODO: Colocar el checked en el Navigation Drawer
                         case 1:
-                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_eventos);
-                            menuItem.setChecked(true);*/
+                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_eventos);
+                            menuItem.setChecked(true);
                             ocultarFragments(position);
                             break;
                         case 2:
-                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ranking);
-                            menuItem.setChecked(true);*/
+                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ranking);
+                            menuItem.setChecked(true);
                             ocultarFragments(position);
                             break;
                         case 3:
-                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_cuenta);
-                            menuItem.setChecked(true);*/
+                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_cuenta);
+                            menuItem.setChecked(true);
                             ocultarFragments(position);
                             break;
                         case 4:
-                            /*menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ayuda_y_contacto);
-                            menuItem.setChecked(true);*/
+                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ayuda_y_contacto);
+                            menuItem.setChecked(true);
                             ocultarFragments(position);
                             break;
                         }
                     }
-                return true;
+                return true;*/
             }
         return super.onKeyDown(keycode, e);
     }
 
     private void checkLastFragment (int n) {
-        if (n != myRoad.get(myRoad.size() - 1)) {
+        /*if (n != myRoad.get(myRoad.size() - 1)) {
             myRoad.add(n);
-        }
+        }*/
         ocultarFragments(n);
     }
 

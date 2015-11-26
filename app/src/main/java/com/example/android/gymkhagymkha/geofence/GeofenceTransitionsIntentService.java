@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
@@ -35,6 +36,9 @@ import java.util.List;
  * as the output.
  */
 public class GeofenceTransitionsIntentService extends IntentService {
+
+    SharedPreferences prefs;
+    Color color;
 
     protected static final String TAG = "GeofenceTransitionsIS";
 
@@ -148,20 +152,23 @@ public class GeofenceTransitionsIntentService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         // Define the notification settings.
-        //TODO Hacer un icono supermejorado :) que el maqui de fran se lo va a currar :P
-        builder.setSmallIcon(R.mipmap.ic_launcher2)
-                // In a real app, you may want to use a library like Volley
-                // to decode the Bitmap.
-
+        builder.setSmallIcon(R.mipmap.ic_launcher2_small)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),
                         R.mipmap.ic_launcher2))
-                        //TODO:CAMBIAR EL COLOR DEPENDIENDO DEL TEMA ELEGIDO...
-                .setLights(Color.YELLOW,1000,1000*60*60*24)
-                        //.setLights(0xFFFF0000, 500, 500)
                 .setVibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500})
                 .setContentTitle(notificationDetails)
                 .setContentText("")
                 .setSound(uri);
+
+        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1: builder.setLights(getResources().getColor(R.color.md_purple_500),1000,1000*60*60*24);break;
+            case 2: builder.setLights(getResources().getColor(R.color.md_red_500), 1000, 1000 * 60 * 60 * 24);break;
+            case 3: builder.setLights(getResources().getColor(R.color.md_blue_500), 1000, 1000 * 60 * 60 * 24);break;
+            case 4: builder.setLights(getResources().getColor(R.color.md_green_500), 1000, 1000 * 60 * 60 * 24);break;
+            case 5: builder.setLights(getResources().getColor(R.color.md_deep_orange_500), 1000, 1000 * 60 * 60 * 24);break;
+            case 6: builder.setLights(getResources().getColor(R.color.md_yellow_500), 1000, 1000 * 60 * 60 * 24);break;        }
         //.setContentTitle(notificationDetails)
         //.setContentText(getString(R.string.geofence_transition_notification_text));
         //.setContentIntent(notificationPendingIntent);

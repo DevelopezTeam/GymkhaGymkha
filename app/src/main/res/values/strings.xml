@@ -21,6 +21,8 @@
     <string name="cerrar">Cerrar</string>
     <string name="cancelar">Cancelar</string>
     <string name="salirEvento">Salir del Evento</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string name="creditos">Proyecto Gymkha Gymkha \n
           Versión 0.25 \n \n
         - Equipo: \n
