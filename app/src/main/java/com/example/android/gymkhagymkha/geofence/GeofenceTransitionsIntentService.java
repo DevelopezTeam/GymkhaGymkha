@@ -148,6 +148,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         // Define the notification settings.
+        //TODO Hacer un icono supermejorado :) que el maqui de fran se lo va a currar :P
         builder.setSmallIcon(R.mipmap.ic_launcher2)
                 // In a real app, you may want to use a library like Volley
                 // to decode the Bitmap.
@@ -158,7 +159,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setLights(Color.YELLOW,1000,1000*60*60*24)
                         //.setLights(0xFFFF0000, 500, 500)
                 .setVibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500})
-                .setContentTitle("Te estás acercando...")
+                .setContentTitle(notificationDetails)
+                .setContentText("")
                 .setSound(uri);
         //.setContentTitle(notificationDetails)
         //.setContentText(getString(R.string.geofence_transition_notification_text));

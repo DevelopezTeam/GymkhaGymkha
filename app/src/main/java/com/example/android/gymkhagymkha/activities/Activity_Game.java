@@ -23,6 +23,7 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.bbdd.BDManager;
@@ -74,6 +75,8 @@ public class Activity_Game extends AppCompatActivity {
             case 6: this.setTheme(R.style.Yellow_Theme);break;
         }
         setContentView(R.layout.activity_game);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// Insertamos un estilo a la barra de estado en android Lollipop
         TypedValue typedValueColorPrimaryDark = new TypedValue();

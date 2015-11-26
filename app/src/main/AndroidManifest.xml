@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -21,6 +22,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".activities.Activity_Login"
@@ -55,6 +60,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Blue_Theme" >
         </activity>
+        <service android:name=".geofence.GeofenceTransitionsIntentService" />
     </application>
 
 </manifest>

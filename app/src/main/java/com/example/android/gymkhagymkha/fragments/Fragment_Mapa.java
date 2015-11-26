@@ -143,7 +143,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      */
     private long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
             GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
-    private float GEOFENCE_RADIUS_BIG_IN_METERS = 150;
+    private float GEOFENCE_RADIUS_BIG_IN_METERS = 100;
     private float GEOFENCE_RADIUS_SMALL_IN_METERS = 20;
 
     /**
@@ -152,7 +152,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     private static HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
 
     static {
-        BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(40.433131, -3.627294));
+        //BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(40.433131, -3.627294));
         // San Francisco International Airport.
         //BAY_AREA_LANDMARKS.put("SFO", new LatLng(37.621313, -122.378955));
         // Garcia noblejas 40.428669, -3.633325.
@@ -678,8 +678,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             startLocationUpdates();
                             //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
                             Log.i("LatitudLongitudPut", "Latitud " + latitud + " Longitud " + longitud);
-                            //BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(latitud, longitud));
-                            //BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitud, longitud));
+                            BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(latitud, longitud));
+                            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitud, longitud));
                             // Get the geofences used. Geofence data is hard coded in this sample.
                             populateGeofenceList();
                             insertarGeofences();
