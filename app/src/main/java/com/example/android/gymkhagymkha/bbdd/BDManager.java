@@ -128,7 +128,7 @@ public class BDManager {
 	// Método para borrar el campo de la base de datos al cerrar sesión
 	// Para que la siguiente vez te pida de nuevo el login
 	public void borrarLogin(int id) {
-		bd.delete(TABLE_LOGIN, CN_ID + "=" + id , null);
+		bd.delete(TABLE_LOGIN, null , null);
 	}
 	public void borrarEventos() {
 		bd.delete(TABLE_EVENT, null , null);

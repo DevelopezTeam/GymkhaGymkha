@@ -159,6 +159,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                 try {
 					// Vaciamos el array de eventos
                     arrayEvent.clear();
+                    manager.borrarEventos();
 					// Creamos un objeto JSON con el resultado del PHP
                     resultadoJSON = new JSONObject(resul);
 					// Recorremos el objeto JSON para ir creando objetos Evento

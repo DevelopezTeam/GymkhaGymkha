@@ -4,7 +4,6 @@
     <style name="Purple_Theme" parent="Base.Purple_Theme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <!--<item name="android:navigationBarColor">@color/md_purple_500</item>-->
     </style>
 
     <style name="Toolbar_Purple_Theme" parent="Purple_Theme">

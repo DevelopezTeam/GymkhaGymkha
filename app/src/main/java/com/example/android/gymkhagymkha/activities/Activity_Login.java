@@ -96,6 +96,7 @@ public class Activity_Login extends AppCompatActivity {
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(colorPrimaryDark);
+            getWindow().setNavigationBarColor(colorPrimaryDark);
         }
 
         // Evento del botón "Acceder"

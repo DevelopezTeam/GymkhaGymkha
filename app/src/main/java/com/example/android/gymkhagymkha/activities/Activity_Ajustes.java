@@ -59,6 +59,7 @@ public class Activity_Ajustes extends AppCompatActivity {
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
         if (Build.VERSION.SDK_INT >= 21)  {
             getWindow().setStatusBarColor(colorPrimaryDark);
+            getWindow().setNavigationBarColor(colorPrimaryDark);
         }
 
 		// Instanciamos el botón

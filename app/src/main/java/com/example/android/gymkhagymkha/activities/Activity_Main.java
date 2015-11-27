@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,9 +60,9 @@ public class Activity_Main extends AppCompatActivity {
     SharedPreferences prefs;
     NavigationView navigationView;
     ImageView ivHeader;
-    //List<Integer> myRoad;
+    List<Integer> myRoad;
     ActionBarDrawerToggle drawerToggle;
-    //MenuItem menuItem;
+    MenuItem menuItemEvento, menuItemRanking, menuItemCuenta, menuItemContacto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +78,11 @@ public class Activity_Main extends AppCompatActivity {
             case 6: this.setTheme(R.style.Yellow_Theme);break;
         }
         setContentView(R.layout.activity_main);
-        /*
+
         myRoad = new ArrayList<Integer>();
         myRoad.add(0);
         myRoad.add(1);
-        */
+
         // Inicializamos el Fragment_Manager, el Fragment_Transaction
         fManager = getFragmentManager();
         fTransaction = fManager.beginTransaction();
@@ -116,6 +117,7 @@ public class Activity_Main extends AppCompatActivity {
 
         // Inicializamos el Menu Lateral
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
         //drawerLayout.setDrawerListener();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
@@ -128,6 +130,11 @@ public class Activity_Main extends AppCompatActivity {
 
         drawerToggle = setupDrawerToggle();
         drawerLayout.setDrawerListener(drawerToggle);
+        
+        menuItemEvento = navigationView.getMenu().findItem(R.id.item_navigation_drawer_eventos);
+        menuItemRanking = navigationView.getMenu().findItem(R.id.item_navigation_drawer_ranking);
+        menuItemCuenta = navigationView.getMenu().findItem(R.id.item_navigation_drawer_cuenta);
+        menuItemContacto = navigationView.getMenu().findItem(R.id.item_navigation_drawer_ayuda_y_contacto);
 
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
@@ -140,6 +147,7 @@ public class Activity_Main extends AppCompatActivity {
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
         if (Build.VERSION.SDK_INT >= 21)  {
             getWindow().setStatusBarColor(colorPrimaryDark);
+            getWindow().setNavigationBarColor(colorPrimaryDark);
         }
     }
 
@@ -273,10 +281,10 @@ public class Activity_Main extends AppCompatActivity {
                 } else {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
-                return true;
+                break;
             // Con el botón back cerraremos el Navigation-Drawer antes de salir de la app
             case KeyEvent.KEYCODE_BACK:
-                /*int position = 0;
+                int position = 0;
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
@@ -287,7 +295,7 @@ public class Activity_Main extends AppCompatActivity {
                     position = myRoad.get(myRoad.size() - 1);
                     switch (position) {
                         case 0:
-                            checkLastFragment(1);*/
+                            checkLastFragment(1);
                             AlertDialog.Builder builder = new AlertDialog.Builder(this);
                             builder.setTitle(R.string.title_cerrarApp);
                             builder.setMessage(R.string.message_cerrarApp);
@@ -304,39 +312,34 @@ public class Activity_Main extends AppCompatActivity {
 
                                     }
                                 });
-                            builder.show();break;/*
-                        //TODO: Colocar el checked en el Navigation Drawer
+                            builder.show();break;
                         case 1:
-                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_eventos);
-                            menuItem.setChecked(true);
+                            menuItemEvento.setChecked(true);
                             ocultarFragments(position);
                             break;
                         case 2:
-                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ranking);
-                            menuItem.setChecked(true);
+                            menuItemRanking.setChecked(true);
                             ocultarFragments(position);
                             break;
                         case 3:
-                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_cuenta);
-                            menuItem.setChecked(true);
+                            menuItemCuenta.setChecked(true);
                             ocultarFragments(position);
                             break;
                         case 4:
-                            menuItem = navigationView.getMenu().getItem(R.id.item_navigation_drawer_ayuda_y_contacto);
-                            menuItem.setChecked(true);
+                            menuItemContacto.setChecked(true);
                             ocultarFragments(position);
                             break;
                         }
                     }
-                return true;*/
+                return  true;
             }
         return super.onKeyDown(keycode, e);
     }
 
     private void checkLastFragment (int n) {
-        /*if (n != myRoad.get(myRoad.size() - 1)) {
+        if (n != myRoad.get(myRoad.size() - 1)) {
             myRoad.add(n);
-        }*/
+        }
         ocultarFragments(n);
     }
 
