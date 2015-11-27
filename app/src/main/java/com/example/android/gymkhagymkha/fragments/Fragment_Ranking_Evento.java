@@ -89,7 +89,7 @@ public class Fragment_Ranking_Evento extends Fragment {
     }
 
     public void newAsyncTask(int id) {
-        new AsyncRankingEvento().execute("http://www.victordam2b.hol.es/rankingEventoAcceso.php?idEvento=" + id);
+        new AsyncRankingEvento().execute("http://www.gymkhagymkha.esy.es/rankingEventoAcceso.php?idEvento=" + id);
     }
 
     public class AsyncRankingEvento extends AsyncTask<String, Void, StringBuilder> {

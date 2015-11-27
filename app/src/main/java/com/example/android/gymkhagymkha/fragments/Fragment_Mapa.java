@@ -215,7 +215,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         manager = new BDManager(getActivity());
         arrayTesoros = new ArrayList<Clase_Tesoro>();
         int idEvento = this.getActivity().getIntent().getExtras().getInt("idEvento");
-        new AsyncTesoros().execute("http://www.victordam2b.hol.es/tesorosAcceso.php?idEvento=" + idEvento);
+        new AsyncTesoros().execute("http://www.gymkhagymkha.esy.es/tesorosAcceso.php?idEvento=" + idEvento);
     }
 
     /*

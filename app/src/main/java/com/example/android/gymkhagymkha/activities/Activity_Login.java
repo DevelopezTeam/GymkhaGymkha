@@ -225,8 +225,7 @@ public class Activity_Login extends AppCompatActivity {
             if(!isConnected)
                 Toast.makeText(this, "No tiene conexión de red", Toast.LENGTH_LONG).show();
             else{
-
-                new AsyncLogin().execute("http://www.victordam2b.hol.es/loginAcceso.php?usuario=" + user + "&password=" + pass);
+                new AsyncLogin().execute("http://www.gymkhagymkha.esy.es/loginAcceso.php?usuario=" + user + "&password=" + pass);
                 btnLogin.setEnabled(false);
             }
 

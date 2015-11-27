@@ -111,7 +111,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 		// Cambiamos a true, para saber que estamos en un AsyncTask
 		inAsyncTask = true;
 		// Y ejecutamos el AsyncTask
-        new AsyncEventos().execute("http://www.victordam2b.hol.es/eventosAcceso.php?idAdministrador=" + id);
+        new AsyncEventos().execute("http://www.gymkhagymkha.esy.es/eventosAcceso.php?idAdministrador=" + id);
     }
 
     public class AsyncEventos extends AsyncTask<String, Void, StringBuilder> {
