@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -102,6 +103,19 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 					// Lanzamos un nuevo AsyncTask
                     newAsyncTask(idAdministrador);
                 }
+            }
+        });
+
+        listaEventos.setOnScrollListener(new AbsListView.OnScrollListener() {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(listaEventos.getFirstVisiblePosition() == 0) {
+                    fabEventos.show();
+                } else {
+                    fabEventos.hide();
+                }
+            }
+
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
             }
         });
 

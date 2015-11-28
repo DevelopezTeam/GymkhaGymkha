@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -79,6 +80,19 @@ public class Fragment_Ranking_General extends Fragment {
                     inAsyncTask = true;
                     newAsyncTask(idCentro);
                 }
+            }
+        });
+
+        listaRankingGeneral.setOnScrollListener(new AbsListView.OnScrollListener() {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (listaRankingGeneral.getFirstVisiblePosition() == 0) {
+                    fabRankingGeneral.show();
+                } else {
+                    fabRankingGeneral.hide();
+                }
+            }
+
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
             }
         });
     }
