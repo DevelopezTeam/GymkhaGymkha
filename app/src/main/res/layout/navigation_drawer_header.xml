@@ -18,7 +18,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/account_photo" />
+        android:src="@drawable/user_photo_small" />
 
     <LinearLayout
         android:layout_width="match_parent"

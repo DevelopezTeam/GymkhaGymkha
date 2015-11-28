@@ -11,8 +11,8 @@ public class Clase_Tesoro {
     private String nombre;
     private String pista;
     private String estado; // String?
-    private double latitud;
-    private double longitud;
+    private double latitudTesoro, latitudInicial;
+    private double longitudTesoro, longitudInicial;
     private int idGanador ;
 
 
@@ -22,8 +22,10 @@ public class Clase_Tesoro {
         nombre = objetoJSON.getString("nombre");
         pista = objetoJSON.getString("pista");
         estado = objetoJSON.getString("estado");
-        latitud = objetoJSON.getDouble("latitud");
-        longitud = objetoJSON.getDouble("longitud");
+        latitudTesoro = objetoJSON.getDouble("latitudTesoro");
+        longitudTesoro = objetoJSON.getDouble("longitudTesoro");
+        latitudInicial = objetoJSON.getDouble("latitudInicial");
+        longitudInicial = objetoJSON.getDouble("longitudInicial");
         idGanador = objetoJSON.getInt("idGanador");
     }
 
@@ -32,8 +34,8 @@ public class Clase_Tesoro {
         nombre = nom;
         pista = pis;
         estado = est;
-        latitud = lat;
-        longitud = longi;
+        latitudTesoro = lat;
+        longitudTesoro = longi;
         idGanador = 0;
     }
 
@@ -42,8 +44,8 @@ public class Clase_Tesoro {
         nombre = nom;
         pista = pis;
         estado = est;
-        latitud = lat;
-        longitud = longi;
+        latitudTesoro = lat;
+        longitudTesoro = longi;
         idGanador = idGan;
     }
 
@@ -79,20 +81,36 @@ public class Clase_Tesoro {
         this.estado = estado;
     }
 
-    public double getLatitud() {
-        return latitud;
+    public double getlatitudTesoro() {
+        return latitudTesoro;
     }
 
-    public void setLatitud(double latitud) {
-        this.latitud = latitud;
+    public void setlatitudTesoro(double latitudTesoro) {
+        this.latitudTesoro = latitudTesoro;
     }
 
-    public double getLongitud() {
-        return longitud;
+    public double getlongitudTesoro() {
+        return longitudTesoro;
     }
 
-    public void setLongitud(double longitud) {
-        this.longitud = longitud;
+    public void setlongitudTesoro(double longitudTesoro) {
+        this.longitudTesoro = longitudTesoro;
+    }
+
+    public double getlatitudInicial() {
+        return latitudInicial;
+    }
+
+    public void setlatitudInicial(double latitudInicial) {
+        this.latitudInicial = latitudInicial;
+    }
+
+    public double getlongitudInicial() {
+        return longitudInicial;
+    }
+
+    public void setlongitudInicial(double longitudInicial) {
+        this.longitudInicial = longitudInicial;
     }
 
     public int getIdGanador() {

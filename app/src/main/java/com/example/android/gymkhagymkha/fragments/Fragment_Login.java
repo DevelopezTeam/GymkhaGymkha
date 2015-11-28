@@ -26,5 +26,4 @@ public class Fragment_Login extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
-
 }

@@ -166,7 +166,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     private GoogleMap mMap;
     private BDManager manager;
     private Cursor cursorTesoros;
-    private double latitud,longitud;
+    private double latitudTesoro,longitudTesoro, latitudInicial, longitudInicial;
     private String pista,resul;
     private ArrayList<Clase_Tesoro> arrayTesoros;
     private Toolbar toolbarInGame;
@@ -627,8 +627,6 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         auxTesoro = new Clase_Tesoro(resultadoJSON.getJSONObject(i + ""));
-                        //Clase_Tesoro auxAux = new Clase_Tesoro(auxTesoro.getIdTesoro(),auxTesoro.getNombre(),auxTesoro.getPista(),auxTesoro.getEstado(),auxTesoro.getLatitud(),auxTesoro.getLongitud());
-                        //manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
                         arrayTesoros.add(auxTesoro);
                         manager.guardarTesoro(auxTesoro);
                     }
@@ -646,19 +644,22 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
                     cursorTesoros = manager.cursorTesoros();
                     cursorTesoros.moveToFirst();
-                    latitud = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LATITUDE));
-                    longitud = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LONGITUDE));
+                    latitudTesoro = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LATITUDE));
+                    longitudTesoro = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LONGITUDE));
+                    latitudInicial = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_INITIAL_LATITUDE));
+                    longitudInicial = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_INITIAL_LONGITUDE));
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(pista));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitudTesoro, longitudTesoro)).title(pista));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitudInicial, longitudInicial)).title("Punto de encuentro"));
                     //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 16));
                     mMap.addCircle(new CircleOptions()
-                            .center(new LatLng(latitud, longitud))
+                            .center(new LatLng(latitudTesoro, longitudTesoro))
                             .radius(GEOFENCE_RADIUS_BIG_IN_METERS)
                             .strokeColor(Color.RED)
                             .fillColor(Color.TRANSPARENT));
                     mMap.addCircle(new CircleOptions()
-                            .center(new LatLng(latitud, longitud))
+                            .center(new LatLng(latitudTesoro, longitudTesoro))
                             .radius(GEOFENCE_RADIUS_SMALL_IN_METERS)
                             .strokeColor(Color.BLUE)
                             .fillColor(Color.TRANSPARENT));
@@ -677,9 +678,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             mRequestingLocationUpdates = true;
                             startLocationUpdates();
                             //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
-                            Log.i("LatitudLongitudPut", "Latitud " + latitud + " Longitud " + longitud);
-                            BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(latitud, longitud));
-                            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitud, longitud));
+                            Log.i("LatitudLongitudPut", "Latitud " + latitudTesoro + " Longitud " + longitudTesoro);
+                            BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(latitudTesoro, longitudTesoro));
+                            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitudTesoro, longitudTesoro));
                             // Get the geofences used. Geofence data is hard coded in this sample.
                             populateGeofenceList();
                             insertarGeofences();

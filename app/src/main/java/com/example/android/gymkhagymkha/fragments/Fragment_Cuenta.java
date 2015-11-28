@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Login;
@@ -78,14 +79,14 @@ public class Fragment_Cuenta extends Fragment {
                                 manager.borrarEventos();
                                 manager.borrarTesoros();
 
-								// Intent al ActivityLogin
+                                // Intent al ActivityLogin
                                 Intent intent = new Intent(getActivity(), Activity_Login.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                                 getActivity().finish();
                             }
                         })
-                        // Si pulsamos cancelar no haría nada
+                                // Si pulsamos cancelar no haría nada
                         .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
@@ -100,15 +101,24 @@ public class Fragment_Cuenta extends Fragment {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-                Log.i("SELECT_PICTURE", String.valueOf(SELECT_PICTURE));
             }
         });
 
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                Uri selectedImageUri = data.getData();
-                ivFotoPerfil.setImageURI(selectedImageUri);
+        if (resultCode != 0) {
+            Uri selectedImageUri = data.getData();
+            cargarImagen(selectedImageUri);
+        } else {
+            Toast.makeText(getActivity(), "Si no quieres una imagen, pa que tocas...", Toast.LENGTH_LONG).show();
+        }
     }
 
+    private void cargarImagen(Uri imageUri) {
+
+        Log.i("RUTA", imageUri.getPath());
+        ivFotoPerfil.setImageURI(imageUri);
+
+    }
 }
