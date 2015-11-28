@@ -4,27 +4,37 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 
+import java.io.IOException;
+
+import javax.xml.transform.Result;
+
 
 public class Fragment_Cuenta extends Fragment {
 
     Button btnCerrarSesion;
     TextView tvUsuario;
+    ImageView ivFotoPerfil;
     BDManager manager;
-    int id;
     String fullname;
     Cursor cursor;
+    private static final int SELECT_PICTURE = 1;
+    private static final int SELECT_SINGLE_PICTURE = 101;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cuenta, container, false);
@@ -42,7 +52,8 @@ public class Fragment_Cuenta extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
-        
+
+        ivFotoPerfil = (ImageView) view.findViewById(R.id.ivFotoPerfil);
 		// Inicializamos el TextView y le añadimos el nombre completo del usuario
         tvUsuario = (TextView) view.findViewById(R.id.tvUsuario);
         tvUsuario.setText(fullname);
@@ -83,5 +94,21 @@ public class Fragment_Cuenta extends Fragment {
             }
         });
 
+        ivFotoPerfil.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+                Log.i("SELECT_PICTURE", String.valueOf(SELECT_PICTURE));
+            }
+        });
+
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                Uri selectedImageUri = data.getData();
+                ivFotoPerfil.setImageURI(selectedImageUri);
+    }
+
 }
