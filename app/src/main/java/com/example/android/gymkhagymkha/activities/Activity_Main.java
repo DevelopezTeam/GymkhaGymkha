@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -59,7 +60,7 @@ public class Activity_Main extends AppCompatActivity {
     public static Drawable circle_green, circle_red, header_blue, header_purple, header_red, header_green, header_yellow, header_orange;
     SharedPreferences prefs;
     NavigationView navigationView;
-    ImageView ivHeader;
+    ImageView ivHeader, ivUserPhoto;
     List<Integer> myRoad;
     ActionBarDrawerToggle drawerToggle;
     MenuItem menuItemEvento, menuItemRanking, menuItemCuenta, menuItemContacto;
@@ -125,8 +126,20 @@ public class Activity_Main extends AppCompatActivity {
         navigationView.addHeaderView(header);
         navigationView.inflateMenu(R.menu.navigation_drawer_menu);
         ivHeader = (ImageView) header.findViewById(R.id.ivHeader);
+        ivUserPhoto = (ImageView) header.findViewById(R.id.ivFotoPerfil);
         tvUsuarioBurguer = (TextView) header.findViewById(R.id.tvUsuarioBurguer);
         tvUsuarioBurguer.setText(fullname);
+
+        String user_photo = prefs.getString("user_photo", null);
+        /*if (user_photo != null) {
+            try {
+                Uri imageUri = Uri.parse(user_photo);
+                ivFotoPerfil.setImageURI(imageUri);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        } else*/
+            ivUserPhoto.setImageDrawable(getResources().getDrawable(R.drawable.user_photo_small));
 
         drawerToggle = setupDrawerToggle();
         drawerLayout.setDrawerListener(drawerToggle);

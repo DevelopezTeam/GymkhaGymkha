@@ -1,13 +1,14 @@
 package com.example.android.gymkhagymkha.fragments;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +22,7 @@ import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 
-import java.io.IOException;
-
-import javax.xml.transform.Result;
-
+import java.net.URI;
 
 public class Fragment_Cuenta extends Fragment {
 
@@ -35,11 +33,14 @@ public class Fragment_Cuenta extends Fragment {
     String fullname;
     Cursor cursor;
     private static final int SELECT_PICTURE = 1;
-    private static final int SELECT_SINGLE_PICTURE = 101;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
-    @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cuenta, container, false);
-        return view; }
+        return view;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +52,25 @@ public class Fragment_Cuenta extends Fragment {
 
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ivFotoPerfil = (ImageView) view.findViewById(R.id.ivFotoPerfil);
-		// Inicializamos el TextView y le añadimos el nombre completo del usuario
+        prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        editor = prefs.edit();
+        String user_photo = prefs.getString("user_photo", null);
+        if (user_photo != null) {
+            try {
+                Uri imageUri = Uri.parse(user_photo);
+                ivFotoPerfil.setImageURI(imageUri);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ivFotoPerfil.setImageDrawable(getResources().getDrawable(R.drawable.user_photo));
+        }
+
+        // Inicializamos el TextView y le añadimos el nombre completo del usuario
         tvUsuario = (TextView) view.findViewById(R.id.tvUsuario);
         tvUsuario.setText(fullname);
 
@@ -116,9 +131,10 @@ public class Fragment_Cuenta extends Fragment {
     }
 
     private void cargarImagen(Uri imageUri) {
-
-        Log.i("RUTA", imageUri.getPath());
+        editor.putString("user_photo", imageUri.toString());
+        editor.commit();
         ivFotoPerfil.setImageURI(imageUri);
-
     }
 }
+
+
