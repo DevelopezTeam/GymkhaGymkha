@@ -130,17 +130,6 @@ public class Activity_Main extends AppCompatActivity {
         tvUsuarioBurguer = (TextView) header.findViewById(R.id.tvUsuarioBurguer);
         tvUsuarioBurguer.setText(fullname);
 
-        String user_photo = prefs.getString("user_photo", null);
-        /*if (user_photo != null) {
-            try {
-                Uri imageUri = Uri.parse(user_photo);
-                ivFotoPerfil.setImageURI(imageUri);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
-        } else*/
-            ivUserPhoto.setImageDrawable(getResources().getDrawable(R.drawable.user_photo_small));
-
         drawerToggle = setupDrawerToggle();
         drawerLayout.setDrawerListener(drawerToggle);
         

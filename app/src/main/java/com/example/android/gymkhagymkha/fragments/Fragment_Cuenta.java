@@ -28,7 +28,7 @@ public class Fragment_Cuenta extends Fragment {
 
     Button btnCerrarSesion;
     TextView tvUsuario;
-    ImageView ivFotoPerfil;
+    ImageView ivFotoPerfil, ivBackground;
     BDManager manager;
     String fullname;
     Cursor cursor;
@@ -56,6 +56,7 @@ public class Fragment_Cuenta extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ivFotoPerfil = (ImageView) view.findViewById(R.id.ivFotoPerfil);
+        ivBackground = (ImageView) view.findViewById(R.id.ivBackground);
         prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
         editor = prefs.edit();
         String user_photo = prefs.getString("user_photo", null);
@@ -67,7 +68,7 @@ public class Fragment_Cuenta extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            ivFotoPerfil.setImageDrawable(getResources().getDrawable(R.drawable.user_photo));
+            ivFotoPerfil.setImageDrawable(getResources().getDrawable(R.drawable.user_photo_small));
         }
 
         // Inicializamos el TextView y le añadimos el nombre completo del usuario
@@ -119,6 +120,31 @@ public class Fragment_Cuenta extends Fragment {
             }
         });
 
+        setTheme();
+    }
+
+    private void setTheme() {
+        int idTema = prefs.getInt("idTema", 0);
+        switch (idTema) {
+            case 1:
+                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_purple));
+                break;
+            case 2:
+                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_red));
+                break;
+            case 3:
+                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_blue));
+                break;
+            case 4:
+                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_green));
+                break;
+            case 5:
+                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_orange));
+                break;
+            case 6:
+                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_yellow));
+                break;
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
