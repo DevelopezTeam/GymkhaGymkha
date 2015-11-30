@@ -60,9 +60,9 @@ public class Fragment_Cuenta extends Fragment {
 
         prefs = getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
         editor = prefs.edit();
-        String user_photo = prefs.getString("user_photo", null);
+        String user_photo = prefs.getString("user_photo", "");
         if (new File(user_photo).exists()) {
-            insertarImagen(user_photo);
+            insertarImagenPerfil(user_photo);
         } else {
             ivFotoPerfil.setImageDrawable(getResources().getDrawable(R.drawable.user_photo_small));
         }
@@ -121,27 +121,39 @@ public class Fragment_Cuenta extends Fragment {
     }
 
     private void setTheme() {
-        int idTema = prefs.getInt("idTema", 0);
-        switch (idTema) {
-            case 1:
-                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_purple));
-                break;
-            case 2:
-                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_red));
-                break;
-            case 3:
-                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_blue));
-                break;
-            case 4:
-                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_green));
-                break;
-            case 5:
-                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_orange));
-                break;
-            case 6:
-                ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_yellow));
-                break;
+        String background_photo = prefs.getString("background_photo", "");
+        if (new File(background_photo).exists()) {
+            insertarImagenBackground(background_photo);
+        } else {
+            int idTema = prefs.getInt("idTema", 0);
+            switch (idTema) {
+                case 1:
+                    ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_purple));
+                    break;
+                case 2:
+                    ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_red));
+                    break;
+                case 3:
+                    ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_blue));
+                    break;
+                case 4:
+                    ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_green));
+                    break;
+                case 5:
+                    ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_orange));
+                    break;
+                case 6:
+                    ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_yellow));
+                    break;
+            }
         }
+    }
+
+    private void insertarImagenBackground(String picturePath) {
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 583, 264, true);
+        ivBackground.setImageBitmap(bitmap);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -155,7 +167,7 @@ public class Fragment_Cuenta extends Fragment {
             cursor.close();
             editor.putString("user_photo", picturePath);
             editor.commit();
-            insertarImagen(picturePath);
+            insertarImagenPerfil(picturePath);
             Intent intent = new Intent(getActivity(), Activity_Main.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -163,7 +175,7 @@ public class Fragment_Cuenta extends Fragment {
         }
     }
 
-    public void insertarImagen(String picturePath) {
+    public void insertarImagenPerfil(String picturePath) {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
         bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);

@@ -6,7 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,13 +22,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.classes.ImageConverter;
 
 public class Activity_Ajustes extends AppCompatActivity {
 
     Toolbar toolbar;
     Button btnCambiarTema;
     ImageButton ibPurple, ibRed, ibBlue, ibGreen, ibOrange, ibYellow;
-    Button btnCancelarTema;
+    Button btnCancelarTema,btnInsertarBackground;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
@@ -135,7 +140,35 @@ public class Activity_Ajustes extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        btnInsertarBackground = (Button) this.findViewById(R.id.btnInsertarBackground);
+        // Añadimos un escuchador al botón
+        btnInsertarBackground.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, 1);
+            }
+        });
+
         setToolbarTheme();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode != 0 && null != data) {
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = this.getContentResolver().query(data.getData(),
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            editor.putString("background_photo", picturePath);
+            editor.commit();
+            Intent intent = new Intent(this, Activity_Main.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
     }
 	
     private void setToolbarTheme() {

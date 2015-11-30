@@ -134,7 +134,7 @@ public class Activity_Main extends AppCompatActivity {
         tvUsuarioBurguer = (TextView) header.findViewById(R.id.tvUsuarioBurguer);
         tvUsuarioBurguer.setText(fullname);
 
-        String user_photo = prefs.getString("user_photo", null);
+        String user_photo = prefs.getString("user_photo", "");
         if (new File(user_photo).exists()) {
             insertarImagen(user_photo);
         } else {
@@ -191,39 +191,65 @@ public class Activity_Main extends AppCompatActivity {
     }
 
     private void setTheme() {
+        String background_photo = prefs.getString("background_photo", "");
         int idTema = prefs.getInt("idTema", 0);
+        if (new File(background_photo).exists()) {
+            insertarImagenBackground(background_photo);
+        } else {
+            switch (idTema) {
+                case 1:
+                    header_purple = getResources().getDrawable(R.drawable.header_purple);
+                    ivHeader.setImageDrawable(header_purple);
+                    break;
+                case 2:
+                    header_red = getResources().getDrawable(R.drawable.header_red);
+                    ivHeader.setImageDrawable(header_red);
+                    break;
+                case 3:
+                    header_blue = getResources().getDrawable(R.drawable.header_blue);
+                    ivHeader.setImageDrawable(header_blue);
+                    break;
+                case 4:
+                    header_green = getResources().getDrawable(R.drawable.header_green);
+                    ivHeader.setImageDrawable(header_green);
+                    break;
+                case 5:
+                    header_orange = getResources().getDrawable(R.drawable.header_orange);
+                    ivHeader.setImageDrawable(header_orange);
+                    break;
+                case 6:
+                    header_yellow = getResources().getDrawable(R.drawable.header_yellow);
+                    ivHeader.setImageDrawable(header_yellow);
+                    break;
+            }
+        }
         switch (idTema) {
             case 1:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
-                header_purple = getResources().getDrawable(R.drawable.header_purple);
-                ivHeader.setImageDrawable(header_purple);
                 break;
             case 2:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));
-                header_red = getResources().getDrawable(R.drawable.header_red);
-                ivHeader.setImageDrawable(header_red);
                 break;
             case 3:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
-                header_blue = getResources().getDrawable(R.drawable.header_blue);
-                ivHeader.setImageDrawable(header_blue);
                 break;
             case 4:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));
-                header_green = getResources().getDrawable(R.drawable.header_green);
-                ivHeader.setImageDrawable(header_green);
                 break;
             case 5:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
-                header_orange = getResources().getDrawable(R.drawable.header_orange);
-                ivHeader.setImageDrawable(header_orange);
                 break;
             case 6:
                 toolbar.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
-                header_yellow = getResources().getDrawable(R.drawable.header_yellow);
-                ivHeader.setImageDrawable(header_yellow);
                 break;
         }
+    }
+
+    private void insertarImagenBackground(String picturePath) {
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 192, 192, true);
+        ivHeader.setImageBitmap(bitmap);
     }
 
     @Override
