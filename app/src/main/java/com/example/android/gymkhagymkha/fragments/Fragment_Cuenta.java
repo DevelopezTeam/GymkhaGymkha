@@ -6,23 +6,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Login;
+import com.example.android.gymkhagymkha.activities.Activity_Main;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
+import com.example.android.gymkhagymkha.classes.ImageConverter;
 
-import java.net.URI;
+import java.io.File;
 
 public class Fragment_Cuenta extends Fragment {
 
@@ -44,12 +46,10 @@ public class Fragment_Cuenta extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         manager = new BDManager(getActivity());
         cursor = manager.cursorLogin();
         cursor.moveToFirst();
         fullname = cursor.getString(cursor.getColumnIndex(manager.CN_FIRSTNAME)) + " " + cursor.getString(cursor.getColumnIndex(manager.CN_LASTNAME));
-
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -57,16 +57,12 @@ public class Fragment_Cuenta extends Fragment {
 
         ivFotoPerfil = (ImageView) view.findViewById(R.id.ivFotoPerfil);
         ivBackground = (ImageView) view.findViewById(R.id.ivBackground);
+
         prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
         editor = prefs.edit();
         String user_photo = prefs.getString("user_photo", null);
-        if (user_photo != null) {
-            try {
-                Uri imageUri = Uri.parse(user_photo);
-                ivFotoPerfil.setImageURI(imageUri);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
+        if (user_photo != null && new File(user_photo).exists()) {
+            insertarImagen(user_photo);
         } else {
             ivFotoPerfil.setImageDrawable(getResources().getDrawable(R.drawable.user_photo_small));
         }
@@ -113,10 +109,8 @@ public class Fragment_Cuenta extends Fragment {
 
         ivFotoPerfil.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, SELECT_PICTURE);
             }
         });
 
@@ -148,19 +142,28 @@ public class Fragment_Cuenta extends Fragment {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != 0) {
-            Uri selectedImageUri = data.getData();
-            cargarImagen(selectedImageUri);
-        } else {
-            Toast.makeText(getActivity(), "Si no quieres una imagen, pa que tocas...", Toast.LENGTH_LONG).show();
+        if (requestCode == SELECT_PICTURE && resultCode != 0 && null != data) {
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(data.getData(),
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            editor.putString("user_photo", picturePath);
+            editor.commit();
+            insertarImagen(picturePath);
         }
     }
 
-    private void cargarImagen(Uri imageUri) {
-        editor.putString("user_photo", imageUri.toString());
-        editor.commit();
-        ivFotoPerfil.setImageURI(imageUri);
+    private void insertarImagen(String picturePath) {
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
+        Bitmap bitmap2 = bitmap;
+        bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 64, 64, true);
+        Bitmap bm = ImageConverter.getRoundedCornerBitmap(bitmap, 1000);
+        Bitmap bm2 = ImageConverter.getRoundedCornerBitmap(bitmap2, 1000);
+        ivFotoPerfil.setImageBitmap(bm);
     }
 }
-
-

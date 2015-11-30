@@ -17,6 +17,7 @@
         android:layout_marginTop="@dimen/navigation_drawer_header_margin"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:id="@+id/iv_headerFotoPerfil"
         android:scaleType="centerCrop"
         android:src="@drawable/user_photo_small" />
 
