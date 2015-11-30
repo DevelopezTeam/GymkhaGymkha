@@ -62,7 +62,7 @@ public class Activity_Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		// Inicializamos el SharedPreferences
-        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
 		// Recogemos una variable del SharedPreferences
         int idTema = prefs.getInt("idTema", 0);
 		// Insertamos un tema dependiendo del valor de la variable anterior

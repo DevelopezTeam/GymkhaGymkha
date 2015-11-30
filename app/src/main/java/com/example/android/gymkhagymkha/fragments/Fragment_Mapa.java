@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
 import com.example.android.gymkhagymkha.geofence.GeofenceErrorMessages;
@@ -197,7 +198,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
         mGeofencePendingIntent = null;
 
-        prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
 
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
         mGeofence1Added = prefs.getBoolean(GEOFENCE1_ADDED_KEY, false);

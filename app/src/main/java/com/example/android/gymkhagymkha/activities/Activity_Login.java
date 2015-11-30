@@ -52,24 +52,12 @@ public class Activity_Login extends AppCompatActivity {
     JSONObject resultadoJSON;
 
     ProgressBar progressBar;
-    SharedPreferences prefs;
+
+    public static final String nombrePrefs = "preferenciasGymkha";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		// Inicializamos el SharedPreferences
-        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
-		// Recogemos una variable del SharedPreferences
-        int idTema = prefs.getInt("idTema", 0);
-		// Insertamos el tema correspondiente a la variable
-        switch (idTema) {
-            case 1: this.setTheme(R.style.Purple_Theme);break;
-            case 2: this.setTheme(R.style.Red_Theme);break;
-            case 3: this.setTheme(R.style.Blue_Theme);break;
-            case 4: this.setTheme(R.style.Green_Theme);break;
-            case 5: this.setTheme(R.style.Orange_Theme);break;
-            case 6: this.setTheme(R.style.Yellow_Theme);break;
-        }
         setContentView(R.layout.activity_login);
 
         // Instanciamos la base de datos
@@ -161,35 +149,8 @@ public class Activity_Login extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-
-        setTheme();
     }
 
-    private void setTheme() {
-		// Recogemos una variable del SharedPreferences
-        int idTema = prefs.getInt("idTema", 0);
-        switch (idTema) {
-            case 1:
-				// Cambiamos el color del toolbar respecto al valor de la variable
-                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
-                break;
-            case 2:
-                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_red_500));
-                break;
-            case 3:
-                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
-                break;
-            case 4:
-                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_green_500));
-                break;
-            case 5:
-                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
-                break;
-            case 6:
-                toolbarLogin.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
-                break;
-        }
-    }
 
     private void intentMainActivity() {
 

@@ -21,6 +21,7 @@ import android.util.Log;
 
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Game;
+import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.geofence.GeofenceErrorMessages;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -160,7 +161,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setContentText("")
                 .setSound(uri);
 
-        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
             case 1: builder.setLights(getResources().getColor(R.color.md_purple_500),1000,1000*60*60*24);break;

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.activities.Activity_Login;
 
 public class Fragment_Pista extends Fragment {
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class Fragment_Pista extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
 
         String pista = prefs.getString("pista", "no tiene valor");
         ((TextView) getActivity().findViewById(R.id.tvPista)).setText(pista);

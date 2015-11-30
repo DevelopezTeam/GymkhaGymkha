@@ -32,7 +32,7 @@ public class Activity_Ajustes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		// Inicializamos el SharedPreferences
-        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
 		// El SharedPreferences será editable
         editor = prefs.edit();
 		// Recogemos el valor de una variable

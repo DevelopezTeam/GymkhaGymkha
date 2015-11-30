@@ -68,7 +68,7 @@ public class Activity_Main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = this.getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
         int idTema = prefs.getInt("idTema", 0);
         switch (idTema) {
             case 1: this.setTheme(R.style.Purple_Theme);break;
