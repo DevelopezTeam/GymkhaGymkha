@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.android.gymkhagymkha.R;
+import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.adapters.AdapterRanking;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
 import com.example.android.gymkhagymkha.classes.Clase_Ranking;
@@ -70,7 +71,7 @@ public class Fragment_Ranking_Evento extends Fragment {
 
         manager = new BDManager(getActivity());
 
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
 
         idEvento = prefs.getInt("idEvento",0);
 

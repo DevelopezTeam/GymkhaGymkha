@@ -286,7 +286,7 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 		// Recogemos el id
         int idEvento = cursor.getInt(cursor.getColumnIndex(manager.CN_IDEVENT));
 		// Abrimos el SharedPreferences
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
 		// Le decimos que se puede editar
         SharedPreferences.Editor editor = prefs.edit();
 		// Le añadimos un idEvento

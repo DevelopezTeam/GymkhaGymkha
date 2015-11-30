@@ -58,7 +58,8 @@ public class Fragment_Cuenta extends Fragment {
         ivFotoPerfil = (ImageView) view.findViewById(R.id.ivFotoPerfil);
         ivBackground = (ImageView) view.findViewById(R.id.ivBackground);
 
-        prefs = getActivity().getSharedPreferences("preferenciasGymkha", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
+
         editor = prefs.edit();
         String user_photo = prefs.getString("user_photo", null);
         if (user_photo != null && new File(user_photo).exists()) {
@@ -90,6 +91,9 @@ public class Fragment_Cuenta extends Fragment {
                                 manager.borrarLogin(id);
                                 manager.borrarEventos();
                                 manager.borrarTesoros();
+
+                                editor.clear();
+                                editor.commit();
 
                                 // Intent al ActivityLogin
                                 Intent intent = new Intent(getActivity(), Activity_Login.class);
