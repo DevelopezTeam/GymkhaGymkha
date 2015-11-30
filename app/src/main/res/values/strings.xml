@@ -110,10 +110,10 @@
     </string>
 
     <!-- Transition type strings -->
-    <string name="geofence_transition_entered_small">Entraste al circulo pequeño</string>
+    <string name="geofence_transition_entered_small">Ganaste esté objetivo</string>
     <string name="geofence_transition_exited_small">Saliste del circulo pequeño</string>
-    <string name="geofence_transition_entered_big">Entraste al circulo grande</string>
-    <string name="geofence_transition_exited_big">Saliste del circulo grande</string>
+    <string name="geofence_transition_entered_big">Te estás acercando... :D</string>
+    <string name="geofence_transition_exited_big">Te estás alejando... :S</string>
     <string name="unknown_geofence_transition">Unknown Transition</string>
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>

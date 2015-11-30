@@ -153,16 +153,6 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
      */
     private static HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
 
-    static {
-        //BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(40.433131, -3.627294));
-        // San Francisco International Airport.
-        //BAY_AREA_LANDMARKS.put("SFO", new LatLng(37.621313, -122.378955));
-        // Garcia noblejas 40.428669, -3.633325.
-        //BAY_AREA_LANDMARKS.put("GARCIA NOBLEJEISION", new LatLng(40.428669, -3.633325)); 40.433131, -3.627294
-        //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
-    }
-
-
     private SharedPreferences prefs;
 
     private GoogleMap mMap;
@@ -185,6 +175,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
 
     public void onViewCreated(View view, Bundle savedInstanceState){
+        Log.i("FRAGMENT","onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
 
@@ -329,12 +320,14 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     @Override
     public void onStart() {
+        Log.i("FRAGMENT","onStart");
         super.onStart();
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onResume() {
+        Log.i("FRAGMENT","onResume");
         super.onResume();
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
@@ -347,6 +340,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     @Override
     public void onPause() {
+        Log.i("FRAGMENT","onPause");
         super.onPause();
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
         if (mGoogleApiClient.isConnected()) {
@@ -356,7 +350,8 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     @Override
     public void onStop() {
-        mGoogleApiClient.disconnect();
+        Log.i("FRAGMENT","onStop");
+        //mGoogleApiClient.disconnect();
         super.onStop();
     }
 
@@ -437,18 +432,15 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         return builder.build();
     }
 
-    /*
+
     @Override
     public void onDestroy() {
+        Log.i("FRAGMENT","onDestroy");
+        removeGeofences();
+        mGoogleApiClient.disconnect();
         super.onDestroy();
-        mapView.onDestroy();
     }
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-    */
+
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {
@@ -466,6 +458,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
 
     public void onCreate(Bundle savedInstanceState) {
+        Log.i("FRAGMENT","onCreate");
         super.onCreate(savedInstanceState);
     }
 
@@ -553,7 +546,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         Intent intent = new Intent(getActivity(), GeofenceTransitionsIntentService.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
-        PendingIntent.getService(getActivity(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         return PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -579,6 +572,24 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     getGeofencePendingIntent()
             ).setResultCallback(this); // Result processed in onResult().
             Log.i("Geofence","Geofences ya añadidos");
+        } catch (SecurityException securityException) {
+            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+            logSecurityException(securityException);
+        }
+    }
+
+    public void removeGeofences(){
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(getActivity(), getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            // Remove geofences.
+            LocationServices.GeofencingApi.removeGeofences(
+                    mGoogleApiClient,
+                    // This is the same pending intent that was used in addGeofences().
+                    getGeofencePendingIntent()
+            ).setResultCallback(this); // Result processed in onResult().
         } catch (SecurityException securityException) {
             // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
             logSecurityException(securityException);
@@ -648,12 +659,10 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     cursorTesoros.moveToFirst();
                     latitudTesoro = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LATITUDE));
                     longitudTesoro = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_TREASURE_LONGITUDE));
-                    latitudInicial = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_INITIAL_LATITUDE));
-                    longitudInicial = cursorTesoros.getDouble(cursorTesoros.getColumnIndex(manager.CN_INITIAL_LONGITUDE));
                     pista = cursorTesoros.getString(cursorTesoros.getColumnIndex(manager.CN_TREASURE_CLUE));
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitudTesoro, longitudTesoro)).title(pista));
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitudInicial, longitudInicial)).title("Punto de encuentro").icon(BitmapDescriptorFactory.fromResource(R.drawable.home)));
+                    //mMap.addMarker(new MarkerOptions().position(new LatLng(latitudInicial, longitudInicial)).title("Punto de encuentro").icon(BitmapDescriptorFactory.fromResource(R.drawable.home)));
                     //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud, longitud), 16));
                     mMap.addCircle(new CircleOptions()
                             .center(new LatLng(latitudTesoro, longitudTesoro))

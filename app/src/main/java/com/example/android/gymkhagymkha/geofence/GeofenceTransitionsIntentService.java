@@ -123,7 +123,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         for (Geofence geofence : triggeringGeofences) {
             triggeringGeofencesIdsList.add(geofence.getRequestId());
         }
-        String triggeringGeofencesIdsString = TextUtils.join(", ", triggeringGeofencesIdsList);
+        //String triggeringGeofencesIdsString = TextUtils.join(", ", triggeringGeofencesIdsList);
 
         return geofenceTransitionString;
     }
@@ -152,11 +152,36 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Get a notification builder that's compatible with platform versions >= 4
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        //Vibracion
+
+        long[] vibracion = new long[]{100};
+        if(notificationDetails.compareTo(getString(R.string.geofence_transition_entered_small)) == 0){
+            //entraste en el pequeño
+            vibracion = new long[] {50,100,50,100,50,100,400,100,300,100,350,50,200,100,100,50,600};
+        }
+        else if(notificationDetails.compareTo(getString(R.string.geofence_transition_exited_small)) == 0){
+            //saliste del pequeño
+        }
+        else if(notificationDetails.compareTo(getString(R.string.geofence_transition_entered_big)) == 0){
+            //entraste grande
+            vibracion = new long[] { 100, 250, 250,  250, 250, 250, 250, 250, 250, 250, 250,  250, 250, 250, 250, 250, 250, 250};
+        }
+        else if(notificationDetails.compareTo(getString(R.string.geofence_transition_exited_big)) == 0){
+            //saliste del grande
+            vibracion = new long[] { 100, 750, 750,  750, 750, 750, 750, 750, 750, 750, 750, 750};
+        }
+        else{
+            //R.string.unknown_geofence_transition no se sabe...
+        }
+
+
+        //star wars new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}
         // Define the notification settings.
         builder.setSmallIcon(R.mipmap.ic_launcher2_small)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),
                         R.mipmap.ic_launcher2))
-                .setVibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500})
+                .setVibrate(vibracion)
                 .setContentTitle(notificationDetails)
                 .setContentText("")
                 .setSound(uri);

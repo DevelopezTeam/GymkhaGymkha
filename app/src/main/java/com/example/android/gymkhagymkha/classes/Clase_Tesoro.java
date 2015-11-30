@@ -11,8 +11,8 @@ public class Clase_Tesoro {
     private String nombre;
     private String pista;
     private String estado; // String?
-    private double latitudTesoro, latitudInicial;
-    private double longitudTesoro, longitudInicial;
+    private double latitudTesoro;
+    private double longitudTesoro;
     private int idGanador ;
 
 
@@ -24,8 +24,6 @@ public class Clase_Tesoro {
         estado = objetoJSON.getString("estado");
         latitudTesoro = objetoJSON.getDouble("latitudTesoro");
         longitudTesoro = objetoJSON.getDouble("longitudTesoro");
-        latitudInicial = objetoJSON.getDouble("latitudInicial");
-        longitudInicial = objetoJSON.getDouble("longitudInicial");
         idGanador = objetoJSON.getInt("idGanador");
     }
 
@@ -95,22 +93,6 @@ public class Clase_Tesoro {
 
     public void setlongitudTesoro(double longitudTesoro) {
         this.longitudTesoro = longitudTesoro;
-    }
-
-    public double getlatitudInicial() {
-        return latitudInicial;
-    }
-
-    public void setlatitudInicial(double latitudInicial) {
-        this.latitudInicial = latitudInicial;
-    }
-
-    public double getlongitudInicial() {
-        return longitudInicial;
-    }
-
-    public void setlongitudInicial(double longitudInicial) {
-        this.longitudInicial = longitudInicial;
     }
 
     public int getIdGanador() {
