@@ -1,6 +1,7 @@
 package com.example.android.gymkhagymkha.classes;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;

@@ -59,10 +59,9 @@ public class Fragment_Cuenta extends Fragment {
         ivBackground = (ImageView) view.findViewById(R.id.ivBackground);
 
         prefs = getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
-
         editor = prefs.edit();
         String user_photo = prefs.getString("user_photo", null);
-        if (user_photo != null && new File(user_photo).exists()) {
+        if (new File(user_photo).exists()) {
             insertarImagen(user_photo);
         } else {
             ivFotoPerfil.setImageDrawable(getResources().getDrawable(R.drawable.user_photo_small));
@@ -157,17 +156,18 @@ public class Fragment_Cuenta extends Fragment {
             editor.putString("user_photo", picturePath);
             editor.commit();
             insertarImagen(picturePath);
+            Intent intent = new Intent(getActivity(), Activity_Main.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            getActivity().finish();
         }
     }
 
-    private void insertarImagen(String picturePath) {
+    public void insertarImagen(String picturePath) {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
-        Bitmap bitmap2 = bitmap;
         bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
-        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 64, 64, true);
         Bitmap bm = ImageConverter.getRoundedCornerBitmap(bitmap, 1000);
-        Bitmap bm2 = ImageConverter.getRoundedCornerBitmap(bitmap2, 1000);
         ivFotoPerfil.setImageBitmap(bm);
     }
 }

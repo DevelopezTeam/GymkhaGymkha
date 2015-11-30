@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -33,12 +35,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.gymkhagymkha.bbdd.BDManager;
+import com.example.android.gymkhagymkha.classes.ImageConverter;
 import com.example.android.gymkhagymkha.fragments.Fragment_AyudaContacto;
 import com.example.android.gymkhagymkha.fragments.Fragment_Cuenta;
 import com.example.android.gymkhagymkha.fragments.Fragment_Eventos;
 import com.example.android.gymkhagymkha.fragments.Fragment_Ranking_General;
 import com.example.android.gymkhagymkha.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,9 +130,16 @@ public class Activity_Main extends AppCompatActivity {
         navigationView.addHeaderView(header);
         navigationView.inflateMenu(R.menu.navigation_drawer_menu);
         ivHeader = (ImageView) header.findViewById(R.id.ivHeader);
-        ivUserPhoto = (ImageView) header.findViewById(R.id.ivFotoPerfil);
+        ivUserPhoto = (ImageView) header.findViewById(R.id.iv_headerFotoPerfil);
         tvUsuarioBurguer = (TextView) header.findViewById(R.id.tvUsuarioBurguer);
         tvUsuarioBurguer.setText(fullname);
+
+        String user_photo = prefs.getString("user_photo", null);
+        if (new File(user_photo).exists()) {
+            insertarImagen(user_photo);
+        } else {
+            ivUserPhoto.setImageDrawable(getResources().getDrawable(R.drawable.user_photo_small));
+        }
 
         drawerToggle = setupDrawerToggle();
         drawerLayout.setDrawerListener(drawerToggle);
@@ -151,6 +162,14 @@ public class Activity_Main extends AppCompatActivity {
             getWindow().setStatusBarColor(colorPrimaryDark);
             getWindow().setNavigationBarColor(colorPrimaryDark);
         }
+    }
+
+    public void insertarImagen(String picturePath) {
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 128, 128, true);
+        Bitmap bm = ImageConverter.getRoundedCornerBitmap(bitmap, 1000);
+        ivUserPhoto.setImageBitmap(bm);
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
