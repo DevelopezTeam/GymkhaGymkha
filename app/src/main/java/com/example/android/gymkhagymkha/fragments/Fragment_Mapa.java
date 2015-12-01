@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
+import com.example.android.gymkhagymkha.classes.Clase_Jugador;
 import com.example.android.gymkhagymkha.classes.Clase_Tesoro;
 import com.example.android.gymkhagymkha.geofence.GeofenceErrorMessages;
 import com.example.android.gymkhagymkha.geofence.GeofenceTransitionsIntentService;
@@ -58,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 public class Fragment_Mapa extends android.support.v4.app.Fragment implements OnMapReadyCallback,
@@ -158,13 +160,14 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     private GoogleMap mMap;
     private BDManager manager;
     private Cursor cursorTesoros;
-    private double latitudTesoro,longitudTesoro, latitudInicial, longitudInicial;
+    private double latitudTesoro,longitudTesoro;
     private String pista,resul;
     private ArrayList<Clase_Tesoro> arrayTesoros;
     private Toolbar toolbarInGame;
     private TextView tvPista;
     Location myLocation;
     boolean firstTimeZoom = false;
+    boolean asynEnemigos = false;
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mapa, container, false);
@@ -343,9 +346,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         Log.i("FRAGMENT", "onPause");
         super.onPause();
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
-        if (mGoogleApiClient.isConnected()) {
+        /*if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
-        }
+        }*/
     }
 
     @Override
@@ -391,8 +394,30 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         updateUI();
-        Toast.makeText(getActivity(), "La location ha updateado",Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), "La location ha updateado",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Cambiando location Latitud:" + location.getLatitude() + " Longitud:" + location.getLongitude(), Toast.LENGTH_LONG).show();
+        //TODO hacer asyntask de mi posicion y otro para pintar las posiciones de los demas (intentar hacerlo en un mismo asyn)
+        Cursor cursorLogin;
+        cursorLogin = manager.cursorLogin();
+        cursorLogin.moveToFirst();
+        int idJugador = cursorLogin.getInt(cursorLogin.getColumnIndex(manager.CN_USER_ID));
+        int idEvento = this.getActivity().getIntent().getExtras().getInt("idEvento");
+
+        double latitud = location.getLatitude();
+        String auxLatString = String.valueOf(latitud);
+        String[] arrayLat = auxLatString.split(Pattern.quote("."));
+        int latitudEntero = Integer.parseInt(arrayLat[0]);
+        int latitudDecimal = Integer.parseInt(arrayLat[1]);
+
+        double longitud = location.getLongitude();
+        String auxLonString = String.valueOf(longitud);
+        String[] arrayLon = auxLonString.split(Pattern.quote("."));
+        int longitudEntero = Integer.parseInt(arrayLon[0]);
+        int longitudDecimal = Integer.parseInt(arrayLon[1]);
+        String url = "http://www.gymkhagymkha.esy.es/jugadoresAcceso.php?idJugador=" + idJugador + "&latitudEntero="+latitudEntero+"&latitudDecimal="+latitudDecimal+"&longitudEntero="+longitudEntero+"&longitudDecimal="+longitudDecimal+"&idEvento="+idEvento;
+        if(!asynEnemigos){
+            new AsyncEnemigos().execute(url);
+        }
         if(!firstTimeZoom){
             CameraPosition position = new CameraPosition.Builder()
                     .target(new LatLng(location.getLatitude(), location.getLongitude()))
@@ -713,6 +738,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
+            asynEnemigos = true;
         }
 
         @Override
@@ -745,14 +771,14 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                 Log.i("Enemigo", "no encontrados");
             } else {
                 JSONObject resultadoJSON;
-                Clase_Tesoro auxTesoro;
+                Clase_Jugador auxJugador;
                 try {
                     resultadoJSON = new JSONObject(resul);
                     for (int i = 0; i < resultadoJSON.length(); i++) {
-                        auxTesoro = new Clase_Tesoro(resultadoJSON.getJSONObject(i + ""));
-                        arrayTesoros.add(auxTesoro);
-                        manager.guardarTesoro(auxTesoro);
+                        auxJugador = new Clase_Jugador(resultadoJSON.getJSONObject(i + ""));
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(auxJugador.getLatitud(), auxJugador.getLongitud())).title("Enemigo").icon(BitmapDescriptorFactory.fromResource(R.drawable.enemy)));
                     }
+                    asynEnemigos = false;
 
                 } catch (JSONException e) {
                     e.printStackTrace();

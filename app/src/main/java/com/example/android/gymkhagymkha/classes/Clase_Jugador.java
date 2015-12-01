@@ -14,6 +14,7 @@ public class Clase_Jugador {
     private String email;
     private int idAministrador;
     private int idCentro;
+    private double latitud,longitud;
 
     public Clase_Jugador(JSONObject objetoJSON) throws JSONException {
         idJugador = objetoJSON.getInt("idJugador");
@@ -23,6 +24,8 @@ public class Clase_Jugador {
         email = objetoJSON.getString("email");
         idAministrador = objetoJSON.getInt("idAdministrador");
         idCentro = objetoJSON.getInt("idCentro");
+        latitud = objetoJSON.getDouble("latitud");
+        longitud = objetoJSON.getDouble("longitud");
     }
 
     public int getIdJugador() {
@@ -79,5 +82,21 @@ public class Clase_Jugador {
 
     public void setIdCentro(int idCentro) {
         this.idCentro = idCentro;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 }
