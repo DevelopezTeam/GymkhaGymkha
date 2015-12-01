@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.android.gymkhagymkha.R;
-import com.example.android.gymkhagymkha.classes.ImageConverter;
 
 public class Activity_Ajustes extends AppCompatActivity {
 

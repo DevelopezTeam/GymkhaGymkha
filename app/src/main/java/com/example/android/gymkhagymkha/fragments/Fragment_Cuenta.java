@@ -22,7 +22,7 @@ import com.example.android.gymkhagymkha.R;
 import com.example.android.gymkhagymkha.activities.Activity_Login;
 import com.example.android.gymkhagymkha.activities.Activity_Main;
 import com.example.android.gymkhagymkha.bbdd.BDManager;
-import com.example.android.gymkhagymkha.classes.ImageConverter;
+import com.example.android.gymkhagymkha.images.ImageConverter;
 
 import java.io.File;
 

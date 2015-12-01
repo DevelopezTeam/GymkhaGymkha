@@ -1,4 +1,4 @@
-package com.example.android.gymkhagymkha.classes;
+package com.example.android.gymkhagymkha.images;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

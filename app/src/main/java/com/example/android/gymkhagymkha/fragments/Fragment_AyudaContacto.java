@@ -1,8 +1,10 @@
 package com.example.android.gymkhagymkha.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,7 +39,6 @@ public class Fragment_AyudaContacto extends Fragment {
         btnContacto = (Button) view.findViewById(R.id.btnContacto);
         btnContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 // Hacemos un intent para enviar un correo electrónico
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{"gymkhagymkha@gmail.com"});
@@ -45,9 +46,7 @@ public class Fragment_AyudaContacto extends Fragment {
                 email.putExtra(Intent.EXTRA_TEXT, "");
                 //Con este .setType debería salir solos los clientes de e-Mail
                 email.setType("message/rfc822");
-
                 startActivity(Intent.createChooser(email, "Elije un cliente de correo electrónico"));
-
             }
         });
 
