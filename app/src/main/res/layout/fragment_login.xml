@@ -10,7 +10,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
         android:layout_below="@+id/toolbarLogin"
-        android:layout_gravity="center">
+        android:layout_gravity="right|bottom">
 
         <LinearLayout
             android:orientation="vertical"
@@ -26,37 +26,36 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Acceso a su cuenta"
+                android:textStyle="bold"
+                android:textSize="30dp"
                 android:id="@+id/textView8"
                 android:layout_gravity="center_horizontal|top"
                 android:layout_marginBottom="30dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Usuario"
-                android:id="@+id/textView9" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-            <EditText
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Usuario"
+                    android:id="@+id/etUsuario" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etUsuario" />
-
-            <TextView
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Contraseña"
-                android:id="@+id/textView10" />
-
+                android:layout_marginTop="10dp">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/etContrasena"
+                android:hint="Contraseña"
                 android:layout_gravity="right|top" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:layout_width="match_parent"
@@ -64,6 +63,8 @@
                 android:layout_marginTop="15dp"
                 android:text="Acceder"
                 android:id="@+id/btnLogin"
+                android:background="@color/md_indigo_500"
+                android:textColor="@color/md_white_1000"
                 android:onClick="login"
                 android:layout_gravity="right"
                 android:layout_weight="0.28" />

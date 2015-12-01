@@ -176,12 +176,36 @@ public class Activity_Ajustes extends AppCompatActivity {
         int idTema = prefs.getInt("idTema", 0);
 		// Añade un color al toolbar dependiendo del valor de la variable anterior
         switch (idTema) {
-            case 1: toolbar.setBackgroundColor(getResources().getColor(R.color.md_purple_800));break;
-            case 2: toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));break;
-            case 3: toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));break;
-            case 4: toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));break;
-            case 5: toolbar.setBackgroundColor(getResources().getColor(R.color.md_amber_700));break;
-            case 6: toolbar.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));break;
+            case 1:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                btnCambiarTema.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                btnInsertarBackground.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                break;
+            case 2:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                btnCambiarTema.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                btnInsertarBackground.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                break;
+            case 3:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                btnCambiarTema.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                btnInsertarBackground.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                break;
+            case 4:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                btnCambiarTema.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                btnInsertarBackground.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                break;
+            case 5:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                btnCambiarTema.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                btnInsertarBackground.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                break;
+            case 6:
+                toolbar.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                btnCambiarTema.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                btnInsertarBackground.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                break;
         }
     }
 

@@ -248,7 +248,7 @@ public class Activity_Main extends AppCompatActivity {
     private void insertarImagenBackground(String picturePath) {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
-        bitmap = Bitmap.createScaledBitmap(bitmap, 192, 192, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 384, 384, true);
         ivHeader.setImageBitmap(bitmap);
     }
 

@@ -29,18 +29,38 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Usuario"
         android:id="@+id/tvUsuario"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textSize="35dp"
         android:layout_gravity="center" />
 
-    <Button
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Cerrar Sesión"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/btnCerrarSesion"
-        android:layout_gravity="center_horizontal|bottom"
-        android:onClick="cerrarSesion"/>
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal|bottom">
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:text="Cambiar foto de perfil"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/md_white_1000"
+            android:background="@color/md_indigo_500"
+            android:id="@+id/btnCambiarFotoPerfil"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_indigo_500"
+            android:text="Cerrar Sesión"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/btnCerrarSesion"
+            android:textColor="@color/md_white_1000"/>
+
+    </LinearLayout>
 </FrameLayout>

@@ -196,7 +196,6 @@ public class Activity_Login extends AppCompatActivity {
         } else {
 
             etContrasena.setText("");
-            etUsuario.setText("");
             btnLogin.setEnabled(false);
             Toast.makeText(getApplicationContext(),
                     "Usuario o contraseña incorrectos, inténtelo de nuevo...",

@@ -30,9 +30,11 @@
             android:layout_height="wrap_content"
             android:text="Cambiar de tema"
             android:id="@+id/btnCambiarTema"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_gravity="center_horizontal|top"
+            android:textColor="@color/md_white_1000"
+            android:background="@color/md_indigo_500"
             android:onClick="cambiarTheme"/>
 
         <Button
@@ -41,8 +43,10 @@
             android:layout_height="wrap_content"
             android:text="Cambiar imagen de fondo"
             android:id="@+id/btnInsertarBackground"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/md_white_1000"
+            android:background="@color/md_indigo_500"
             android:layout_gravity="center_horizontal"
             android:onClick="cambiarBackground" />
 

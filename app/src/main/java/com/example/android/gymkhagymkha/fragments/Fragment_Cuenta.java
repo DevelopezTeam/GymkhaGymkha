@@ -28,7 +28,7 @@ import java.io.File;
 
 public class Fragment_Cuenta extends Fragment {
 
-    Button btnCerrarSesion;
+    Button btnCerrarSesion, btnCambiarFotoPerfil;
     TextView tvUsuario;
     ImageView ivFotoPerfil, ivBackground;
     BDManager manager;
@@ -57,7 +57,7 @@ public class Fragment_Cuenta extends Fragment {
 
         ivFotoPerfil = (ImageView) view.findViewById(R.id.ivFotoPerfil);
         ivBackground = (ImageView) view.findViewById(R.id.ivBackground);
-
+        btnCambiarFotoPerfil = (Button) view.findViewById(R.id.btnCambiarFotoPerfil);
         prefs = getActivity().getSharedPreferences(Activity_Login.nombrePrefs, Context.MODE_PRIVATE);
         editor = prefs.edit();
         String user_photo = prefs.getString("user_photo", "");
@@ -110,7 +110,7 @@ public class Fragment_Cuenta extends Fragment {
             }
         });
 
-        ivFotoPerfil.setOnClickListener(new View.OnClickListener() {
+        btnCambiarFotoPerfil.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, SELECT_PICTURE);
@@ -121,11 +121,11 @@ public class Fragment_Cuenta extends Fragment {
     }
 
     private void setTheme() {
+        int idTema = prefs.getInt("idTema", 0);
         String background_photo = prefs.getString("background_photo", "");
         if (new File(background_photo).exists()) {
             insertarImagenBackground(background_photo);
         } else {
-            int idTema = prefs.getInt("idTema", 0);
             switch (idTema) {
                 case 1:
                     ivBackground.setImageDrawable(getResources().getDrawable(R.drawable.header_purple));
@@ -147,12 +147,38 @@ public class Fragment_Cuenta extends Fragment {
                     break;
             }
         }
+        switch (idTema) {
+            case 1:
+                btnCambiarFotoPerfil.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                btnCerrarSesion.setBackgroundColor(getResources().getColor(R.color.md_purple_800));
+                break;
+            case 2:
+                btnCambiarFotoPerfil.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                btnCerrarSesion.setBackgroundColor(getResources().getColor(R.color.md_red_500));
+                break;
+            case 3:
+                btnCambiarFotoPerfil.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                btnCerrarSesion.setBackgroundColor(getResources().getColor(R.color.md_indigo_500));
+                break;
+            case 4:
+                btnCambiarFotoPerfil.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                btnCerrarSesion.setBackgroundColor(getResources().getColor(R.color.md_green_500));
+                break;
+            case 5:
+                btnCambiarFotoPerfil.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                btnCerrarSesion.setBackgroundColor(getResources().getColor(R.color.md_amber_700));
+                break;
+            case 6:
+                btnCambiarFotoPerfil.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                btnCerrarSesion.setBackgroundColor(getResources().getColor(R.color.md_yellow_700));
+                break;
+        }
     }
 
     private void insertarImagenBackground(String picturePath) {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
-        bitmap = Bitmap.createScaledBitmap(bitmap, 583, 264, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 1166, 528, true);
         ivBackground.setImageBitmap(bitmap);
     }
 
