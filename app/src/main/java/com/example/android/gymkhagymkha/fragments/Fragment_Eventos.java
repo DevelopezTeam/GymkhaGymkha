@@ -233,7 +233,16 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
             long horaMin = cal.getTimeInMillis();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date event = formatter.parse(fechaEvento);
-			// Línea para borrar
+
+            int idJugador = cursor.getInt(cursor.getColumnIndex(manager.CN_USER_ID));
+            Cursor cursor = manager.cursorEventos();
+            // Mover el cursor a la posición que hemos puesto como variable global anteriormente
+            cursor.moveToPosition(this.positionEvento);
+            // Recogemos el id
+            int idEvento = cursor.getInt(cursor.getColumnIndex(manager.CN_IDEVENT));
+            //Hacer asyntask
+            new AsyncEventoActual().execute("http://www.gymkhagymkha.esy.es/eventoActualAcceso.php?idJugador=" + idJugador + "&idEvento=" + idEvento);
+            // Línea para borrar
             intentGame();
             /*
 			// Si estamos en el día de hoy
@@ -295,6 +304,9 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         editor.commit();
 		// Le ponemos al intent el valor del id también
         intent.putExtra("idEvento", idEvento);
+        // Y el del nombre del evento
+        String nombreEvento = cursor.getString(cursor.getColumnIndex(manager.CN_EVENT_NAME));
+        intent.putExtra("nombreEvento", nombreEvento);
 		// Lanzamos el intent al ActivityGame
         startActivity(intent);
     }
@@ -342,6 +354,46 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         });
         dialog.show();
         return true;
+    }
+
+    public class AsyncEventoActual extends AsyncTask<String, Void, StringBuilder> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+        }
+
+        @Override
+        protected StringBuilder doInBackground(String... _url) {
+            HttpURLConnection urlConnection=null;
+            StringBuilder sb = new StringBuilder();
+            String linea;
+            resul = "";
+            try {
+                // Leemos la salida de la llamada
+                URL url = new URL(_url[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                while ((linea = br.readLine()) != null) {
+                    resul = resul + linea;
+                }
+            }
+            catch (MalformedURLException e) {
+                Log.e("TESTNET", "URL MAL FORMADA");
+
+            }
+            catch (IOException e) {
+                Log.e("TESTNET", "IO ERROR");
+            }  finally {
+                urlConnection.disconnect();
+            }
+            return sb;
+        }
+        protected void onPostExecute(StringBuilder sb) {
+
+        }
     }
 }
 

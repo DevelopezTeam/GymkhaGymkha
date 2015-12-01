@@ -340,7 +340,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     @Override
     public void onPause() {
-        Log.i("FRAGMENT","onPause");
+        Log.i("FRAGMENT", "onPause");
         super.onPause();
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
         if (mGoogleApiClient.isConnected()) {
@@ -350,7 +350,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     @Override
     public void onStop() {
-        Log.i("FRAGMENT","onStop");
+        Log.i("FRAGMENT", "onStop");
         //mGoogleApiClient.disconnect();
         super.onStop();
     }
@@ -646,7 +646,9 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
                     toolbarInGame = (Toolbar) getActivity().findViewById(R.id.toolbarInGame);
                     //setSupportActionBar(toolbarInGame);
-                    toolbarInGame.setTitle(arrayTesoros.get(0).getNombre());
+
+                    String nombreEvento = Fragment_Mapa.this.getActivity().getIntent().getExtras().getString("nombreEvento");
+                    toolbarInGame.setTitle(nombreEvento+":"+arrayTesoros.get(0).getNombre());
                     String auxPista = arrayTesoros.get(0).getPista();
                     tvPista = (TextView) getActivity().findViewById(R.id.tvPista);
                     tvPista.setText(auxPista);

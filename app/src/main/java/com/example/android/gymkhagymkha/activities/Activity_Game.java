@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -122,6 +123,12 @@ public class Activity_Game extends AppCompatActivity {
 					// Si pulsamos al positivo, saldremos
                     .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            manager = new BDManager(Activity_Game.this);
+                            Cursor cursorLogin;
+                            cursorLogin = manager.cursorLogin();
+                            cursorLogin.moveToFirst();
+                            int idJugador = cursorLogin.getInt(cursorLogin.getColumnIndex(manager.CN_USER_ID));
+                            new AsyncEventoActual().execute("http://www.gymkhagymkha.esy.es/eventoActualAcceso.php?idJugador=" + idJugador + "&idEvento=null");
                             salirEvento();}})
 					// Si pulsamos al negativo, nos quedaremos
                     .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
@@ -227,5 +234,43 @@ public class Activity_Game extends AppCompatActivity {
         }
     }
 
+    public class AsyncEventoActual extends AsyncTask<String, Void, StringBuilder> {
 
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+        }
+
+        @Override
+        protected StringBuilder doInBackground(String... _url) {
+            HttpURLConnection urlConnection=null;
+            StringBuilder sb = new StringBuilder();
+            String linea;
+            resul = "";
+            try {
+                // Leemos la salida de la llamada
+                URL url = new URL(_url[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                while ((linea = br.readLine()) != null) {
+                    resul = resul + linea;
+                }
+            }
+            catch (MalformedURLException e) {
+                Log.e("TESTNET", "URL MAL FORMADA");
+
+            }
+            catch (IOException e) {
+                Log.e("TESTNET", "IO ERROR");
+            }  finally {
+                urlConnection.disconnect();
+            }
+            return sb;
+        }
+        protected void onPostExecute(StringBuilder sb) {
+
+        }
+    }
 }
