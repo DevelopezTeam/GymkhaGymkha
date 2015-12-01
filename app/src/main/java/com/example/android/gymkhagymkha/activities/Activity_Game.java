@@ -115,28 +115,32 @@ public class Activity_Game extends AppCompatActivity {
         int id = item.getItemId();
 		// Si pulsamos a la opción salir del evento del menú
         if (id == R.id.action_salirEvento) {
-			// Mostrará un dialog donde nos avisará que vamos a salir
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.title_salirEvento);
-            builder.setIcon(R.drawable.ic_warning_black_24dp);
-            builder.setMessage(R.string.message_salirEvento)
-					// Si pulsamos al positivo, saldremos
-                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            manager = new BDManager(Activity_Game.this);
-                            Cursor cursorLogin;
-                            cursorLogin = manager.cursorLogin();
-                            cursorLogin.moveToFirst();
-                            int idJugador = cursorLogin.getInt(cursorLogin.getColumnIndex(manager.CN_USER_ID));
-                            new AsyncEventoActual().execute("http://www.gymkhagymkha.esy.es/eventoActualAcceso.php?idJugador=" + idJugador + "&idEvento=null");
-                            salirEvento();}})
-					// Si pulsamos al negativo, nos quedaremos
-                    .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {}});
-            builder.show();
+            dialogSalirEvento();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void dialogSalirEvento(){
+        // Mostrará un dialog donde nos avisará que vamos a salir
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.title_salirEvento);
+        builder.setIcon(R.drawable.ic_warning_black_24dp);
+        builder.setMessage(R.string.message_salirEvento)
+                // Si pulsamos al positivo, saldremos
+                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        manager = new BDManager(Activity_Game.this);
+                        Cursor cursorLogin;
+                        cursorLogin = manager.cursorLogin();
+                        cursorLogin.moveToFirst();
+                        int idJugador = cursorLogin.getInt(cursorLogin.getColumnIndex(manager.CN_USER_ID));
+                        new AsyncEventoActual().execute("http://www.gymkhagymkha.esy.es/eventoActualAcceso.php?idJugador=" + idJugador + "&idEvento=null");
+                        salirEvento();}})
+                        // Si pulsamos al negativo, nos quedaremos
+                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {}});
+        builder.show();
     }
 
     private void salirEvento() {
@@ -151,7 +155,9 @@ public class Activity_Game extends AppCompatActivity {
     public boolean onKeyDown(int keycode, KeyEvent e) {
         switch(keycode) {
 			// Si pulsamos el botón back, no hará nada
-            case KeyEvent.KEYCODE_BACK: return true;
+            case KeyEvent.KEYCODE_BACK:
+                dialogSalirEvento();
+                return true;
         }
         return super.onKeyDown(keycode, e);
     }

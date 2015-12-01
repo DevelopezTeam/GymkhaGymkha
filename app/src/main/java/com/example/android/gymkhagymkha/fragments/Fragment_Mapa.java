@@ -648,7 +648,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     //setSupportActionBar(toolbarInGame);
 
                     String nombreEvento = Fragment_Mapa.this.getActivity().getIntent().getExtras().getString("nombreEvento");
-                    toolbarInGame.setTitle(nombreEvento+":"+arrayTesoros.get(0).getNombre());
+                    toolbarInGame.setTitle(nombreEvento+": "+arrayTesoros.get(0).getNombre());
                     String auxPista = arrayTesoros.get(0).getPista();
                     tvPista = (TextView) getActivity().findViewById(R.id.tvPista);
                     tvPista.setText(auxPista);
@@ -698,6 +698,60 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             populateGeofenceList();
                             insertarGeofences();
                         }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public class AsyncEnemigos extends AsyncTask<String, Void, StringBuilder> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+        }
+
+        @Override
+        protected StringBuilder doInBackground(String... _url) {
+            HttpURLConnection urlConnection = null;
+            StringBuilder sb = new StringBuilder();
+            String linea;
+            resul = "";
+            try {
+                URL url = new URL(_url[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                while ((linea = br.readLine()) != null) {
+                    resul = resul + linea;
+                }
+            } catch (MalformedURLException e) {
+                Log.e("TESTNET", "URL MAL FORMADA");
+
+            } catch (IOException e) {
+                Log.e("TESTNET", "IO ERROR");
+            } finally {
+                urlConnection.disconnect();
+            }
+            return sb;
+        }
+
+        protected void onPostExecute(StringBuilder sb) {
+            if (resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0) {
+                Log.i("Enemigo", "no encontrados");
+            } else {
+                JSONObject resultadoJSON;
+                Clase_Tesoro auxTesoro;
+                try {
+                    resultadoJSON = new JSONObject(resul);
+                    for (int i = 0; i < resultadoJSON.length(); i++) {
+                        auxTesoro = new Clase_Tesoro(resultadoJSON.getJSONObject(i + ""));
+                        arrayTesoros.add(auxTesoro);
+                        manager.guardarTesoro(auxTesoro);
                     }
 
                 } catch (JSONException e) {
