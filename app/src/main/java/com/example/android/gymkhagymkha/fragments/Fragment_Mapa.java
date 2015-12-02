@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
@@ -168,6 +169,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
     Location myLocation;
     boolean firstTimeZoom = false;
     boolean asynEnemigos = false;
+    ArrayList<Marker> markers= new ArrayList<Marker>();
 
     @Override public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mapa, container, false);
@@ -774,9 +776,16 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                 Clase_Jugador auxJugador;
                 try {
                     resultadoJSON = new JSONObject(resul);
+
+                    for (Marker mark:markers) {
+                        mark.remove();
+                    }
+                    markers.clear();
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         auxJugador = new Clase_Jugador(resultadoJSON.getJSONObject(i + ""));
-                        mMap.addMarker(new MarkerOptions().position(new LatLng(auxJugador.getLatitud(), auxJugador.getLongitud())).title("Enemigo").icon(BitmapDescriptorFactory.fromResource(R.drawable.enemy)));
+                        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(auxJugador.getLatitud(), auxJugador.getLongitud())).title("Enemigo").icon(BitmapDescriptorFactory.fromResource(R.drawable.enemy));
+                        Marker marker = mMap.addMarker(markerOptions);
+                        markers.add(marker);
                     }
                     asynEnemigos = false;
 
