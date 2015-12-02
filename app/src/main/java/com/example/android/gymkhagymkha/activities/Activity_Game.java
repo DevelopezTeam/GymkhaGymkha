@@ -113,11 +113,6 @@ public class Activity_Game extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-		// Si pulsamos a la opción salir del evento del menú
-        if (id == R.id.action_salirEvento) {
-            dialogSalirEvento();
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
