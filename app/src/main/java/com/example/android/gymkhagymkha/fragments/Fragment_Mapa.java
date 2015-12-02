@@ -325,7 +325,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
 
     @Override
     public void onStart() {
-        Log.i("FRAGMENT","onStart");
+        Log.i("FRAGMENT", "onStart");
         super.onStart();
         mGoogleApiClient.connect();
     }
@@ -384,6 +384,17 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         // the value of mRequestingLocationUpdates and if it is true, we start location updates.
         if (mRequestingLocationUpdates) {
             startLocationUpdates();
+        }
+        if (!mRequestingLocationUpdates) {
+            mRequestingLocationUpdates = true;
+            startLocationUpdates();
+            //BAY_AREA_LANDMARKS.put("CURRELE", new LatLng(40.433131, -3.627294));
+            Log.i("LatitudLongitudPut", "Latitud " + latitudTesoro + " Longitud " + longitudTesoro);
+            BAY_AREA_LANDMARKS.put("CIRCLE_BIG", new LatLng(latitudTesoro, longitudTesoro));
+            BAY_AREA_LANDMARKS.put("CIRCLE_SMALL", new LatLng(latitudTesoro, longitudTesoro));
+            // Get the geofences used. Geofence data is hard coded in this sample.
+            populateGeofenceList();
+            insertarGeofences();
         }
     }
 
@@ -658,7 +669,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         }
 
         protected void onPostExecute(StringBuilder sb) {
-            if (resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0) {
+            if (resul.compareTo("-1") == 0 ) {
                 Log.i("Tesoros", "no encontrados");
             } else {
                 JSONObject resultadoJSON;
@@ -713,7 +724,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
                     */
 
-                    if(!mGoogleApiClient.isConnecting()){
+                    /*if(!mGoogleApiClient.isConnecting()){
                         if (!mRequestingLocationUpdates) {
                             mRequestingLocationUpdates = true;
                             startLocationUpdates();
@@ -725,7 +736,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                             populateGeofenceList();
                             insertarGeofences();
                         }
-                    }
+                    }*/
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -769,7 +780,7 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
         }
 
         protected void onPostExecute(StringBuilder sb) {
-            if (resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0) {
+            if (resul.compareTo("-1") == 0 ) {
                 Log.i("Enemigo", "no encontrados");
             } else {
                 JSONObject resultadoJSON;
@@ -787,12 +798,12 @@ public class Fragment_Mapa extends android.support.v4.app.Fragment implements On
                         Marker marker = mMap.addMarker(markerOptions);
                         markers.add(marker);
                     }
-                    asynEnemigos = false;
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+            asynEnemigos = false;
         }
     }
 }

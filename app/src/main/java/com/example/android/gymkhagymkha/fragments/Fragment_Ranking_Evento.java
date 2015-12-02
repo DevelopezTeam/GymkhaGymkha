@@ -143,8 +143,9 @@ public class Fragment_Ranking_Evento extends Fragment {
             return sb;
         }
         protected void onPostExecute(StringBuilder sb) {
-            if(resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0 ){
-                Log.i("Ranking","no admin");
+
+            if(resul.compareTo("-1") == 0 ){
+                Log.i("ResultadoRankingEvento",resul);
             }
             else{
                 JSONObject resultadoJSON;
