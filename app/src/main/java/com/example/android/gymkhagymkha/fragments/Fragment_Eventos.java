@@ -69,7 +69,6 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // do your variables initialisations here except Views!!!
     }
 
     ArrayList<Clase_Evento> arrayEvent = new ArrayList<Clase_Evento>();
@@ -154,11 +153,8 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                 }
             }
             catch (MalformedURLException e) {
-                Log.e("TESTNET", "URL MAL FORMADA");
-
             }
             catch (IOException e) {
-                Log.e("TESTNET", "IO ERROR");
             }  finally {
                 urlConnection.disconnect();
             }
@@ -166,7 +162,6 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
         }
         protected void onPostExecute(StringBuilder sb) {
             if(resul.compareTo("-1") == 0 && resul.compareTo("-2") == 0 && resul.compareTo("-3") == 0 && resul.compareTo("-4") == 0 ){
-                Log.i("Eventos","no admin");
             }
             else{
                 JSONObject resultadoJSON;
@@ -381,11 +376,8 @@ public class Fragment_Eventos extends Fragment implements AdapterView.OnItemClic
                 }
             }
             catch (MalformedURLException e) {
-                Log.e("TESTNET", "URL MAL FORMADA");
-
             }
             catch (IOException e) {
-                Log.e("TESTNET", "IO ERROR");
             }  finally {
                 urlConnection.disconnect();
             }

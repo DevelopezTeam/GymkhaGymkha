@@ -132,11 +132,8 @@ public class Fragment_Ranking_Evento extends Fragment {
                 }
             }
             catch (MalformedURLException e) {
-                Log.e("TESTNET", "URL MAL FORMADA");
-
             }
             catch (IOException e) {
-                Log.e("TESTNET", "IO ERROR");
             }  finally {
                 urlConnection.disconnect();
             }
@@ -145,7 +142,6 @@ public class Fragment_Ranking_Evento extends Fragment {
         protected void onPostExecute(StringBuilder sb) {
 
             if(resul.compareTo("-1") == 0 ){
-                Log.i("ResultadoRankingEvento",resul);
             }
             else{
                 JSONObject resultadoJSON;
@@ -156,11 +152,8 @@ public class Fragment_Ranking_Evento extends Fragment {
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         auxRanking = new Clase_RankingEvento(resultadoJSON.getJSONObject(i+""));
                         Clase_Ranking auxAux = new Clase_Ranking((i+1),auxRanking.getNombre(),String.valueOf(auxRanking.getPuntos()));
-                        //manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
                         arrayRank.add(auxAux);
                     }
-                    //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
-                    //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
 
                     // Creo el adapter personalizado
                     AdapterRanking adapter = new AdapterRanking(getActivity(), arrayRank);

@@ -149,11 +149,8 @@ public class Fragment_Ranking_General extends Fragment {
                     for (int i = 0; i < resultadoJSON.length(); i++) {
                         auxRanking = new Clase_Ranking(resultadoJSON.getJSONObject(i+""));
                         Clase_Ranking auxAux = new Clase_Ranking((i+1),auxRanking.getNombre(),String.valueOf(auxRanking.getPuntos()));
-                        //manager.guardarEvento(evento.getIdEvento(), evento.getDescripcion(),evento.getNombre());
                         arrayRank.add(auxAux);
                     }
-                    //listaEventos = (ListView) Fragment_Ranking_General.this.getActivity().findViewById(R.id.);
-                    //adapterEventos = new AdapterEvento(getActivity(), arrayEvent);
 
                     // Creo el adapter personalizado
                     AdapterRanking adapter = new AdapterRanking(getActivity(), arrayRank);

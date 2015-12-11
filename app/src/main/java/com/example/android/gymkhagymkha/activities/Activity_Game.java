@@ -260,11 +260,8 @@ public class Activity_Game extends AppCompatActivity {
                 }
             }
             catch (MalformedURLException e) {
-                Log.e("TESTNET", "URL MAL FORMADA");
-
             }
             catch (IOException e) {
-                Log.e("TESTNET", "IO ERROR");
             }  finally {
                 urlConnection.disconnect();
             }

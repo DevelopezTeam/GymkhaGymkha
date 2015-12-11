@@ -3,9 +3,6 @@ package com.example.android.gymkhagymkha.classes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Victor on 14/10/2015.
- */
 public class Clase_Jugador {
     private int idJugador;
     private String usuario;

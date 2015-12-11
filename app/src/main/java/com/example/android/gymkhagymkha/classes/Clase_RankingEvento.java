@@ -3,9 +3,6 @@ package com.example.android.gymkhagymkha.classes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Victor on 09/11/2015.
- */
 public class Clase_RankingEvento {
 
     private int id;

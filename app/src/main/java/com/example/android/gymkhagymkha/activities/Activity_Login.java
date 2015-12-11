@@ -257,11 +257,11 @@ public class Activity_Login extends AppCompatActivity {
                 }
             }
             catch (MalformedURLException e) {
-                Log.e("TESTNET", "URL MAL FORMADA");
+
 
             }
             catch (IOException e) {
-                Log.e("TESTNET", "IO ERROR");
+
             }  finally {
                 urlConnection.disconnect();
             }
@@ -280,7 +280,7 @@ public class Activity_Login extends AppCompatActivity {
                     manager.login(jugador.getIdJugador(), jugador.getUsuario(), jugador.getNombre(), jugador.getApellido(), jugador.getEmail(),jugador.getIdAministrador(),jugador.getIdCentro());
                     intentMainActivity();
                 } catch (JSONException e) {
-                    Log.e("Mensaje","Error al crear Clase_Jugador JSON");
+
                     e.printStackTrace();
                 }
             }
